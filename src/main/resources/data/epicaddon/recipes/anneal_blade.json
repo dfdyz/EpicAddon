@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    " A ",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "A": {
+      "item": "minecraft:iron_sword"
+    }
+  },
+  "result": {
+    "item": "epicaddon:anneal_blade",
+    "count": 1
+  }
+}

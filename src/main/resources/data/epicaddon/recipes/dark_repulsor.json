@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:smithing",
+    "base": {
+        "item": "epicaddon:dragon_shit_crystal"
+    },
+    "addition": {
+        "item" : "epicaddon:dragon_shit_crystal"
+    },
+    "result": {
+        "item": "epicaddon:dark_repulsor"
+    }
+}
