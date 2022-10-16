@@ -1,0 +1,22 @@
+{
+  "itemGroup.epicaddon.items": "史诗战斗-整活附属包",
+
+  "item.epicaddon.elucidator": "阐释者",
+  "item.epicaddon.lambent_light": "闪烁之光",
+  "item.epicaddon.dark_repulsor": "逐暗者",
+  "item.epicaddon.dragon_shit_crystal": "粑粑水晶",
+  "item.epicaddon.anneal_blade": "韧炼之剑",
+  "item.epicaddon.battle_scythe": "战斗镰刀[未完成]",
+
+
+  "skill.epicaddon.sao_dual_sword_skill.tooltip": "二刀流:\nExtra技能,使用后可以解锁同时使用两把单手剑的能力\n二刀流比其他任何技能都要强大得多，它需要使用者拥有超凡的反应速度\n\n特殊效果:\n双持期间\n当耐力大于80%时,格挡全部攻击\n当耐力大于30%,韧性大幅提升",
+  "skill.epicaddon.sao_dual_sword_skill": "二刀流",
+
+  "skill.epicaddon.sao_rapier_skill.tooltip": "细剑: 单手剑的一种分支, 允许使用者使用不同的攻击模式, 这种模式拥有非常快的攻击速度",
+  "skill.epicaddon.sao_rapier_skill": "细剑",
+
+  "skill.epicaddon.sao_single_sword_guard_skill.tooltip": "用剑格挡",
+  "skill.epicaddon.sao_single_sword_guard_skill": "单手剑-格挡 %s",
+
+  "skill.epicfight.sao_single_sword.category": "单手用直剑"
+}
