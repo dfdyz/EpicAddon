@@ -62,7 +62,7 @@ public class RegWeaponItemCap {
                         EpicAddonAnimations.SAO_RAPIER_AUTO3,
                         EpicAddonAnimations.SAO_RAPIER_AUTO4,
                         EpicAddonAnimations.SAO_RAPIER_AUTO5,
-                        EpicAddonAnimations.SAO_RAPIER_DASH_SHORT, EpicAddonAnimations.SAO_RAPIER_AIR)
+                        EpicAddonAnimations.SAO_RAPIER_DASH, EpicAddonAnimations.SAO_RAPIER_AIR)
                 /*
                 .newStyleCombo(EpicAddonStyles.SAO_RAPIER_LOCKED,
                         EpicAddonAnimations.SAO_RAPIER_AUTO1,

@@ -56,7 +56,7 @@ public class EpicAddonAnimations {
     public static StaticAnimation SAO_RAPIER_AUTO4;
     public static StaticAnimation SAO_RAPIER_AUTO5;
     public static StaticAnimation SAO_RAPIER_AIR;
-    public static StaticAnimation SAO_RAPIER_DASH_SHORT;
+    public static StaticAnimation SAO_RAPIER_SPECIAL_DASH;
 
     public static StaticAnimation SAO_RAPIER_DASH;
 
@@ -155,22 +155,17 @@ public class EpicAddonAnimations {
         SAO_RAPIER_IDLE = new StaticAnimation(true, "biped/living/sao_rapier_idle", biped);
 
         SAO_RAPIER_AUTO1 = new BasicAttackAnimation(0.12F, 0.067F, 0.167F, 0.2F, null, "Tool_R", "biped/sao_rapier_auto1", biped)
-                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 3.0F)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
         SAO_RAPIER_AUTO2 = new BasicAttackAnimation(0.12F, 0.033F, 0.133F, 0.2F, null, "Tool_R", "biped/sao_rapier_auto2", biped)
-                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 3.0F)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
         SAO_RAPIER_AUTO3 = new BasicAttackAnimation(0.12F, 0.2F, 0.3F, 0.3F, null, "Tool_R", "biped/sao_rapier_auto3", biped)
-                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 3.0F)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
         SAO_RAPIER_AUTO4 = new BasicAttackAnimation(0.12F, 0.033F, 0.2F, 0.2F, null, "Tool_R", "biped/sao_rapier_auto4", biped)
-                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 3.0F)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
         SAO_RAPIER_AUTO5 = new BasicAttackAnimation(0.12F, 0.2F, 0.3F, 0.4F, null, "Tool_R", "biped/sao_rapier_auto5", biped)
-                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 3.0F)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
 
-        SAO_RAPIER_DASH_SHORT  = new DashAttackAnimation(0.12F, 0.2F, 0.1F, 0.3F, 0.4F, WeaponCollider.SAO_RAPIER_DASH_SHORT, "Root", "biped/sao_rapier_dash_short", biped)
+        SAO_RAPIER_DASH  = new DashAttackAnimation(0.12F, 0.2F, 0.1F, 0.3F, 0.4F, WeaponCollider.SAO_RAPIER_DASH_SHORT, "Root", "biped/sao_rapier_dash", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.adder(14.7F))
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F)
                 .addProperty(AnimationProperty.AttackPhaseProperty.ARMOR_NEGATION, ValueCorrector.adder(30.0F))
@@ -188,7 +183,7 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.AttackAnimationProperty.FIXED_MOVE_DISTANCE,true);
 
 
-        SAO_RAPIER_DASH  = new DashAttackAnimation(0.1F, 0.3F, 0.05F, 4.8333F, 4.1F, WeaponCollider.SAO_RAPIER_DASH, "Root", "biped/sao_rapier_dash", biped)
+        SAO_RAPIER_SPECIAL_DASH  = new DashAttackAnimation(0.1F, 0.3F, 0.05F, 4.8333F, 4.1F, WeaponCollider.SAO_RAPIER_DASH, "Root", "biped/sao_rapier_dash_long", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.adder(14.7F))
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.21F)
                 .addProperty(AnimationProperty.AttackPhaseProperty.ARMOR_NEGATION, ValueCorrector.adder(30.0F))
