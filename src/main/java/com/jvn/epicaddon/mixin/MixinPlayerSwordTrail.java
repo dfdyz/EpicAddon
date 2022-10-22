@@ -1,18 +1,21 @@
 package com.jvn.epicaddon.mixin;
 
 
+import com.jvn.epicaddon.renderer.SwordTrail.IAnimST;
 import com.jvn.epicaddon.renderer.SwordTrail.MutiSwordTrail;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.jvn.epicaddon.resources.config.ConfigVal;
 import com.jvn.epicaddon.resources.config.RenderConfig;
 import com.jvn.epicaddon.tools.Trail;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -48,22 +51,26 @@ public abstract class MixinPlayerSwordTrail<E extends LivingEntity, T extends Li
             poseStack.popPose();
         }
     }
-    //protected static final Logger LOGGER = LogUtils.getLogger();
+
     private void renderTrail(PoseStack poseStack, MultiBufferSource buffer, LivingEntityPatch<?> entitypatch, float playTime, float partialTicks, AttackAnimation animation){
+        Trail t1,t2;
 
-        Trail t1 = null;
-        Trail t2 = null;
+        //Modifier
+        if(((IAnimST)animation).isSpecial()){
+            Trail tt1 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
+            Trail tt2 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
+            Trail tm = ((IAnimST)animation).getTrail();
 
-        //ogger LOGGER = LogUtils.getLogger();
-
-        //LOGGER.info(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
-        t1 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
-        //LOGGER.info((entitypatch).getValidItemInHand(InteractionHand.OFF_HAND).getItem().getRegistryName().toString());
-        t2 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.OFF_HAND).getItem().getRegistryName().toString());
+            t1 = new Trail(tt1.x,tt1.y,tt1.z,tt1.ex,tt1.ey,tt1.ez,tm.r,tm.g,tm.b,tm.a);
+            t2 = new Trail(tt2.x,tt2.y,tt2.z,tt2.ex,tt2.ey,tt2.ez,tm.r,tm.g,tm.b,tm.a);
+        }
+        else{
+            t1 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
+            t2 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.OFF_HAND).getItem().getRegistryName().toString());
+        }
 
         MutiSwordTrail Trail = new MutiSwordTrail(300);
         Trail.draw(poseStack, buffer, entitypatch, animation, 0.0f, playTime, partialTicks, animation.getPlaySpeed(entitypatch), t1, t2);
-
     }
 
 }

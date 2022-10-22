@@ -2,6 +2,8 @@ package com.jvn.epicaddon.resources;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.register.WeaponCollider;
+import com.jvn.epicaddon.renderer.SwordTrail.IAnimST;
+import com.jvn.epicaddon.tools.Trail;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -18,6 +20,7 @@ import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.api.model.Model;
 import yesman.epicfight.api.utils.ExtendedDamageSource;
 import yesman.epicfight.api.utils.math.ValueCorrector;
+import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
@@ -164,6 +167,12 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
         SAO_RAPIER_AUTO5 = new BasicAttackAnimation(0.12F, 0.2F, 0.3F, 0.4F, null, "Tool_R", "biped/sao_rapier_auto5", biped)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
+
+
+        //Client Only
+        if(FMLEnvironment.dist == Dist.CLIENT){
+            ((IAnimST)(Animations.SWORD_AUTO1)).SetSpecial(true).SetTrail(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
+        }
 
         SAO_RAPIER_DASH  = new DashAttackAnimation(0.12F, 0.2F, 0.1F, 0.3F, 0.4F, WeaponCollider.SAO_RAPIER_DASH_SHORT, "Root", "biped/sao_rapier_dash", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.adder(14.7F))
