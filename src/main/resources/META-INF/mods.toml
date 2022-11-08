@@ -62,7 +62,7 @@ EpicFight's Add-On MOD
     modId="epicfight"
     mandatory=true
     # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[18.3.1,18.4.0)"
+    versionRange="[18.3.7,18.4.0)"
     ordering="BEFORE"
     side="BOTH"
 
