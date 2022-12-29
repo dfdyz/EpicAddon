@@ -51,26 +51,28 @@ public abstract class MixinPlayerSwordTrail<E extends LivingEntity, T extends Li
             poseStack.popPose();
         }
     }
-    Trail t1,t2;
+    Trail t1 = new Trail(),t2 = new Trail();
+    MutiSwordTrail tr = new MutiSwordTrail(300);
     private void renderTrail(PoseStack poseStack, MultiBufferSource buffer, LivingEntityPatch<?> entitypatch, float playTime, float partialTicks, AttackAnimation animation){
-        t1 = null;
-        t2 = null;
 
         //Modifier
-        if(((IAnimST)animation).isSpecial()){
+        if(((IAnimST)animation).isSpecial()) {
+            t1.Clear();
+            t2.Clear();
             Trail tt1 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
             Trail tt2 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
-            Trail tm = ((IAnimST)animation).getTrail();
-            if(tt1 != null) t1 = new Trail(tt1,tm);
-            if(tt2 != null) t2 = new Trail(tt2,tm);
+            Trail tm = ((IAnimST) animation).getTrail();
+            if (tt1 != null) t1.Mix(tt1, tm);
+            if (tt2 != null) t2.Mix(tt2, tm);
+            tr.draw(poseStack, buffer, entitypatch, animation, 0.0f, playTime, partialTicks, animation.getPlaySpeed(entitypatch),
+                    t1, t2);
         }
         else{
-            t1 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
-            t2 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.OFF_HAND).getItem().getRegistryName().toString());
+            tr.draw(poseStack, buffer, entitypatch, animation, 0.0f, playTime, partialTicks, animation.getPlaySpeed(entitypatch),
+                    RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString()),
+                    RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString()));
         }
 
-        MutiSwordTrail Trail = new MutiSwordTrail(300);
-        Trail.draw(poseStack, buffer, entitypatch, animation, 0.0f, playTime, partialTicks, animation.getPlaySpeed(entitypatch), t1, t2);
     }
 
 }
