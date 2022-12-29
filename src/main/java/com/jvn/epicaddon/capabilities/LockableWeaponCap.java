@@ -31,6 +31,7 @@ public class LockableWeaponCap extends WeaponCapability {
         super(builder);
         LockedAutoAttackMotions = builder.LockedAutoAttackMotions;
         LockedProvider = builder.LockedProvider;
+        ChildSpecialAttack = builder.ChildSpecialAttack;
     }
 
     public static Builder builder() {

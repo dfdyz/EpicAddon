@@ -168,12 +168,6 @@ public class EpicAddonAnimations {
         SAO_RAPIER_AUTO5 = new BasicAttackAnimation(0.12F, 0.2F, 0.3F, 0.4F, null, "Tool_R", "biped/sao_rapier_auto5", biped)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
 
-
-        //Client Only
-        if(FMLEnvironment.dist == Dist.CLIENT){
-            ((IAnimST)(Animations.SWORD_AUTO1)).SetSpecial(true).SetTrail(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
-        }
-
         SAO_RAPIER_DASH  = new DashAttackAnimation(0.12F, 0.2F, 0.1F, 0.3F, 0.4F, WeaponCollider.SAO_RAPIER_DASH_SHORT, "Root", "biped/sao_rapier_dash", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.adder(14.7F))
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F)
@@ -219,6 +213,10 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.SERVER)
                 });
 
+        //Client Only
+        if(FMLEnvironment.dist == Dist.CLIENT){
+            ((IAnimST)(Animations.SWORD_AUTO1)).SetSpecial(true).SetTrail(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
+        }
         LOGGER.info("EpicAddon AnimLoaded");
     }
 
