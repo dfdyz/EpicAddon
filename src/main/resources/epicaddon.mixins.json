@@ -5,11 +5,11 @@
 	"package": "com.jvn.epicaddon.mixin",
 	"client": [
 		"MixinPlayerSwordTrail",
-		"MixinHotbar",
-		"MixinAnim"
+		"MixinHotbar"
 	],
 	"mixins": [
-		"MixinWeaponCap"
+		"MixinWeaponCap",
+		"MixinAnim"
 	],
 	"injector": {
 		"defaultRequire": 1

@@ -16,4 +16,16 @@ public class Trail {
         this.b = b;
         this.a = a;
     }
+    public Trail(Trail org,Trail col){
+        this.x = org.x;
+        this.y = org.y;
+        this.z = org.z;
+        this.ex = org.ex;
+        this.ey = org.ey;
+        this.ez = org.ez;
+        this.r = col.r;
+        this.g = col.g;
+        this.b = col.b;
+        this.a = col.a;
+    }
 }

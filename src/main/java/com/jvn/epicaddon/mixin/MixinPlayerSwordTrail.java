@@ -51,18 +51,18 @@ public abstract class MixinPlayerSwordTrail<E extends LivingEntity, T extends Li
             poseStack.popPose();
         }
     }
-
+    Trail t1,t2;
     private void renderTrail(PoseStack poseStack, MultiBufferSource buffer, LivingEntityPatch<?> entitypatch, float playTime, float partialTicks, AttackAnimation animation){
-        Trail t1,t2;
+        t1 = null;
+        t2 = null;
 
         //Modifier
         if(((IAnimST)animation).isSpecial()){
             Trail tt1 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
             Trail tt2 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());
             Trail tm = ((IAnimST)animation).getTrail();
-
-            t1 = new Trail(tt1.x,tt1.y,tt1.z,tt1.ex,tt1.ey,tt1.ez,tm.r,tm.g,tm.b,tm.a);
-            t2 = new Trail(tt2.x,tt2.y,tt2.z,tt2.ex,tt2.ey,tt2.ez,tm.r,tm.g,tm.b,tm.a);
+            if(tt1 != null) t1 = new Trail(tt1,tm);
+            if(tt2 != null) t2 = new Trail(tt2,tm);
         }
         else{
             t1 = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND).getItem().getRegistryName().toString());

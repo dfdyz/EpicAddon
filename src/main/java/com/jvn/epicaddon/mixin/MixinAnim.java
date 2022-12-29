@@ -2,6 +2,8 @@ package com.jvn.epicaddon.mixin;
 
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimST;
 import com.jvn.epicaddon.tools.Trail;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.spongepowered.asm.mixin.Mixin;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
