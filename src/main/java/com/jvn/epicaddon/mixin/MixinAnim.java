@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 
-@Mixin(value = AttackAnimation.class)
+@Mixin(value = AttackAnimation.class, remap = false)
 public class MixinAnim implements IAnimST {
     protected Trail trail;
     protected boolean Special = false;

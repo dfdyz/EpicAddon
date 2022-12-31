@@ -213,10 +213,8 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.SERVER)
                 });
 
-        //Client Only
-        if(FMLEnvironment.dist == Dist.CLIENT){
-            ((IAnimST)(Animations.SWORD_AUTO1)).SetSpecial(true).SetTrail(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
-        }
+        ((IAnimST)(Animations.SWORD_AUTO1)).SetSpecial(true).SetTrail(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
+
         LOGGER.info("EpicAddon AnimLoaded");
     }
 

@@ -5,6 +5,8 @@ import com.jvn.epicaddon.tools.HealthBarStyle;
 import com.jvn.epicaddon.tools.Trail;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import yesman.epicfight.world.entity.EpicFightEntities;
 
 import java.util.Map;
@@ -26,7 +28,6 @@ public class RenderConfig {
         TrailItem.put("epicfight:katana",new  Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
 
         TrailItem.put("epicaddon:anneal_blade",new  Trail(0,0,-0.17f,0,0,-1.27f,80,249,255,150));
-
     }
 
     public static void AddHealthBarStyle(EntityType entity,HealthBarStyle healthBarStyle){

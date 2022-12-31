@@ -24,10 +24,11 @@ public class RegItems {
 
     public static final RegistryObject<Item> AnnealBlade = ITEMS.register("anneal_blade", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
 
-    public static final RegistryObject<Item> TestStick = ITEMS.register("test_stick", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
+    //public static final RegistryObject<Item> TestStick = ITEMS.register("test_stick", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
 
     public static final RegistryObject<Item> BattleScythe = ITEMS.register("battle_scythe", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
 
+    public static final RegistryObject<Item> TestStick = ITEMS.register("test_stick", () -> new CategoriesChangeItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), "sword","greatsword","sao_single_sword"));
     //mtllib battle_scythe.mtl
 
     //public static final RegistryObject<Item> SteelSword = ITEMS.register("steel_sword", () -> new SteelSword(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), Tiers.NETHERITE));

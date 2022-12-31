@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.Inject;
 
-@Mixin(value = Gui.class)
+
 public abstract class MixinHotbar extends GuiComponent {
     /*
     @Shadow @Final
