@@ -3,16 +3,20 @@ package com.jvn.epicaddon.renderer;
 import com.google.common.collect.ImmutableMap;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.resources.ModResourceLocation;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormatElement;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import yesman.epicfight.main.EpicFightMod;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -20,6 +24,42 @@ import java.util.OptionalDouble;
 
 @OnlyIn(Dist.CLIENT)
 public class EpicAddonRenderType extends RenderType {
+
+    public static final ParticleRenderType BladeTrail = new ParticleRenderType() {
+        public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
+            RenderSystem.enableBlend();
+
+            RenderSystem.disableCull();
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
+            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
+            //TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+            //AbstractTexture abstracttexture = texturemanager.getTexture(new ResourceLocation(EpicFightMod.MODID, "textures/particle/swing_trail.png"));
+            //RenderSystem.bindTexture(abstracttexture.getId());
+
+            //RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+            //RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+
+            //RenderSystem.setShaderTexture(0, abstracttexture.getId());
+
+            bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        }
+
+        public void end(Tesselator tesselator) {
+            tesselator.getBuilder().setQuadSortOrigin(0.0F, 0.0F, 0.0F);
+            tesselator.end();
+            RenderSystem.disableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.enableCull();
+        }
+
+        @Override
+        public String toString() {
+            return "AFTER_IMAGE";
+        }
+    };
 
     public static final RenderType SwordTrail = create(EpicAddon.MODID + ":sword_trail_def", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, false,
             RenderType.CompositeState.builder()

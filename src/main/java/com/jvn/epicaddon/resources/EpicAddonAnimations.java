@@ -1,6 +1,7 @@
 package com.jvn.epicaddon.resources;
 
 import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.register.ParticleReg;
 import com.jvn.epicaddon.register.WeaponCollider;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimST;
 import com.jvn.epicaddon.tools.Trail;
@@ -22,6 +23,7 @@ import yesman.epicfight.api.utils.ExtendedDamageSource;
 import yesman.epicfight.api.utils.math.ValueCorrector;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Models;
+import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 public class EpicAddonAnimations {
@@ -210,7 +212,18 @@ public class EpicAddonAnimations {
                                 ep.setMaxStunShield(0f);
                                 ep.setStunShield(ep.getMaxStunShield());
                             }
-                        }, StaticAnimation.Event.Side.SERVER)
+                        }, StaticAnimation.Event.Side.SERVER),
+                        StaticAnimation.Event.create(0.0F, (ep) -> {
+                            if(ep instanceof PlayerPatch){
+                                double eid = Double.longBitsToDouble(ep.getOriginal().getId());
+                                double modid = Double.longBitsToDouble(Animations.SWORD_AUTO1.getNamespaceId());
+                                double animid = Double.longBitsToDouble(Animations.SWORD_AUTO1.getId());
+                                double jointId = Double.longBitsToDouble(ep.getEntityModel(ClientModels.LOGICAL_CLIENT).getArmature().searchPathIndex("Tool_R"));
+                                double index = Double.longBitsToDouble(0);
+
+                                ep.getOriginal().level.addParticle(ParticleReg.BLADE_TRAIL.get(), eid, modid, animid, jointId, index, 0);
+                            }
+                        }, StaticAnimation.Event.Side.CLIENT)
                 });
 
         ((IAnimST)(Animations.SWORD_AUTO1)).SetSpecial(true).SetTrail(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));

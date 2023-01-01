@@ -2,7 +2,7 @@ package com.jvn.epicaddon.tools;
 
 public class Trail {
     public float x,y,z,ex,ey,ez;
-    public int r,g,b,a;
+    public int r,g,b,a, lifetime;
 
     public Trail(float x, float y, float z, float ex, float ey, float ez,int r,int g,int b,int a){
         this.x = x;
@@ -15,7 +15,23 @@ public class Trail {
         this.g = g;
         this.b = b;
         this.a = a;
+        this.lifetime = 8;
     }
+
+    public Trail(float x, float y, float z, float ex, float ey, float ez,int r,int g,int b,int a,int lifetime){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.ex = ex;
+        this.ey = ey;
+        this.ez = ez;
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a;
+        this.lifetime = lifetime;
+    }
+
     public void Mix(Trail org,Trail col){
         this.x = org.x;
         this.y = org.y;
@@ -29,7 +45,7 @@ public class Trail {
         this.a = col.a;
     }
 
-    public void Copy(Trail org){
+    public void CopyFrom(Trail org){
         this.x = org.x;
         this.y = org.y;
         this.z = org.z;
@@ -40,6 +56,7 @@ public class Trail {
         this.g = org.g;
         this.b = org.b;
         this.a = org.a;
+        this.lifetime = org.lifetime;
     }
 
     public Trail(){
@@ -53,6 +70,7 @@ public class Trail {
         this.g = 0;
         this.b = 0;
         this.a = 0;
+        this.lifetime = 0;
     }
 
     public void Clear(){
@@ -66,6 +84,7 @@ public class Trail {
         this.g = 0;
         this.b = 0;
         this.a = 0;
+        this.lifetime = 0;
     }
 
 

@@ -1,6 +1,7 @@
 package com.jvn.epicaddon;
 
 import com.jvn.epicaddon.command.CmdMgr;
+import com.jvn.epicaddon.register.ParticleReg;
 import com.jvn.epicaddon.register.RegItems;
 import com.jvn.epicaddon.register.RegWeaponItemCap;
 import com.jvn.epicaddon.resources.*;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import yesman.epicfight.particle.EpicFightParticles;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("epicaddon")
@@ -42,7 +44,7 @@ public class EpicAddon
         EpicAddonStyles.ENUM_MANAGER.loadPreemptive(EpicAddonStyles.class);
         //WeaponCategory.ENUM_MANAGER.load(CapabilityItem.WeaponCategories.class);
         RegItems.ITEMS.register(bus);
-
+        ParticleReg.PARTICLES.register(bus);
         //EpicFightMod.getInstance().animationManager.registerAnimations();
 
         //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CfgMgr.CLIENT_CONFIG);

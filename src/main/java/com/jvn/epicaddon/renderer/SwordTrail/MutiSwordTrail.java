@@ -21,6 +21,7 @@ import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.JointTransform;
 import yesman.epicfight.api.animation.TransformSheet;
 import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.client.model.ClientModels;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.MathUtils;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
@@ -53,7 +54,7 @@ public class MutiSwordTrail extends MutiTrailPart<SwordTrail> {
         float partialScale = 1.0f / numberOf;
         float begin = Math.max(elapsedTime-(realLen * attackSpeed),0);
 
-        Armature armature = entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature();
+        Armature armature = entitypatch.getEntityModel(ClientModels.LOGICAL_CLIENT).getArmature();
         String idx = animation.getPathIndexByTime(elapsedTime);
         boolean dual = false;
         int pathIndex1 = -1;
