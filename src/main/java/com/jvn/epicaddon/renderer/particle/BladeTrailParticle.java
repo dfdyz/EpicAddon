@@ -14,6 +14,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -173,6 +174,7 @@ public class BladeTrailParticle extends TextureSheetParticle {
             return;
         }
         PoseStack poseStack = new PoseStack();
+        int light = this.getLightColor(partialTick);
         this.setupPoseStack(poseStack, camera, partialTick);
         Matrix4f matrix4f = poseStack.last().pose();
         int edges = this.Nodes.size() - 1;
@@ -181,6 +183,11 @@ public class BladeTrailParticle extends TextureSheetParticle {
 
         float startEdge = (startFade ? interpolateCount * partialTick : 0.0F) + this.startEdgeCorrection;
         float endEdge = endFade ? edges - (interpolateCount) * (1.0F - partialTick) : edges - 1;
+
+        float interval = 1.0F / (endEdge - startEdge);
+        float partialStartEdge = interval * (startEdge % 1.0F);
+        float from = -partialStartEdge;
+        float to = -partialStartEdge + interval;
 
         int start = (int)Math.max(startEdge,0);
         int end = (int)Math.min(endEdge + 1,Nodes.size()-2);
@@ -197,11 +204,13 @@ public class BladeTrailParticle extends TextureSheetParticle {
             pos3.transform(matrix4f);
             pos4.transform(matrix4f);
 
-            vertexConsumer.vertex(pos1.x(), pos1.y(), pos1.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e1.lifetime/trail.lifetime).endVertex();
-            vertexConsumer.vertex(pos2.x(), pos2.y(), pos2.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e1.lifetime/trail.lifetime).endVertex();
-            vertexConsumer.vertex(pos3.x(), pos3.y(), pos3.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e2.lifetime/trail.lifetime).endVertex();
-            vertexConsumer.vertex(pos4.x(), pos4.y(), pos4.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e2.lifetime/trail.lifetime).endVertex();
+            vertexConsumer.vertex(pos1.x(), pos1.y(), pos1.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e1.lifetime/trail.lifetime).uv(from, 1.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos2.x(), pos2.y(), pos2.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e1.lifetime/trail.lifetime).uv(from, 0.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos3.x(), pos3.y(), pos3.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e2.lifetime/trail.lifetime).uv(to, 0.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos4.x(), pos4.y(), pos4.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e2.lifetime/trail.lifetime).uv(to, 1.0F).uv2(light).endVertex();
 
+            from += interval;
+            to += interval;
         }
     }
 

@@ -37,16 +37,16 @@ public class EpicAddonRenderType extends RenderType {
             RenderSystem.depthMask(true);
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-            //TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
-            //AbstractTexture abstracttexture = texturemanager.getTexture(new ResourceLocation(EpicFightMod.MODID, "textures/particle/swing_trail.png"));
-            //RenderSystem.bindTexture(abstracttexture.getId());
+            TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+            AbstractTexture abstracttexture = texturemanager.getTexture(GetTextures("trail/trail"));
+            RenderSystem.bindTexture(abstracttexture.getId());
 
-            //RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-            //RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
 
-            //RenderSystem.setShaderTexture(0, abstracttexture.getId());
+            RenderSystem.setShaderTexture(0, abstracttexture.getId());
 
-            bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+            bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
         public void end(Tesselator tesselator) {
