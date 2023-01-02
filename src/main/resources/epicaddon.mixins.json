@@ -9,7 +9,7 @@
 	"mixins": [
 		"MixinWeaponCap",
 		"MixinNBTCapabilities",
-		"MixinAnim"
+		"MixinAtkAnim"
 	],
 	"injector": {
 		"defaultRequire": 1

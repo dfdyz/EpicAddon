@@ -25,9 +25,10 @@ public class RenderConfig {
         TrailItem.put("epicaddon:dark_repulsor",new  Trail(0,0,-0.18f,0,0,-1.47f,0,249,255,140));
         TrailItem.put("epicaddon:lambent_light",new  Trail(0,0,-0.12f,0,0,-1.75f,204,0,255,150));
 
-        TrailItem.put("epicfight:katana",new  Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
-
         TrailItem.put("epicaddon:anneal_blade",new  Trail(0,0,-0.17f,0,0,-1.27f,80,249,255,150));
+
+        TrailItem.put("epicfight:katana",new  Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
+        TrailItem.put("epicfight:netherite_greatsword",new Trail(0,0,-0.17f,0,-0f,-2.15f,138,4,226,180));
     }
 
     public static void AddHealthBarStyle(EntityType entity,HealthBarStyle healthBarStyle){
@@ -37,7 +38,6 @@ public class RenderConfig {
     public static void AddHealthBarStyle(EntityType entity){
         AddHealthBarStyle(entity,new HealthBarStyle());
     }
-
 
     static {
         AddHealthBarStyle(EntityType.ENDER_DRAGON, new HealthBarStyle(6.0f,2,0.0f,60f));

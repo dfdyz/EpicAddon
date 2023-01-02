@@ -32,17 +32,20 @@ public class Trail {
         this.lifetime = lifetime;
     }
 
-    public void Mix(Trail org,Trail col){
-        this.x = org.x;
-        this.y = org.y;
-        this.z = org.z;
-        this.ex = org.ex;
-        this.ey = org.ey;
-        this.ez = org.ez;
+    public void CopyColFrom(Trail col){
         this.r = col.r;
         this.g = col.g;
         this.b = col.b;
         this.a = col.a;
+    }
+
+    public void CopyPosFrom(Trail pos){
+        this.x = pos.x;
+        this.y = pos.y;
+        this.z = pos.z;
+        this.ex = pos.ex;
+        this.ey = pos.ey;
+        this.ez = pos.ez;
     }
 
     public void CopyFrom(Trail org){

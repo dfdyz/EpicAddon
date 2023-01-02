@@ -25,12 +25,14 @@ import java.util.OptionalDouble;
 @OnlyIn(Dist.CLIENT)
 public class EpicAddonRenderType extends RenderType {
 
+    boolean writeColor;
+    boolean writeDepth;
     public static final ParticleRenderType BladeTrail = new ParticleRenderType() {
         public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
             RenderSystem.enableBlend();
-
             RenderSystem.disableCull();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            //RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
