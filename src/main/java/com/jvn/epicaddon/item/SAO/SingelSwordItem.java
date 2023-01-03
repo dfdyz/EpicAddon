@@ -1,6 +1,11 @@
-package com.jvn.epicaddon.item;
+package com.jvn.epicaddon.item.SAO;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.Level;
 import yesman.epicfight.world.item.WeaponItem;
 
 public class SingelSwordItem extends WeaponItem {
@@ -9,6 +14,8 @@ public class SingelSwordItem extends WeaponItem {
         super(tier, 0,0.0f, builder);
         this.EnchantmentValue = EnchantmentValue;
     }
+
+
 
     @Override
     public int getEnchantmentValue() {

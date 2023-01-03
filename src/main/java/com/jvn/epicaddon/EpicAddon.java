@@ -1,11 +1,8 @@
 package com.jvn.epicaddon;
 
 import com.jvn.epicaddon.command.CmdMgr;
-import com.jvn.epicaddon.register.ParticleReg;
-import com.jvn.epicaddon.register.RegItems;
-import com.jvn.epicaddon.register.RegWeaponItemCap;
+import com.jvn.epicaddon.register.*;
 import com.jvn.epicaddon.resources.*;
-import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
@@ -39,6 +36,7 @@ public class EpicAddon
         bus.addListener(EpicAddonAnimations::registerAnimations);
         bus.addListener(RegEpicAddonSkills::registerSkills);
         bus.addListener(RegWeaponItemCap::register);
+        bus.addListener(RegModels::RegItemModelOverride);
 
         EpicAddonSkillCategories.ENUM_MANAGER.loadPreemptive(EpicAddonSkillCategories.class);
         EpicAddonStyles.ENUM_MANAGER.loadPreemptive(EpicAddonStyles.class);

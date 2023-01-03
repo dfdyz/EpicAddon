@@ -7,8 +7,9 @@
   "item.epicaddon.dragon_shit_crystal" :"Shit Crystal",
   "item.epicaddon.anneal_blade": "Anneal Blade",
   "item.epicaddon.battle_scythe": "Battle Scythe[WIP]",
+  "item.epicaddon.destiny": "-Destiny-",
 
-  "skill.epicaddon.sao_dual_sword_skill.tooltip": "Dual Sword(二刀流)：An Extra Skill that unlocks the ability to weild two single-hand sword simultaneously. This skill is much more powerful than any other skill, it requires the user to have extraordinary reaction speed.",
+  "skill.epicaddon.sao_dual_sword_skill.tooltip": "Dual Sword：An Extra Skill that unlocks the ability to weild two single-hand sword simultaneously. This skill is much more powerful than any other skill, it requires the user to have extraordinary reaction speed.",
   "skill.epicaddon.sao_dual_sword_skill": "dual Sword",
 
   "skill.epicaddon.sao_rapier_skill.tooltip": "Rapier：An Skill that unlocks the ability to use different attack while weilding Rapier. This skill is much more quickly than any other skill.",
@@ -20,6 +21,4 @@
 
 
   "skill.epicfight.sao_single_sword.category": "SINGLE SWORD"
-
-
 }

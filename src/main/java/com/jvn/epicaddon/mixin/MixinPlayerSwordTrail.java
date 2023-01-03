@@ -10,8 +10,8 @@ import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 
-@Mixin(value = PatchedItemInHandLayer.class, remap = false)
-public abstract class MixinPlayerSwordTrail<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>> extends PatchedLayer<E, T, M, RenderLayer<E, M>> {
+//@Mixin(value = PatchedItemInHandLayer.class, remap = false)
+public abstract class MixinPlayerSwordTrail/*<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>> extends PatchedLayer<E, T, M, RenderLayer<E, M>>*/ {
 
     /*
     @Inject(at = @At("TAIL"),method = "renderLayer")

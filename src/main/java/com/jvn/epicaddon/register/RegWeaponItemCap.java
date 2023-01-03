@@ -19,6 +19,7 @@ import yesman.epicfight.gameasset.Skills;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
+import yesman.epicfight.world.capabilities.item.RangedWeaponCapability;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 
@@ -27,7 +28,6 @@ import java.util.function.Function;
 public class RegWeaponItemCap {
 
     //private static final Map<String, Function<Item, CapabilityItem.Builder>> PRESETS = Maps.newHashMap();
-
     public static final Function<Item, CapabilityItem.Builder> SAO_SINGLE_SWORD = (item) -> {
         WeaponCapability.Builder builder = LockableWeaponCap.builder()
                 .category(CapabilityItem.WeaponCategories.SWORD)
@@ -176,11 +176,24 @@ public class RegWeaponItemCap {
     };
 
 
-    @SubscribeEvent
+    public static final Function<Item, CapabilityItem.Builder> DESTINY =  (item) -> RangedWeaponCapability.builder()
+            .addAnimationsModifier(LivingMotions.IDLE, Animations.BIPED_HOLD_CROSSBOW)
+            .addAnimationsModifier(LivingMotions.KNEEL, Animations.BIPED_HOLD_CROSSBOW)
+            .addAnimationsModifier(LivingMotions.WALK, Animations.BIPED_HOLD_CROSSBOW)
+            .addAnimationsModifier(LivingMotions.RUN, Animations.BIPED_HOLD_CROSSBOW)
+            .addAnimationsModifier(LivingMotions.SNEAK, Animations.BIPED_HOLD_CROSSBOW)
+            .addAnimationsModifier(LivingMotions.SWIM, Animations.BIPED_HOLD_CROSSBOW)
+            .addAnimationsModifier(LivingMotions.FLOAT, Animations.BIPED_HOLD_CROSSBOW)
+            .addAnimationsModifier(LivingMotions.FALL, Animations.BIPED_HOLD_CROSSBOW)
+            .addAnimationsModifier(LivingMotions.RELOAD, EpicAddonAnimations.DESTINY_AIM)
+            .addAnimationsModifier(LivingMotions.AIM, EpicAddonAnimations.DESTINY_AIM)
+            .addAnimationsModifier(LivingMotions.SHOT, EpicAddonAnimations.DESTINY_SHOT);
+    //@SubscribeEvent
     public static void register(WeaponCapabilityPresetRegistryEvent event){
         Logger LOGGER = LogUtils.getLogger();
         LOGGER.info("Loading WeaponCapability");
         event.getTypeEntry().put("sao_single_sword", SAO_SINGLE_SWORD);
+        event.getTypeEntry().put("destiny",DESTINY);
         LOGGER.info("WeaponCapability Loaded");
     }
 }

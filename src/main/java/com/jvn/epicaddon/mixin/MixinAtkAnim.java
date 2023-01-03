@@ -62,6 +62,9 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     public IAnimSTOverride setColorOverride(Trail tr) {
         if(tr != null){
             colorOverride = true;
+            if(trail == null){
+                trail = new Trail();
+            }
             this.trail.CopyColFrom(tr);
         }
         else{
@@ -74,6 +77,9 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     public IAnimSTOverride setPosOverride(Trail tr) {
         if(tr != null){
             posOverride = true;
+            if(trail == null){
+                trail = new Trail();
+            }
             this.trail.CopyColFrom(tr);
         }
         else{
@@ -86,6 +92,9 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     public IAnimSTOverride setLifeTimeOverride(int lt) {
         if(lt > 0){
             lifetimeOverride = true;
+            if(trail == null){
+                trail = new Trail();
+            }
             this.trail.lifetime = lt;
         }
         else{

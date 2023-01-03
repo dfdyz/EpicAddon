@@ -3,6 +3,7 @@ package com.jvn.epicaddon.renderer.particle;
 
 import com.google.common.collect.Lists;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
+import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.resources.config.RenderConfig;
 import com.jvn.epicaddon.tools.Trail;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -46,10 +47,8 @@ public class BladeTrailParticle extends TextureSheetParticle {
     private final Trail trail;
     private final AttackAnimation anim;
     private final List<TrailEdge> Nodes;
-    private final List<TrailEdge> Nodes2;
     private boolean animationEnd;
     private float startEdgeCorrection = 0.0F;
-
     private final LivingEntityPatch<?> entitypatch;
 
     private static final int interpolateCount = 7;
@@ -63,8 +62,6 @@ public class BladeTrailParticle extends TextureSheetParticle {
         this.hasPhysics = false;
         this.entitypatch = entitypatch;
         this.Nodes = Lists.newLinkedList();
-        this.Nodes2 = Lists.newLinkedList();
-
 
         Vec3 entityPos = entitypatch.getOriginal().position();
         this.setSize(10.0F, 10.0F);
@@ -170,6 +167,10 @@ public class BladeTrailParticle extends TextureSheetParticle {
 
     @Override
     public void render(VertexConsumer vertexConsumer, Camera camera, float partialTick) {
+        if(trail.lifetime == 0){
+            this.lifetime = 0;
+            return;
+        }
         if (this.Nodes.size() < 1) {
             return;
         }
@@ -275,8 +276,23 @@ public class BladeTrailParticle extends TextureSheetParticle {
                 StaticAnimation anim = EpicFightMod.getInstance().animationManager.findAnimationById(modid, animid);
 
                 if (entitypatch != null && anim != null && anim instanceof AttackAnimation) {
-                    Trail trail = RenderConfig.TrailItem.get(entitypatch.getValidItemInHand(ySpeed>=0 ? InteractionHand.MAIN_HAND:InteractionHand.OFF_HAND).getItem().getRegistryName().toString());
-                    if(trail == null) return null;
+                    Trail trail = RenderConfig.getItemTrail(entitypatch.getValidItemInHand(ySpeed>=0 ? InteractionHand.MAIN_HAND:InteractionHand.OFF_HAND));
+                    IAnimSTOverride patchedAnim = ((IAnimSTOverride)anim);
+                    if(trail == null){
+                        if(patchedAnim.isPosOverride() && patchedAnim.isColorOverride() && patchedAnim.isLifetimeOverride()){
+                            trail = patchedAnim.getTrail();
+                        }
+                        else return null;
+                    }
+
+                    if(patchedAnim.isPosOverride() || patchedAnim.isColorOverride() || patchedAnim.isLifetimeOverride()){
+                        trail = (new Trail()).CopyFrom(trail);
+                        Trail trail2 = patchedAnim.getTrail();
+                        if(patchedAnim.isPosOverride()) trail.CopyPosFrom(trail2);
+                        if(patchedAnim.isColorOverride()) trail.CopyColFrom(trail2);
+                        if(patchedAnim.isLifetimeOverride()) trail.lifetime = trail2.lifetime;
+                    }
+
                     return new BladeTrailParticle(level, entitypatch, (AttackAnimation) anim, jointId, trail, this.spriteSet);
                 }
             }

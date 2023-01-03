@@ -4,11 +4,11 @@
 		"common":
 		{
 			"armor_negation":5.0,
-			"impact":7.0,
+			"impact":20.0,
 			"max_strikes":4,
-			"speed_bonus":3.0,
-			"damage_bonus": 1.0
+			"speed_bonus":0.0,
+			"damage_bonus": 0.0
 		}
 	},
-	"type":"sao_single_sword"
+	"type":"greatsword"
 }

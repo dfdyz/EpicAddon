@@ -25,6 +25,7 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
+import yesman.epicfight.world.item.EpicFightItemGroup;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class CategoriesChangeItem extends Item {
         this.types = types.clone();
     }
 
-    protected void setType(String typeName,ItemStack stack){
+    protected void setType(ItemStack stack,String typeName){
         CompoundTag tags = stack.getOrCreateTag();
         tags.putString("epicaddon_type",typeName);
     }
@@ -50,15 +51,28 @@ public class CategoriesChangeItem extends Item {
     }
 
     protected int getTypeIdx(ItemStack stack){
-        CompoundTag tags = stack.getOrCreateTag();
-        int a = tags.getShort("epicaddon_typeidx");
-        if(a <= 0) tags.putShort("epicaddon_typeidx", (short) 1);
-        return a-1;
+        return stack.getOrCreateTag().getShort("epicaddon_typeidx");
     }
 
-    protected void setTypeIdx(ItemStack stack,int idx){
-        stack.getOrCreateTag().putShort("epicaddon_typeidx", (short) (idx+1));
+    protected void setTypeIdx(ItemStack stack, int idx){
+        stack.getOrCreateTag().putShort("epicaddon_typeidx", (short) (idx));
     }
+
+
+    @Override
+    public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> stacks) {
+        if (this.allowdedIn(tab)) {
+            ItemStack stack = new ItemStack(this);
+            setType(stack,types[getTypeIdx(stack)]);
+            stacks.add(stack);
+        }
+    }
+
+    @Override
+    public void onCraftedBy(ItemStack itemStack, Level level, Player player) {
+        setType(itemStack,types[getTypeIdx(itemStack)]);
+    }
+
 
     protected void updateItem(Player playerIn, InteractionHand hand){
         ItemStack itemstack = playerIn.getItemInHand(hand);
@@ -66,23 +80,21 @@ public class CategoriesChangeItem extends Item {
             if(hand == InteractionHand.MAIN_HAND){
                 PlayerPatch playerpatch = (PlayerPatch)playerIn.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).orElse((PlayerPatch) null);
                 CapabilityItem fromCap =  playerpatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
-
                 int a = getTypeIdx(itemstack);
-                if (++a >= types.length) a=0;
+                if (!(++a < types.length)) a=0;
                 setTypeIdx(itemstack,a);
-                setType(types[a],itemstack);
+                setType(itemstack,types[a]);
                 playerpatch.updateHeldItem(fromCap,
                         EpicFightCapabilities.getItemStackCapability(itemstack),
                         itemstack,itemstack,InteractionHand.MAIN_HAND);
                 if(FMLEnvironment.dist == Dist.CLIENT && playerIn instanceof LocalPlayer) playerIn.displayClientMessage(Component.nullToEmpty("MainHand Type Change To: "+types[a]),false);
-
                 ItemStack stackOffHand = playerIn.getItemInHand(InteractionHand.OFF_HAND);
                 if(stackOffHand != ItemStack.EMPTY && stackOffHand.getItem() instanceof CategoriesChangeItem) {
                     int idxOff = getOffHandIdx(stackOffHand,types[a]);
                     if(idxOff != -1){
                         CapabilityItem fromCapOff = playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND);
                         setTypeIdx(stackOffHand,idxOff);
-                        setType(types[a],stackOffHand);
+                        setType(stackOffHand,types[a]);
                         playerpatch.updateHeldItem(fromCapOff,
                                 EpicFightCapabilities.getItemStackCapability(stackOffHand),
                                 itemstack,itemstack,InteractionHand.OFF_HAND);

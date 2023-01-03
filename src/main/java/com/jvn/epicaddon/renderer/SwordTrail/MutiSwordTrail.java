@@ -33,7 +33,8 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 import java.util.List;
 
-public class MutiSwordTrail extends MutiTrailPart<SwordTrail> {
+public class MutiSwordTrail /*extends MutiTrailPart<SwordTrail>*/ {
+    /*
     public MutiSwordTrail(int numberOfTrails) {
         super(numberOfTrails);
     }
@@ -228,5 +229,5 @@ public class MutiSwordTrail extends MutiTrailPart<SwordTrail> {
         }
         matrixStackIn.popPose();
     }
-
+*/
 }

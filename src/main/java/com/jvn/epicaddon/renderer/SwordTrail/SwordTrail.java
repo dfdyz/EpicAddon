@@ -11,7 +11,8 @@ import yesman.epicfight.api.utils.math.MathUtils;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
-public class SwordTrail extends TrailPatr {
+public class SwordTrail /*extends TrailPatr*/ {
+    /*
     public SwordTrail() {
 
     }
@@ -70,4 +71,6 @@ public class SwordTrail extends TrailPatr {
 
         matrixStackIn.popPose();
     }
+
+     */
 }

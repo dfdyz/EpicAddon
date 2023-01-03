@@ -13,9 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 import yesman.epicfight.api.animation.property.AnimationProperty;
-import yesman.epicfight.api.animation.types.BasicAttackAnimation;
-import yesman.epicfight.api.animation.types.DashAttackAnimation;
-import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.client.model.ClientModels;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.api.model.Model;
@@ -63,6 +61,12 @@ public class EpicAddonAnimations {
     public static StaticAnimation SAO_RAPIER_SPECIAL_DASH;
 
     public static StaticAnimation SAO_RAPIER_DASH;
+
+    public static StaticAnimation DESTINY_AIM;
+    public static StaticAnimation DESTINY_SHOT;
+    public static StaticAnimation DESTINY_RELOAD;
+
+
 
     public static void registerAnimations(AnimationRegistryEvent event) {
         Logger LOGGER = LogUtils.getLogger();
@@ -208,6 +212,10 @@ public class EpicAddonAnimations {
                             }
                         }, StaticAnimation.Event.Side.SERVER)
                 });
+
+        DESTINY_AIM = new AimAnimation(false, "biped/destiny_aim_mid", "biped/destiny_aim_up", "biped/destiny_aim_down", "biped/destiny_aim_lying", biped);
+        DESTINY_SHOT = new ReboundAnimation(false, "biped/destiny_shoot_mid", "biped/destiny_shoot_up", "biped/destiny_shoot_down", "biped/destiny_shoot_lying", biped);
+        DESTINY_RELOAD = new StaticAnimation(false, "biped/destiny_reload", biped);
 
         ((IAnimSTOverride)(Animations.SWORD_AUTO1)).setColorOverride(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
 

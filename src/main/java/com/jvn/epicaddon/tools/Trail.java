@@ -15,7 +15,7 @@ public class Trail {
         this.g = g;
         this.b = b;
         this.a = a;
-        this.lifetime = 8;
+        this.lifetime = 3;
     }
 
     public Trail(float x, float y, float z, float ex, float ey, float ez,int r,int g,int b,int a,int lifetime){
@@ -32,23 +32,25 @@ public class Trail {
         this.lifetime = lifetime;
     }
 
-    public void CopyColFrom(Trail col){
+    public Trail CopyColFrom(Trail col){
         this.r = col.r;
         this.g = col.g;
         this.b = col.b;
         this.a = col.a;
+        return this;
     }
 
-    public void CopyPosFrom(Trail pos){
+    public Trail CopyPosFrom(Trail pos){
         this.x = pos.x;
         this.y = pos.y;
         this.z = pos.z;
         this.ex = pos.ex;
         this.ey = pos.ey;
         this.ez = pos.ez;
+        return this;
     }
 
-    public void CopyFrom(Trail org){
+    public Trail CopyFrom(Trail org){
         this.x = org.x;
         this.y = org.y;
         this.z = org.z;
@@ -60,6 +62,7 @@ public class Trail {
         this.b = org.b;
         this.a = org.a;
         this.lifetime = org.lifetime;
+        return this;
     }
 
     public Trail(){
