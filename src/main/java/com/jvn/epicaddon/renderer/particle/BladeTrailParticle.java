@@ -268,7 +268,7 @@ public class BladeTrailParticle extends TextureSheetParticle {
             int modid = (int)Double.doubleToLongBits(y);
             int animid = (int)Double.doubleToLongBits(z);
             int jointId = (int)Double.doubleToLongBits(xSpeed);
-            //ySpeed <-> isOffHand
+            //ySpeed -> isOffHand?
             Entity entity = level.getEntity(eid);
 
             if (entity != null) {
