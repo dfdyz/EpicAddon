@@ -32,7 +32,10 @@ public class RegModels {
                 }
                 else{
                     if(type == DestinyWeaponItem.types[0]) return 2;
-                    else return 1;
+                    else{
+                        if(t>7) return 1;
+                        else return 3;
+                    }
                 }
             });
         });

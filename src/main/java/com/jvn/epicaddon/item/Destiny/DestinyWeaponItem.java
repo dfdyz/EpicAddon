@@ -9,6 +9,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -19,6 +20,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.Fireball;
+import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
@@ -99,6 +102,11 @@ public class DestinyWeaponItem extends ProjectileWeaponItem {
             ItemStack stack = new ItemStack(this);
             InitItemStack(stack);
             stacks.add(stack);
+            stack = new ItemStack(this);
+            InitItemStack(stack);
+            setType(stack,types[1]);
+            setCharged(stack,true);
+            stacks.add(stack);
         }
     }
 
@@ -128,15 +136,19 @@ public class DestinyWeaponItem extends ProjectileWeaponItem {
         //updateItem(playerIn,hand);
         if(!playerIn.isShiftKeyDown()){
             if(getType(playerIn.getItemInHand(hand))==types[1]){
-                Projectile projectile = new Arrow(worldIn,playerIn);
                 Vec3 Up = playerIn.getUpVector(1.0F);
                 Quaternion quaternion = new Quaternion(new Vector3f(Up), 0, true);
                 Vec3 View = playerIn.getViewVector(1.0F);
                 Vector3f shootVec = new Vector3f(View);
                 shootVec.transform(quaternion);
+
+                Vec3 Pos = playerIn.position();
+                Projectile projectile = new LargeFireball(worldIn,playerIn,shootVec.x(), shootVec.y(), shootVec.z(),3);
+                projectile.setPos(Pos.x+View.x,Pos.y+playerIn.getEyeHeight()+View.y,Pos.z+View.z);
                 projectile.shoot(shootVec.x(), shootVec.y(), shootVec.z(), 4.0f, 1.0f);
                 worldIn.addFreshEntity(projectile);
                 setCharged(playerIn.getItemInHand(hand),false);
+                //System.out.println(playerIn.getLookAngle());
                 playerIn.getCooldowns().addCooldown(this,15);
             }
         }
@@ -157,6 +169,9 @@ public class DestinyWeaponItem extends ProjectileWeaponItem {
             if(inHand){
                 int i = getTypeIdx(stack);
                 if(i>0){
+                    if(getCharged(stack)){
+                        setCharged(stack,false);
+                    }
                     if(++i <= 10){
                         setTypeIdx(stack,i);
                     }
@@ -174,22 +189,18 @@ public class DestinyWeaponItem extends ProjectileWeaponItem {
                     else updateItem((Player) playerIn,stack,types[0]);
                 }
             }
-            if(getType(stack) == types[1]){
-                if(!((Player)playerIn).getCooldowns().isOnCooldown(this)){
-                    setCharged(stack,true);
-                }
+
+            boolean ch = getType(stack) == types[1];
+            if(getCharged(stack) != ch){
+                setCharged(stack,ch);
             }
-            else {
-                if(getCharged(stack)){
-                    setCharged(stack,false);
-                }
-            }
+
         }
     }
 
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
-        if(getTypeIdx(stack) > 4){
+        if(getTypeIdx(stack) > 1){
             return UseAnim.CROSSBOW;
         }
         else {
