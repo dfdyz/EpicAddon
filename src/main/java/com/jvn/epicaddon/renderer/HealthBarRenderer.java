@@ -110,7 +110,7 @@ public class HealthBarRenderer {
 
         float ang = healthBarStyle.ang;
 
-        float scale = (entityIn.isBaby() ? 0.5f : 1.0f);
+        float scale = entityIn.getScale();
 
         float r = healthBarStyle.r * (float)Math.pow(scale,0.55f);
 

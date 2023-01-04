@@ -42,7 +42,6 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT) // copy from yesman
 public class BladeTrailParticle extends TextureSheetParticle {
     //private final Joint joint;
-
     private final int jointid;
     private final Trail trail;
     private final AttackAnimation anim;

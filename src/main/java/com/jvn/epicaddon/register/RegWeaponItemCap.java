@@ -196,4 +196,5 @@ public class RegWeaponItemCap {
         event.getTypeEntry().put("destiny",DESTINY);
         LOGGER.info("WeaponCapability Loaded");
     }
+
 }

@@ -1,7 +1,6 @@
 package com.jvn.epicaddon.resources;
 
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.register.ParticleReg;
 import com.jvn.epicaddon.register.WeaponCollider;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.tools.Trail;
@@ -84,7 +83,7 @@ public class EpicAddonAnimations {
         //DUAL SWORD
         SAO_DUAL_SWORD_HOLD = new StaticAnimation(true, "biped/living/sao_dual_sword_hold", biped);
         SAO_DUAL_SWORD_NORMAL = new StaticAnimation(true, "biped/living/sao_dual_sword_hold_normal", biped);
-        SAO_DUAL_SWORD_RUN = new StaticAnimation(true, "biped/living/sao_dual_sword_hold_run", biped);
+        SAO_DUAL_SWORD_RUN = new MovementAnimation(true, "biped/living/sao_dual_sword_hold_run", biped);
 
         SAO_DUAL_SWORD_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.6F, 0.65F, null, "Tool_R", "biped/sao_dual_sword_auto1", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT);

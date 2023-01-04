@@ -2,6 +2,8 @@ package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.renderer.particle.BladeTrailParticle;
+import com.jvn.epicaddon.renderer.particle.EpicAddonHitParticalType;
+import com.jvn.epicaddon.renderer.particle.SparksSplashParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleType;
@@ -15,14 +17,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import yesman.epicfight.main.EpicFightMod;
-import yesman.epicfight.particle.EpicFightParticles;
+import yesman.epicfight.particle.HitParticleType;
 
 //@OnlyIn(Dist.CLIENT)
 //@Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ParticleReg {
+public class RegParticle {
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, EpicAddon.MODID);
     public static final RegistryObject<SimpleParticleType> BLADE_TRAIL = PARTICLES.register("blade_trail", () -> new SimpleParticleType(true));
+    public static final RegistryObject<HitParticleType> SPARKS_SPLASH = PARTICLES.register("sparks_splash",() -> new HitParticleType(true, HitParticleType.CENTER_OF_TARGET, EpicAddonHitParticalType.Atker2Tar));
 
     @OnlyIn(Dist.CLIENT)
     @Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -33,6 +35,7 @@ public class ParticleReg {
         public static void registryParticles(ParticleFactoryRegisterEvent event){
             ParticleEngine PE = Minecraft.getInstance().particleEngine;
             PE.register(BLADE_TRAIL.get(), BladeTrailParticle.Provider::new);
+            PE.register(SPARKS_SPLASH.get(), SparksSplashParticle.Provider::new);
         }
     }
 }
