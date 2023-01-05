@@ -158,7 +158,7 @@ public class HealthBarRenderer {
         r-=0.00004f;
 
         float x,z,ex,ez;
-        final float _Alpha = 5f / 28f * 0.2f;
+        float _Alpha = l/51.2f;
         for(int i=0; i<count; i++){
             x = (float)(r * Math.cos(getAngF(yaw + GlobalVal.ANG + ang * i / count)));
             z = -(float)(r * Math.sin(getAngF(yaw + GlobalVal.ANG + ang * i / count)));
@@ -185,7 +185,7 @@ public class HealthBarRenderer {
                 }
             }
             else {
-                float in = (lpc*(i+1) - (l - 2*_Alpha)*ratio - _Alpha) / lpc;
+                float in = 1.0f - (lpc*(i+1) - (l - 2*_Alpha)*ratio - _Alpha) / lpc;
                 ex = (ex-x)*in + x;
                 ez = (ez-z)*in + z;
                 if(lpc*(i) <= _Begin){
@@ -270,7 +270,7 @@ public class HealthBarRenderer {
         r-=0.00004f;
 
         float x,z,ex,ez;
-        final float _Alpha = 5f / 28f * 0.2f;
+        final float _Alpha = l/51.2f;
 
         float pbh = 1.0f/numOf;
         float tmpR;
@@ -305,7 +305,7 @@ public class HealthBarRenderer {
                         }
                     }
                     else {
-                        float in = (lpc*(i+1) - (l - 2*_Alpha)*tmpR - _Alpha) / lpc;
+                        float in = 1.0f - (lpc*(i+1) - (l - 2*_Alpha)*tmpR - _Alpha) / lpc;
                         ex = (ex-x)*in + x;
                         ez = (ez-z)*in + z;
                         if(lpc*(i) <= _Begin){

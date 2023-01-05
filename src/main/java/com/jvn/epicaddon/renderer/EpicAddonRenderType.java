@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,7 +39,7 @@ public class EpicAddonRenderType extends RenderType {
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
             TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
-            AbstractTexture abstracttexture = texturemanager.getTexture(GetTextures("trail/trail"));
+            AbstractTexture abstracttexture = texturemanager.getTexture(GetTextures("particle/trail"));
             RenderSystem.bindTexture(abstracttexture.getId());
 
             RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
@@ -59,10 +60,42 @@ public class EpicAddonRenderType extends RenderType {
 
         @Override
         public String toString() {
-            return "AFTER_IMAGE";
+            return "BLADE_TRAIL";
         }
     };
 
+    public static final ParticleRenderType PARTICLE_OPAQUE = new ParticleRenderType() {
+        public void begin(BufferBuilder bufferBuilder, TextureManager p_107449_) {
+            RenderSystem.enableBlend();
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
+            RenderSystem.setShader(GameRenderer::getParticleShader);
+
+            TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+            AbstractTexture abstracttexture = texturemanager.getTexture(GetTextures("particle/sparks"));
+            RenderSystem.bindTexture(abstracttexture.getId());
+
+            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+            RenderSystem.setShaderTexture(0, abstracttexture.getId());
+
+            bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        public void end(Tesselator tesselator) {
+            tesselator.getBuilder().setQuadSortOrigin(0.0F, 0.0F, 0.0F);
+            tesselator.end();
+            RenderSystem.disableBlend();
+            RenderSystem.defaultBlendFunc();
+        }
+        @Override
+        public String toString() {
+            return "E_HIT_PARTICLE";
+        }
+    };
+
+    /*
     public static final RenderType SwordTrail = create(EpicAddon.MODID + ":sword_trail_def", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, false,
             RenderType.CompositeState.builder()
                     .setShaderState(POSITION_COLOR_SHADER)
@@ -85,6 +118,8 @@ public class EpicAddonRenderType extends RenderType {
                     .setCullState(NO_CULL)
                     .createCompositeState(true)
     );
+
+     */
 
 
     public static final RenderType HealthBar = create(EpicAddon.MODID + ":health_bar", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 2097152, true, true,
