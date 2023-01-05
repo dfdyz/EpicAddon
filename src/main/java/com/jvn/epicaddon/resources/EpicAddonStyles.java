@@ -5,10 +5,8 @@ import yesman.epicfight.world.capabilities.item.Style;
 
 public enum EpicAddonStyles implements Style {
     SAO_DUAL_SWORD(true),
-
     SAO_DUAL_SWORD_LOCKED(true),
     SAO_SINGLE_SWORD(true),
-
     SAO_RAPIER(true),
 
     SAO_RAPIER_LOCKED(false);

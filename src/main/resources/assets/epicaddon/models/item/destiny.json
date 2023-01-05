@@ -1,0 +1,28 @@
+{
+	"overrides": [
+		{
+			"predicate": {
+				"epicaddon:style": 0
+			},
+			"model": "epicaddon:item/destiny_sword"
+		},
+		{
+			"predicate": {
+				"epicaddon:style": 1
+			},
+			"model": "epicaddon:item/destiny_change"
+		},
+		{
+			"predicate": {
+				"epicaddon:style": 2
+			},
+			"model": "epicaddon:item/destiny_change2"
+		},
+		{
+			"predicate": {
+				"epicaddon:style": 3
+			},
+			"model": "epicaddon:item/destiny_gun"
+		}
+	]
+}

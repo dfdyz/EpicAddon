@@ -1,17 +1,12 @@
 package com.jvn.epicaddon;
 
-import com.jvn.epicaddon.command.CmdMgr;
-import com.jvn.epicaddon.register.RegItems;
-import com.jvn.epicaddon.register.RegWeaponItemCap;
+import com.jvn.epicaddon.register.*;
 import com.jvn.epicaddon.resources.*;
-import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
@@ -37,12 +32,13 @@ public class EpicAddon
         bus.addListener(EpicAddonAnimations::registerAnimations);
         bus.addListener(RegEpicAddonSkills::registerSkills);
         bus.addListener(RegWeaponItemCap::register);
+        bus.addListener(RegModels::RegItemModelOverride);
 
         EpicAddonSkillCategories.ENUM_MANAGER.loadPreemptive(EpicAddonSkillCategories.class);
         EpicAddonStyles.ENUM_MANAGER.loadPreemptive(EpicAddonStyles.class);
         //WeaponCategory.ENUM_MANAGER.load(CapabilityItem.WeaponCategories.class);
         RegItems.ITEMS.register(bus);
-
+        RegParticle.PARTICLES.register(bus);
         //EpicFightMod.getInstance().animationManager.registerAnimations();
 
         //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CfgMgr.CLIENT_CONFIG);

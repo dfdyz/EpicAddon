@@ -1,17 +1,23 @@
 package com.jvn.epicaddon.resources.config;
 
 import com.google.common.collect.Maps;
+import com.jvn.epicaddon.item.Destiny.DestinyWeaponItem;
 import com.jvn.epicaddon.tools.HealthBarStyle;
 import com.jvn.epicaddon.tools.Trail;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import yesman.epicfight.world.entity.EpicFightEntities;
 
 import java.util.Map;
+import java.util.function.Function;
 
 
 public class RenderConfig {
     public static Map<String, Trail> TrailItem = Maps.newHashMap();
+    public static final Map<String, Function<ItemStack,Trail>> SpecialTrailItem = Maps.newHashMap();
 
     public static Map<String, HealthBarStyle> HealthBarEntity = Maps.newHashMap();
 
@@ -23,10 +29,34 @@ public class RenderConfig {
         TrailItem.put("epicaddon:dark_repulsor",new  Trail(0,0,-0.18f,0,0,-1.47f,0,249,255,140));
         TrailItem.put("epicaddon:lambent_light",new  Trail(0,0,-0.12f,0,0,-1.75f,204,0,255,150));
 
-        TrailItem.put("epicfight:katana",new  Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
-
         TrailItem.put("epicaddon:anneal_blade",new  Trail(0,0,-0.17f,0,0,-1.27f,80,249,255,150));
 
+        TrailItem.put("epicfight:katana",new  Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
+        TrailItem.put("epicfight:netherite_greatsword",new Trail(0,0,-0.17f,0,-0f,-2.15f,138,4,226,180));
+        TrailItem.put("epicaddon:destiny",new Trail(0,0,-0.23f,0,0,-2.25f,255,255,51,180));
+
+        AddSpecial("epicaddon:destiny",(stack)->{
+            if(DestinyWeaponItem.getType(stack) == DestinyWeaponItem.types[1]){
+                return null;
+            }
+            else return getItemTrailRaw("epicaddon:destiny");
+        });
+    }
+
+    public static void AddSpecial(String id,Function<ItemStack,Trail> func){
+        SpecialTrailItem.put(id,func);
+    }
+
+    public static Trail getItemTrailRaw(String n){
+        return TrailItem.get(n);
+    }
+
+    public static Trail getItemTrail(ItemStack itemStack){
+        if(itemStack.isEmpty()) return null;
+        String n = itemStack.getItem().getRegistryName().toString();
+        Function<ItemStack,Trail> getter = SpecialTrailItem.get(n);
+        if(getter != null) return getter.apply(itemStack);
+        else return getItemTrailRaw(n);
     }
 
     public static void AddHealthBarStyle(EntityType entity,HealthBarStyle healthBarStyle){
@@ -36,7 +66,6 @@ public class RenderConfig {
     public static void AddHealthBarStyle(EntityType entity){
         AddHealthBarStyle(entity,new HealthBarStyle());
     }
-
 
     static {
         AddHealthBarStyle(EntityType.ENDER_DRAGON, new HealthBarStyle(6.0f,2,0.0f,60f));

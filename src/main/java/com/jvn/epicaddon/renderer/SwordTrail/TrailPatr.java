@@ -25,6 +25,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class TrailPatr {
+    /*
     public TrailPatr() {
 
     }
@@ -39,4 +40,6 @@ public abstract class TrailPatr {
 
     @OnlyIn(Dist.CLIENT)
     public abstract void addEnd(PoseStack matrixStackIn, OpenMatrix4f pose, VertexConsumer vertexBuilder,Trail tt);
+
+     */
 }

@@ -10,7 +10,8 @@ import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
-public abstract class MutiTrailPart<T extends TrailPatr> extends TrailPatr {
+public abstract class MutiTrailPart/*<T extends TrailPatr> extends TrailPatr*/ {
+    /*
     protected T bigTrail;
     protected int numberOfTrails;
 
@@ -31,5 +32,5 @@ public abstract class MutiTrailPart<T extends TrailPatr> extends TrailPatr {
 
     @OnlyIn(Dist.CLIENT)
     public void addEnd(PoseStack matrixStackIn, OpenMatrix4f pose, VertexConsumer vertexBuilder,Trail tt){}
-
+     */
 }
