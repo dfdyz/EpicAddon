@@ -54,7 +54,7 @@ public class RegWeaponItemCap {
                 })
                 .collider(WeaponCollider.SAO_SWORD)
                 .hitSound(EpicFightSounds.BLADE_HIT)
-                .newStyleCombo(EpicAddonStyles.SAO_SINGLE_SWORD, Animations.SWORD_AUTO1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.SWORD_AIR_SLASH)
+                .newStyleCombo(EpicAddonStyles.SAO_SINGLE_SWORD, EpicAddonAnimations.SAO_SINGLE_SWORD_AUTO1, Animations.SWORD_AUTO1, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.SWORD_AIR_SLASH)
                 .newStyleCombo(EpicAddonStyles.SAO_RAPIER,
                         EpicAddonAnimations.SAO_RAPIER_AUTO1,
                         EpicAddonAnimations.SAO_RAPIER_AUTO2,

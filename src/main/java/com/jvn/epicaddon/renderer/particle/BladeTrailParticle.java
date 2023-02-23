@@ -112,6 +112,9 @@ public class BladeTrailParticle extends TextureSheetParticle {
 
     @Override
     public void tick() {
+        if(!this.animationEnd && !(entitypatch!=null && entitypatch.getOriginal()!=null && entitypatch.getOriginal().isAlive())){
+            this.animationEnd = true;
+        }
         AnimationPlayer animPlayer = this.entitypatch.getAnimator().getPlayerFor(this.anim);
         this.Nodes.removeIf(v -> !v.isAlive());
 

@@ -25,6 +25,10 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 public class EpicAddonAnimations {
     public static StaticAnimation Test;
+
+
+    public static StaticAnimation SAO_SINGLE_SWORD_AUTO1;
+
     public static StaticAnimation SAO_DUAL_SWORD_HOLD;
     public static StaticAnimation SAO_DUAL_SWORD_NORMAL;
 
@@ -239,6 +243,13 @@ public class EpicAddonAnimations {
         DESTINY_AIM = new AimAnimation(false, "biped/destiny_aim_mid", "biped/destiny_aim_up", "biped/destiny_aim_down", "biped/destiny_aim_lying", biped);
         DESTINY_SHOT = new ReboundAnimation(false, "biped/destiny_shoot_mid", "biped/destiny_shoot_up", "biped/destiny_shoot_down", "biped/destiny_shoot_lying", biped);
         DESTINY_RELOAD = new StaticAnimation(false, "biped/destiny_reload", biped);
+
+        SAO_SINGLE_SWORD_AUTO1 = new BasicAttackAnimation(0.12F, 0.25F, 0.625F, 1F, null, "Tool_R", "biped/single_blade_1", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 4f);
+
+
+
 
         ((IAnimSTOverride)(Animations.SWORD_AUTO1)).setColorOverride(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
 
