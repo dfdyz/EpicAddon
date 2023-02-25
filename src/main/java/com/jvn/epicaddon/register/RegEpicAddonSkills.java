@@ -24,8 +24,6 @@ import java.util.Map;
 public class RegEpicAddonSkills {
 
     public static Skill WEAPON_SKILL_RAPIER;
-
-
     public static Skill SAO_DUALSWORD;
     public static Skill SAO_SINGLESWORDGUARD;
 

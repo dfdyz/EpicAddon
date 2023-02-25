@@ -66,7 +66,6 @@ public class DualSwordSkill extends PassiveSkill {
         }, 1);
 
     }
-
     @Override
     public void onRemoved(SkillContainer container) {
         container.getExecuter().setMaxStunShield(OrgStunShield);
@@ -76,5 +75,4 @@ public class DualSwordSkill extends PassiveSkill {
     public boolean isExecutableState(PlayerPatch<?> executer) {
         return true;
     }
-
 }
