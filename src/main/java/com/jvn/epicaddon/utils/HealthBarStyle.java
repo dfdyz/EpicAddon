@@ -1,4 +1,4 @@
-package com.jvn.epicaddon.tools;
+package com.jvn.epicaddon.utils;
 
 public class HealthBarStyle {
     public float r,y_modify,ang;

@@ -1,4 +1,4 @@
-package com.jvn.epicaddon.tools;
+package com.jvn.epicaddon.utils;
 
 public class Trail {
     public float x,y,z,ex,ey,ez;

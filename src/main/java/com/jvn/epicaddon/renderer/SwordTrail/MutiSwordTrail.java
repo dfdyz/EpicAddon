@@ -1,38 +1,5 @@
 package com.jvn.epicaddon.renderer.SwordTrail;
 
-import com.google.common.collect.Lists;
-import com.jvn.epicaddon.renderer.EpicAddonRenderType;
-import com.jvn.epicaddon.resources.config.ClientConfig;
-import com.jvn.epicaddon.resources.config.ConfigVal;
-import com.jvn.epicaddon.tools.Trail;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
-import com.mojang.logging.LogUtils;
-import com.mojang.math.Matrix4f;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.lwjgl.opengl.GL11;
-import org.slf4j.Logger;
-import yesman.epicfight.api.animation.Animator;
-import yesman.epicfight.api.animation.JointTransform;
-import yesman.epicfight.api.animation.TransformSheet;
-import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.client.model.ClientModels;
-import yesman.epicfight.api.model.Armature;
-import yesman.epicfight.api.utils.math.MathUtils;
-import yesman.epicfight.api.utils.math.OpenMatrix4f;
-import yesman.epicfight.api.utils.math.Vec3f;
-import yesman.epicfight.gameasset.Animations;
-import yesman.epicfight.gameasset.Models;
-import yesman.epicfight.main.EpicFightMod;
-import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
-
-import java.util.List;
-
 public class MutiSwordTrail /*extends MutiTrailPart<SwordTrail>*/ {
     /*
     public MutiSwordTrail(int numberOfTrails) {

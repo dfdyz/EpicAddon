@@ -1,4 +1,4 @@
-package com.jvn.epicaddon.capabilities;
+package com.jvn.epicaddon.api.cap;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -11,7 +11,6 @@ import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
-import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;

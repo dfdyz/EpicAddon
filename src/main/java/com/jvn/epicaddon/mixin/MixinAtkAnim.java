@@ -2,7 +2,7 @@ package com.jvn.epicaddon.mixin;
 
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
-import com.jvn.epicaddon.tools.Trail;
+import com.jvn.epicaddon.utils.Trail;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

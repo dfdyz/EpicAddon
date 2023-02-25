@@ -1,24 +1,19 @@
 package com.jvn.epicaddon.renderer;
 
-import com.jvn.epicaddon.tools.GlobalVal;
-import com.jvn.epicaddon.tools.HealthBarStyle;
+import com.jvn.epicaddon.utils.GlobalVal;
+import com.jvn.epicaddon.utils.HealthBarStyle;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.logging.LogUtils;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.slf4j.Logger;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
-import yesman.epicfight.client.renderer.EpicFightRenderTypes;
 
 public class HealthBarRenderer {
 

@@ -2,14 +2,10 @@ package com.jvn.epicaddon.resources.config;
 
 import com.google.common.collect.Maps;
 import com.jvn.epicaddon.item.Destiny.DestinyWeaponItem;
-import com.jvn.epicaddon.tools.HealthBarStyle;
-import com.jvn.epicaddon.tools.Trail;
-import net.minecraft.world.entity.Entity;
+import com.jvn.epicaddon.utils.HealthBarStyle;
+import com.jvn.epicaddon.utils.Trail;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import yesman.epicfight.world.entity.EpicFightEntities;
 
 import java.util.Map;
 import java.util.function.Function;

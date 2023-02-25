@@ -1,6 +1,7 @@
 package com.jvn.epicaddon.register;
 
-import com.jvn.epicaddon.capabilities.LockableWeaponCap;
+import com.jvn.epicaddon.api.cap.GenShinBowCap;
+import com.jvn.epicaddon.api.cap.LockableWeaponCap;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import com.jvn.epicaddon.resources.EpicAddonStyles;
@@ -9,14 +10,12 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TieredItem;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.slf4j.Logger;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.gameasset.Skills;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.RangedWeaponCapability;
@@ -188,12 +187,43 @@ public class RegWeaponItemCap {
             .addAnimationsModifier(LivingMotions.RELOAD, EpicAddonAnimations.DESTINY_AIM)
             .addAnimationsModifier(LivingMotions.AIM, EpicAddonAnimations.DESTINY_AIM)
             .addAnimationsModifier(LivingMotions.SHOT, EpicAddonAnimations.DESTINY_SHOT);
+
+    public static final Function<Item, CapabilityItem.Builder> GenShin_Bow = (item) -> {
+            WeaponCapability.Builder builder = (WeaponCapability.Builder)WeaponCapability.builder()
+                .category(CapabilityItem.WeaponCategories.GREATSWORD)
+                .styleProvider((playerpatch) -> CapabilityItem.Styles.ONE_HAND)
+                .collider(WeaponCollider.GenShin_Bow_scan)
+                .swingSound(EpicFightSounds.WHOOSH_BIG)
+                .hitSound(EpicFightSounds.BLADE_HIT)
+                .canBePlacedOffhand(false)
+                .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
+                        EpicAddonAnimations.GenShin_Bow_Auto1,
+                        EpicAddonAnimations.GenShin_Bow_Auto2,
+                        EpicAddonAnimations.GenShin_Bow_Auto3,
+                        EpicAddonAnimations.GenShin_Bow_Auto4,
+                        EpicAddonAnimations.GenShin_Bow_Auto2, Animations.GREATSWORD_AIR_SLASH)
+                //.specialAttack(CapabilityItem.Styles.ONE_HAND, Skills.GIANT_WHIRLWIND)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, Animations.BIPED_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, Animations.BIPED_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, Animations.BIPED_RUN)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.JUMP, Animations.BIPED_JUMP)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.KNEEL, Animations.BIPED_KNEEL)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.SNEAK, Animations.BIPED_SNEAK)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.SWIM, Animations.BIPED_SWIM)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.AIM, Animations.BIPED_BOW_AIM)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.BIPED_BLOCK)
+                .constructor(GenShinBowCap::new);
+
+        return builder;
+    };
+
     //@SubscribeEvent
     public static void register(WeaponCapabilityPresetRegistryEvent event){
         Logger LOGGER = LogUtils.getLogger();
         LOGGER.info("Loading WeaponCapability");
         event.getTypeEntry().put("sao_single_sword", SAO_SINGLE_SWORD);
-        event.getTypeEntry().put("destiny",DESTINY);
+        event.getTypeEntry().put("destiny", DESTINY);
+        event.getTypeEntry().put("genshin_bow", GenShin_Bow);
         LOGGER.info("WeaponCapability Loaded");
     }
 

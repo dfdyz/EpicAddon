@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.resources.config.RenderConfig;
-import com.jvn.epicaddon.tools.Trail;
+import com.jvn.epicaddon.utils.Trail;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
@@ -15,13 +15,11 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.spongepowered.asm.mixin.injection.At;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.Pose;
@@ -228,11 +226,13 @@ public class BladeTrailParticle extends TextureSheetParticle {
         poseStack.mulPose(rotation);
     }
 
+    /*
     private void makeTrailEdges(List<Vec3> startPositions, List<Vec3> endPositions, List<TrailEdge> dest) {
         for (int i = 0; i < startPositions.size(); i++) {
             dest.add(new TrailEdge(startPositions.get(i), endPositions.get(i), this.trail.lifetime));
         }
     }
+     */
 
 
     @Override
@@ -245,11 +245,14 @@ public class BladeTrailParticle extends TextureSheetParticle {
         final Vec3 start;
         final Vec3 end;
         int lifetime;
+        float linerTime;
+
 
         public TrailEdge(Vec3 start, Vec3 end, int lifetime) {
             this.start = start;
             this.end = end;
             this.lifetime = lifetime;
+            this.linerTime = lifetime;
         }
 
         boolean isAlive() {

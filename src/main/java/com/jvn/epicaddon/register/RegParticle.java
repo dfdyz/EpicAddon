@@ -1,10 +1,7 @@
 package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.renderer.particle.BladeTrailParticle;
-import com.jvn.epicaddon.renderer.particle.EpicAddonHitParticalType;
-import com.jvn.epicaddon.renderer.particle.SparksSplashHitParticle;
-import com.jvn.epicaddon.renderer.particle.SparksSplashParticle;
+import com.jvn.epicaddon.renderer.particle.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleType;
@@ -27,10 +24,10 @@ public class RegParticle {
     public static final RegistryObject<SimpleParticleType> BLADE_TRAIL = PARTICLES.register("blade_trail", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SPARKS_SPLASH = PARTICLES.register("sparks_splash",() -> new SimpleParticleType(true));
     public static final RegistryObject<HitParticleType> SPARKS_SPLASH_HIT = PARTICLES.register("sparks_splash_hit",() -> new HitParticleType(true, HitParticleType.RANDOM_WITHIN_BOUNDING_BOX, EpicAddonHitParticalType.Atker2Tar));
-    @OnlyIn(Dist.CLIENT)
-    @Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public class ParticleRegister{
+    public static final RegistryObject<SimpleParticleType> GENSHIN_BOW = PARTICLES.register("genshin_bow", () -> new SimpleParticleType(true));
 
+    @Mod.EventBusSubscriber(modid = EpicAddon.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public class ParticleRegister{
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public static void registryParticles(ParticleFactoryRegisterEvent event){
@@ -38,6 +35,7 @@ public class RegParticle {
             PE.register(BLADE_TRAIL.get(), BladeTrailParticle.Provider::new);
             PE.register(SPARKS_SPLASH.get(), SparksSplashParticle.Provider::new);
             PE.register(SPARKS_SPLASH_HIT.get(), SparksSplashHitParticle.Provider::new);
+            PE.register(GENSHIN_BOW.get(), GenShinBowShootParticle.Provider::new);
         }
     }
 }
