@@ -33,12 +33,14 @@ public class EpicAddon
         bus.addListener(RegEpicAddonSkills::registerSkills);
         bus.addListener(RegWeaponItemCap::register);
         bus.addListener(RegModels::RegItemModelOverride);
+        bus.addListener(RegModels::RegItemEFMRenderer);
 
         EpicAddonSkillCategories.ENUM_MANAGER.loadPreemptive(EpicAddonSkillCategories.class);
         EpicAddonStyles.ENUM_MANAGER.loadPreemptive(EpicAddonStyles.class);
         //WeaponCategory.ENUM_MANAGER.load(CapabilityItem.WeaponCategories.class);
         RegItems.ITEMS.register(bus);
         RegParticle.PARTICLES.register(bus);
+        RegEntity.ENTITIES.register(bus);
         //EpicFightMod.getInstance().animationManager.registerAnimations();
 
         //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CfgMgr.CLIENT_CONFIG);

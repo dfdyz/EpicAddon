@@ -1,7 +1,7 @@
 package com.jvn.epicaddon.mixin;
 
 
-import com.jvn.epicaddon.capabilities.LockableWeaponCap;
+import com.jvn.epicaddon.api.cap.LockableWeaponCap;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

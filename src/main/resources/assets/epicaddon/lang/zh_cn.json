@@ -8,6 +8,7 @@
   "item.epicaddon.anneal_blade": "韧炼之剑",
   "item.epicaddon.battle_scythe": "战斗镰刀[未完成]",
   "item.epicaddon.destiny": "-命运-",
+  "item.epicaddon.training_bow": "训练弓",
 
   "skill.epicaddon.sao_dual_sword_skill.tooltip": "二刀流:\nExtra技能,使用后可以解锁同时使用两把单手剑的能力\n二刀流比其他任何技能都要强大得多，它需要使用者拥有超凡的反应速度\n\n特殊效果:\n双持期间\n当耐力大于80%时,格挡全部攻击\n当耐力大于30%,韧性大幅提升",
   "skill.epicaddon.sao_dual_sword_skill": "二刀流",

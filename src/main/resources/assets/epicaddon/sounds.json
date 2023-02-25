@@ -1,0 +1,8 @@
+{
+  "weapon.genshin_bow":
+  {
+    "category":"weapon",
+    "subtitle":"weapon.genshin_bow",
+    "sounds":[{"name":"epicaddon:weapon/genshin_bow", "stream":true}]
+  }
+}

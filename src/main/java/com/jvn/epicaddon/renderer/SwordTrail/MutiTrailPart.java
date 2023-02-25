@@ -1,15 +1,5 @@
 package com.jvn.epicaddon.renderer.SwordTrail;
 
-import com.jvn.epicaddon.tools.Trail;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.utils.math.OpenMatrix4f;
-import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
-
 public abstract class MutiTrailPart/*<T extends TrailPatr> extends TrailPatr*/ {
     /*
     protected T bigTrail;

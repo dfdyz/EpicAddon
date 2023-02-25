@@ -28,6 +28,26 @@ public class EpicAddonRenderType extends RenderType {
 
     boolean writeColor;
     boolean writeDepth;
+
+
+    public static final ParticleRenderType GENSHIN_BOW = new ParticleRenderType() {
+        public void begin(BufferBuilder p_107448_, TextureManager p_107449_) {
+            RenderSystem.disableBlend();
+            RenderSystem.depthMask(true);
+            RenderSystem.setShader(GameRenderer::getParticleShader);
+            RenderSystem.setShaderTexture(0, GetTextures("particle/genshin_bow"));
+            p_107448_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        public void end(Tesselator p_107451_) {
+            p_107451_.end();
+        }
+
+        public String toString() {
+            return "GENSHIN_BOW";
+        }
+    };
+
     public static final ParticleRenderType BladeTrail = new ParticleRenderType() {
         public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
             RenderSystem.enableBlend();

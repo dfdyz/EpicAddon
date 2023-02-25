@@ -1,6 +1,6 @@
 package com.jvn.epicaddon.renderer.SwordTrail;
 
-import com.jvn.epicaddon.tools.Trail;
+import com.jvn.epicaddon.utils.Trail;
 
 public interface IAnimSTOverride {
     boolean isColorOverride();

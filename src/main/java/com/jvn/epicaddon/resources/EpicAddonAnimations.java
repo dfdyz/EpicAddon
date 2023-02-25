@@ -1,30 +1,48 @@
 package com.jvn.epicaddon.resources;
 
 import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.api.anim.BowAtkAnim;
+import com.jvn.epicaddon.entity.projectile.GenShinArrow;
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.register.WeaponCollider;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
-import com.jvn.epicaddon.tools.Trail;
+import com.jvn.epicaddon.utils.Trail;
 import com.mojang.logging.LogUtils;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
+import yesman.epicfight.api.animation.Animator;
+import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.*;
 import yesman.epicfight.api.client.model.ClientModels;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
+import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.model.Model;
 import yesman.epicfight.api.utils.ExtendedDamageSource;
+import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.ValueCorrector;
+import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Models;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 public class EpicAddonAnimations {
     public static StaticAnimation Test;
+
+
+    public static StaticAnimation SAO_SINGLE_SWORD_AUTO1;
+
     public static StaticAnimation SAO_DUAL_SWORD_HOLD;
     public static StaticAnimation SAO_DUAL_SWORD_NORMAL;
 
@@ -65,8 +83,11 @@ public class EpicAddonAnimations {
     public static StaticAnimation DESTINY_AIM;
     public static StaticAnimation DESTINY_SHOT;
     public static StaticAnimation DESTINY_RELOAD;
-
-
+    public static StaticAnimation GenShin_Bow_Auto1;
+    public static StaticAnimation GenShin_Bow_Auto2;
+    public static StaticAnimation GenShin_Bow_Auto3;
+    public static StaticAnimation GenShin_Bow_Auto4;
+    public static StaticAnimation GenShin_Bow_Auto5;
 
     public static void registerAnimations(AnimationRegistryEvent event) {
         Logger LOGGER = LogUtils.getLogger();
@@ -210,6 +231,7 @@ public class EpicAddonAnimations {
 
         SAO_RAPIER_SPECIAL_DASH  = new DashAttackAnimation(0.1F, 0.3F, 0.05F, 4.8333F, 4.1F, WeaponCollider.SAO_RAPIER_DASH, "Root", "biped/sao_rapier_dash_long", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.adder(14.7F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.MAX_STRIKES, ValueCorrector.adder(114514))
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.21F)
                 .addProperty(AnimationProperty.AttackPhaseProperty.ARMOR_NEGATION, ValueCorrector.adder(30.0F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.KNOCKDOWN)
@@ -240,11 +262,105 @@ public class EpicAddonAnimations {
         DESTINY_SHOT = new ReboundAnimation(false, "biped/destiny_shoot_mid", "biped/destiny_shoot_up", "biped/destiny_shoot_down", "biped/destiny_shoot_lying", biped);
         DESTINY_RELOAD = new StaticAnimation(false, "biped/destiny_reload", biped);
 
+        SAO_SINGLE_SWORD_AUTO1 = new BasicAttackAnimation(0.12F, 0.25F, 0.625F, 1F, null, "Tool_R", "biped/single_blade_1", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 4.3f);
+
+        GenShin_Bow_Auto1 = new BowAtkAnim(0.1F, 0.62F, 0.6666F, 0.8333F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root","Tool_R", "biped/genshin_bow_auto1", biped)
+                .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
+                        StaticAnimation.Event.create(0.4F, (ep) -> {
+                            BowShoot(ep);
+                           }, StaticAnimation.Event.Side.SERVER),
+                        StaticAnimation.Event.create(0.585F, (ep) -> {
+                            BowShoot(ep);
+                        }, StaticAnimation.Event.Side.SERVER),
+                })
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.6f);
+
+        GenShin_Bow_Auto2 = new BowAtkAnim(0.1F, 0.7F, 0.8F, 0.98F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root","Tool_R", "biped/genshin_bow_auto2", biped)
+                .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
+                        StaticAnimation.Event.create(0.6F, (ep) -> {
+                            BowShoot(ep);
+                        }, StaticAnimation.Event.Side.SERVER),
+                });
+
+        GenShin_Bow_Auto3 = new BowAtkAnim(0.1F, 0.88F, 0.92F, 1.03F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root","Tool_R", "biped/genshin_bow_auto3", biped)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.85f)
+                .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
+                        StaticAnimation.Event.create(0.84F, (ep) -> {
+                            BowShoot(ep);
+                        }, StaticAnimation.Event.Side.SERVER),
+                });
+
+        GenShin_Bow_Auto4 = new BowAtkAnim(0.05F, 2.12F, 2.2F, 3.4F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root","Tool_R", "biped/genshin_bow_auto4", biped)
+                .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
+                        StaticAnimation.Event.create(1.2083F, (ep) -> {
+                            BowShoot(ep);
+                        }, StaticAnimation.Event.Side.SERVER),
+                        StaticAnimation.Event.create(1.7916F, (ep) -> {
+                            BowShoot(ep);
+                        }, StaticAnimation.Event.Side.SERVER),
+                        StaticAnimation.Event.create(2.0416F, (ep) -> {
+                            BowShoot(ep);
+                        }, StaticAnimation.Event.Side.SERVER),
+                })
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3.1f);
+
+
         ((IAnimSTOverride)(Animations.SWORD_AUTO1)).setColorOverride(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
 
         LOGGER.info("EpicAddon AnimLoaded");
     }
 
+    private static void BowShoot(LivingEntityPatch<?> entitypatch){
+        if(entitypatch.currentlyAttackedEntity.size() > 0){
+            Entity target = entitypatch.currentlyAttackedEntity.get(0);
+            Level worldIn = entitypatch.getOriginal().getLevel();
+            if(target.equals(entitypatch.getOriginal())){
+                float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
+                Vec3 shootVec = new Vec3(Math.cos(ang), 0 , Math.sin(ang));
+                Vec3 shootPos = entitypatch.getOriginal().position().add((new Vec3(shootVec.x,0,shootVec.z)).normalize());
 
+                Projectile projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
+                projectile.setPos(shootPos.x, shootPos.y+1.2, shootPos.z);
+                ((Arrow) projectile).pickup = AbstractArrow.Pickup.DISALLOWED;
 
+                projectile.shoot(shootVec.x(), 0.1f, shootVec.z(), 4.2f, 1.0f);
+                worldIn.addFreshEntity(projectile);
+            }
+            else {
+                Vec3 shootPos = entitypatch.getOriginal().position();
+                shootPos = new Vec3(shootPos.x, entitypatch.getOriginal().getEyeY() ,shootPos.z);
+                Vec3 shootTarget = target.position();
+                shootTarget = new Vec3(shootTarget.x,target.getEyeY(),shootTarget.z);
+                Vec3 shootVec = shootTarget.subtract(shootPos);
+                shootPos = shootPos.add((new Vec3(shootVec.x,0,shootVec.z)).normalize());
+
+                Projectile projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
+                projectile.setPos(shootPos);
+                ((Arrow) projectile).pickup = AbstractArrow.Pickup.DISALLOWED;
+                //((Arrow) projectile).setPierceLevel((byte) 2);
+                projectile.shoot(shootVec.x(), shootVec.y(), shootVec.z(), 4.2f, 1.0f);
+                worldIn.addFreshEntity(projectile);
+            }
+
+            if(worldIn instanceof ServerLevel){
+                Vec3 vec3 = getPosByTick(entitypatch,0.4f,"Tool_L");
+                ((ServerLevel)worldIn).sendParticles(RegParticle.GENSHIN_BOW.get() ,vec3.x,vec3.y,vec3.z,0,1D,1D,0.9019607D,1D);
+            }
+            entitypatch.playSound(EpicAddonSounds.GENSHIN_BOW, 0.0F, 0.0F);
+        }
+    }
+
+    public static Vec3 getPosByTick(LivingEntityPatch entitypatch, float partialTicks, String joint){
+        Animator animator = entitypatch.getAnimator();
+        Armature armature = entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature();
+        Pose pose = animator.getPose(partialTicks);
+        Vec3 pos = entitypatch.getOriginal().getPosition(partialTicks);
+        OpenMatrix4f modelTf = OpenMatrix4f.createTranslation((float)pos.x, (float)pos.y, (float)pos.z)
+                .mulBack(OpenMatrix4f.createRotatorDeg(180.0F, Vec3f.Y_AXIS)
+                        .mulBack(entitypatch.getModelMatrix(partialTicks)));
+        OpenMatrix4f JointTf = Animator.getBindedJointTransformByName(pose, armature, joint).mulFront(modelTf);
+        return OpenMatrix4f.transform(JointTf,Vec3.ZERO);
+    }
 }

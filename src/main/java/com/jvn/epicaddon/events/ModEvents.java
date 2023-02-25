@@ -5,31 +5,21 @@ import com.jvn.epicaddon.command.CmdMgr;
 import com.jvn.epicaddon.renderer.HealthBarRenderer;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.jvn.epicaddon.resources.config.RenderConfig;
-import com.jvn.epicaddon.tools.GlobalVal;
-import com.jvn.epicaddon.tools.HealthBarStyle;
+import com.jvn.epicaddon.utils.GlobalVal;
+import com.jvn.epicaddon.utils.HealthBarStyle;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ClientChatEvent;
-import net.minecraftforge.client.event.RegisterClientCommandsEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.RenderEnderDragonEvent;
-import yesman.epicfight.client.ClientEngine;
-import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
 import yesman.epicfight.world.gamerule.EpicFightGamerules;
-
-import java.util.UUID;
-import java.util.function.Function;
 
 @Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT)
 public class ModEvents {
@@ -39,8 +29,6 @@ public class ModEvents {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void playerChat(ClientChatEvent event) {
-
-
 
     }
      */

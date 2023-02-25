@@ -1,0 +1,18 @@
+{
+	"parent": "epicaddon:item/training_bow1",
+	"overrides": [
+		{
+			"predicate": {
+				"epicaddon:pulling": 1
+			},
+			"model": "epicaddon:item/training_bow1"
+		},
+		{
+			"predicate": {
+				"epicaddon:pulling": 1,
+				"epicaddon:pull": 0.9
+			},
+			"model": "epicaddon:item/training_bow2"
+		}
+	]
+}

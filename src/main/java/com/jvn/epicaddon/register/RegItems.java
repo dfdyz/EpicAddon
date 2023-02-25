@@ -3,6 +3,7 @@ package com.jvn.epicaddon.register;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.item.*;
 import com.jvn.epicaddon.item.Destiny.DestinyWeaponItem;
+import com.jvn.epicaddon.item.GenShinImpact.BowWeaponItem;
 import com.jvn.epicaddon.item.SAO.DarkRepulsorItem;
 import com.jvn.epicaddon.item.SAO.ElucidatorItem;
 import com.jvn.epicaddon.item.SAO.LambentLightItem;
@@ -30,7 +31,8 @@ public class RegItems {
 
     public static final RegistryObject<Item> AnnealBlade = ITEMS.register("anneal_blade", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
 
-    //public static final RegistryObject<Item> TestStick = ITEMS.register("test_stick", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
+    //public static final RegistryObject<Item> TestStick = ITEMS.register("test_bow", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
+    public static final RegistryObject<Item> TrainingBow = ITEMS.register("training_bow", () -> new BowWeaponItem(new  Item.Properties().durability(600).tab(EpicAddonItemGroup.ITEMS)));
 
     public static final RegistryObject<Item> BattleScythe = ITEMS.register("battle_scythe", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
     public static final RegistryObject<Item> Destiny = ITEMS.register("destiny", () -> new DestinyWeaponItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS)));

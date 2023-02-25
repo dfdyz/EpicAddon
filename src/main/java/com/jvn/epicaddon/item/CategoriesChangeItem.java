@@ -35,12 +35,10 @@ public class CategoriesChangeItem extends Item {
         super(properties);
         this.types = types.clone();
     }
-
     protected void setType(ItemStack stack,String typeName){
         CompoundTag tags = stack.getOrCreateTag();
         tags.putString("epicaddon_type",typeName);
     }
-
     protected int getOffHandIdx(ItemStack stack,String type){
         if(stack.getItem() instanceof CategoriesChangeItem){
             for (int i=0; i<((CategoriesChangeItem)(stack.getItem())).types.length;++i) {
@@ -49,16 +47,12 @@ public class CategoriesChangeItem extends Item {
         }
         return -1;
     }
-
     protected int getTypeIdx(ItemStack stack){
         return stack.getOrCreateTag().getShort("epicaddon_typeidx");
     }
-
     protected void setTypeIdx(ItemStack stack, int idx){
         stack.getOrCreateTag().putShort("epicaddon_typeidx", (short) (idx));
     }
-
-
     @Override
     public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> stacks) {
         if (this.allowdedIn(tab)) {
@@ -67,13 +61,10 @@ public class CategoriesChangeItem extends Item {
             stacks.add(stack);
         }
     }
-
     @Override
     public void onCraftedBy(ItemStack itemStack, Level level, Player player) {
         setType(itemStack,types[getTypeIdx(itemStack)]);
     }
-
-
     protected void updateItem(Player playerIn, InteractionHand hand){
         ItemStack itemstack = playerIn.getItemInHand(hand);
         if(playerIn.isShiftKeyDown()){
@@ -104,7 +95,6 @@ public class CategoriesChangeItem extends Item {
             }
         }
     }
-
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand hand) {
         updateItem(playerIn,hand);

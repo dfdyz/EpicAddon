@@ -1,4 +1,4 @@
-package com.jvn.epicaddon.capabilities;
+package com.jvn.epicaddon.api.cap;
 
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;

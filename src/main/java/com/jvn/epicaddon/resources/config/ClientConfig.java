@@ -1,24 +1,18 @@
 package com.jvn.epicaddon.resources.config;
 
-import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.jvn.epicaddon.tools.GlobalVal;
-import com.jvn.epicaddon.tools.HealthBarStyle;
-import com.jvn.epicaddon.tools.Trail;
+import com.jvn.epicaddon.utils.GlobalVal;
+import com.jvn.epicaddon.utils.HealthBarStyle;
+import com.jvn.epicaddon.utils.Trail;
 import com.mojang.logging.LogUtils;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jline.utils.InputStreamReader;
 import org.slf4j.Logger;
-import org.stringtemplate.v4.ST;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.Map;
 
 public class ClientConfig {
