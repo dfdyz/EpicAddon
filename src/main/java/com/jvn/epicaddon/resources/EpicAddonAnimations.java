@@ -2,7 +2,11 @@ package com.jvn.epicaddon.resources;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.anim.BowAtkAnim;
+import com.jvn.epicaddon.api.anim.GravityRestter;
+import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.entity.projectile.GenShinArrow;
+import com.jvn.epicaddon.entity.projectile.YoimiyaSAArrow;
+import com.jvn.epicaddon.events.CameraEvent;
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.register.WeaponCollider;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
@@ -11,14 +15,19 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import org.apache.commons.compress.utils.Lists;
+import org.lwjgl.system.CallbackI;
 import org.slf4j.Logger;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.Pose;
@@ -34,13 +43,19 @@ import yesman.epicfight.api.utils.math.ValueCorrector;
 import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Models;
+import yesman.epicfight.skill.SkillCategories;
+import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.item.CapabilityItem;
+import yesman.epicfight.world.capabilities.item.Style;
+import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
+
+import java.util.List;
 
 public class EpicAddonAnimations {
+    public static List<CamAnim> CamAnimRegistry = Lists.newArrayList();
     public static StaticAnimation Test;
-
-
     public static StaticAnimation SAO_SINGLE_SWORD_AUTO1;
 
     public static StaticAnimation SAO_DUAL_SWORD_HOLD;
@@ -83,11 +98,15 @@ public class EpicAddonAnimations {
     public static StaticAnimation DESTINY_AIM;
     public static StaticAnimation DESTINY_SHOT;
     public static StaticAnimation DESTINY_RELOAD;
-    public static StaticAnimation GenShin_Bow_Auto1;
-    public static StaticAnimation GenShin_Bow_Auto2;
-    public static StaticAnimation GenShin_Bow_Auto3;
-    public static StaticAnimation GenShin_Bow_Auto4;
-    public static StaticAnimation GenShin_Bow_Auto5;
+    public static StaticAnimation GS_Yoimiya_Auto1;
+    public static StaticAnimation GS_Yoimiya_Auto2;
+    public static StaticAnimation GS_Yoimiya_Auto3;
+    public static StaticAnimation GS_Yoimiya_Auto4;
+    public static StaticAnimation GS_Yoimiya_Auto5;
+
+    public static StaticAnimation GS_Yoimiya_SA;
+
+    public static CamAnim Yoimiya;
 
     public static void registerAnimations(AnimationRegistryEvent event) {
         Logger LOGGER = LogUtils.getLogger();
@@ -240,7 +259,7 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.AttackAnimationProperty.FIXED_MOVE_DISTANCE,true)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
-                        StaticAnimation.Event.create(0.0F, (ep) -> {
+                        StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
                             if(ep instanceof PlayerPatch){
                                 Entity entity = ((PlayerPatch)ep).getOriginal();
                                 entity.setNoGravity(true);
@@ -264,73 +283,124 @@ public class EpicAddonAnimations {
 
         SAO_SINGLE_SWORD_AUTO1 = new BasicAttackAnimation(0.12F, 0.25F, 0.625F, 1F, null, "Tool_R", "biped/single_blade_1", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 4.3f);
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 4.5f);
 
-        GenShin_Bow_Auto1 = new BowAtkAnim(0.1F, 0.62F, 0.6666F, 0.8333F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root","Tool_R", "biped/genshin_bow_auto1", biped)
+        GS_Yoimiya_Auto1 = new BowAtkAnim(0.1F, 0.62F, 0.8333F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto1", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.4F, (ep) -> {
-                            BowShoot(ep);
+                            BowShoot(ep, "Tool_L");
                            }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(0.585F, (ep) -> {
-                            BowShoot(ep);
+                            BowShoot(ep, "Tool_L");
                         }, StaticAnimation.Event.Side.SERVER),
                 })
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.6f);
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.75f);
 
-        GenShin_Bow_Auto2 = new BowAtkAnim(0.1F, 0.7F, 0.8F, 0.98F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root","Tool_R", "biped/genshin_bow_auto2", biped)
+        GS_Yoimiya_Auto2 = new BowAtkAnim(0.1F, 0.7F, 0.98F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto2", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.6F, (ep) -> {
-                            BowShoot(ep);
+                            BowShoot(ep, "Tool_R");
                         }, StaticAnimation.Event.Side.SERVER),
                 });
 
-        GenShin_Bow_Auto3 = new BowAtkAnim(0.1F, 0.88F, 0.92F, 1.03F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root","Tool_R", "biped/genshin_bow_auto3", biped)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.85f)
+        GS_Yoimiya_Auto3 = new BowAtkAnim(0.1F, 0.88F, 1.03F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto3", biped)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.95f)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.84F, (ep) -> {
-                            BowShoot(ep);
+                            BowShoot(ep, "Tool_L");
                         }, StaticAnimation.Event.Side.SERVER),
                 });
 
-        GenShin_Bow_Auto4 = new BowAtkAnim(0.05F, 2.12F, 2.2F, 3.4F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root","Tool_R", "biped/genshin_bow_auto4", biped)
+        GS_Yoimiya_Auto4 = new BowAtkAnim(0.05F, 2.12F, 2.733F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto4", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(1.2083F, (ep) -> {
-                            BowShoot(ep);
+                            BowShoot(ep, "Tool_L");
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(1.7916F, (ep) -> {
-                            BowShoot(ep);
+                            BowShoot(ep, "Tool_R");
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(2.0416F, (ep) -> {
-                            BowShoot(ep);
+                            BowShoot(ep, "Tool_L");
                         }, StaticAnimation.Event.Side.SERVER),
                 })
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3.1f);
 
+        GS_Yoimiya_Auto5 = new BowAtkAnim(0.02F, 0.2F, 1.51F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto5", biped)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3.1f)
+                .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
+                        StaticAnimation.Event.create(0.7083F, (ep) -> {
+                            BowShoot(ep, "Tool_L");
+                        }, StaticAnimation.Event.Side.SERVER),
+                });
+
+        GS_Yoimiya_SA = new BowAtkAnim(0.02F, 0.5F, 4.56F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_sa", biped)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3f)
+                .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
+                        StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
+                            CameraEvent.SetAnim(Yoimiya, ep.getOriginal());
+                        }, StaticAnimation.Event.Side.CLIENT),
+                        StaticAnimation.Event.create(2.375F, (ep) -> {
+                            YoimiyaSA(ep);
+                        }, StaticAnimation.Event.Side.SERVER),
+                        StaticAnimation.Event.create(0.05f, (ep) -> {
+                            if(ep instanceof PlayerPatch){
+                                Player player = (Player) ((PlayerPatch)ep).getOriginal();
+                                player.setDeltaMovement(0,0,0);
+                                player.setSpeed(0);
+                                player.setNoGravity(true);
+                                ep.setMaxStunShield(114514.0f);
+                                ep.setStunShield(ep.getMaxStunShield());
+                            }
+                        }, StaticAnimation.Event.Side.SERVER),
+                        StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
+                            if(ep instanceof PlayerPatch){
+                                LivingEntity entity = (LivingEntity)((PlayerPatch)ep).getOriginal();
+                                entity.setNoGravity(false);
+                                ep.setMaxStunShield(0f);
+                                ep.setStunShield(ep.getMaxStunShield());
+                            }
+                        }, StaticAnimation.Event.Side.SERVER)
+                });
+
+        ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);
+        ((GravityRestter) GS_Yoimiya_SA).setMode(false);
+
+        Yoimiya = regCamAnim(new CamAnim(0.3f ,EpicAddon.MODID, "camanim/yoimiya"));
+
+        for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
+            camAnim.load();
+        }
+        //Yoimiya.keys_.add(new CamAnim.Key((new Vec3(11,5,34)).scale(0.5f),-12,-167.856f,2));
 
         ((IAnimSTOverride)(Animations.SWORD_AUTO1)).setColorOverride(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
 
         LOGGER.info("EpicAddon AnimLoaded");
     }
 
-    private static void BowShoot(LivingEntityPatch<?> entitypatch){
+    public static CamAnim regCamAnim(CamAnim anim){
+        CamAnimRegistry.add(anim);
+        return anim;
+    }
+
+    private static void BowShoot(LivingEntityPatch<?> entitypatch, String joint){
         if(entitypatch.currentlyAttackedEntity.size() > 0){
             Entity target = entitypatch.currentlyAttackedEntity.get(0);
             Level worldIn = entitypatch.getOriginal().getLevel();
+            Vec3 handPos = getPosByTick(entitypatch,0.4f,joint);
             if(target.equals(entitypatch.getOriginal())){
                 float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
                 Vec3 shootVec = new Vec3(Math.cos(ang), 0 , Math.sin(ang));
-                Vec3 shootPos = entitypatch.getOriginal().position().add((new Vec3(shootVec.x,0,shootVec.z)).normalize());
+                Vec3 shootPos = handPos.add(shootVec.x,0,shootVec.z);
 
                 Projectile projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
-                projectile.setPos(shootPos.x, shootPos.y+1.2, shootPos.z);
+                projectile.setPos(shootPos);
                 ((Arrow) projectile).pickup = AbstractArrow.Pickup.DISALLOWED;
 
                 projectile.shoot(shootVec.x(), 0.1f, shootVec.z(), 4.2f, 1.0f);
                 worldIn.addFreshEntity(projectile);
             }
             else {
-                Vec3 shootPos = entitypatch.getOriginal().position();
-                shootPos = new Vec3(shootPos.x, entitypatch.getOriginal().getEyeY() ,shootPos.z);
+                Vec3 shootPos = new Vec3(handPos.x, entitypatch.getOriginal().getEyeY() ,handPos.z);
                 Vec3 shootTarget = target.position();
                 shootTarget = new Vec3(shootTarget.x,target.getEyeY(),shootTarget.z);
                 Vec3 shootVec = shootTarget.subtract(shootPos);
@@ -345,12 +415,50 @@ public class EpicAddonAnimations {
             }
 
             if(worldIn instanceof ServerLevel){
-                Vec3 vec3 = getPosByTick(entitypatch,0.4f,"Tool_L");
-                ((ServerLevel)worldIn).sendParticles(RegParticle.GENSHIN_BOW.get() ,vec3.x,vec3.y,vec3.z,0,1D,1D,0.9019607D,1D);
+                //Vec3 vec3 = getPosByTick(entitypatch,0.4f,"Tool_L");
+                ((ServerLevel)worldIn).sendParticles(RegParticle.GENSHIN_BOW.get() ,handPos.x,handPos.y,handPos.z,0,1D,1D,0.9019607D,1D);
             }
             entitypatch.playSound(EpicAddonSounds.GENSHIN_BOW, 0.0F, 0.0F);
         }
     }
+
+    public static void YoimiyaSAFirework(LivingEntityPatch<?> entitypatch){
+        Entity entity = entitypatch.getOriginal();
+        Level worldIn = entity.getLevel();
+
+        float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
+        Vec3 shootVec = new Vec3(Math.cos(ang), -0.8, Math.sin(ang));
+        //Vec3 shootPos = entity..add(shootVec.x,0,shootVec.z);
+
+        //new FireworkRocketEntity()
+
+        //YoimiyaSAArrow projectile = new YoimiyaSAArrow(worldIn, shootPos, entitypatch.getOriginal());
+        //projectile.shoot(shootVec.x, shootVec.y, shootVec.z, 4.2f, 1.0f);
+        //projectile.setDmg(20F);
+        //projectile.setExpRadio(3.5F);
+        //worldIn.addFreshEntity(projectile);
+    }
+
+
+    public static void YoimiyaSA(LivingEntityPatch<?> entitypatch){
+        Level worldIn = entitypatch.getOriginal().getLevel();
+        Vec3 handPos = getPosByTick(entitypatch,0.4f,"Tool_L");
+
+        float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
+        Vec3 shootVec = new Vec3(Math.cos(ang), -0.8, Math.sin(ang));
+        Vec3 shootPos = handPos.add(shootVec.x,0,shootVec.z);
+
+
+
+        YoimiyaSAArrow projectile = new YoimiyaSAArrow(worldIn, shootPos, entitypatch.getOriginal());
+        projectile.shoot(shootVec.x, shootVec.y, shootVec.z, 4.2f, 1.0f);
+        projectile.setDmg(20F);
+        projectile.setExpRadio(5F);
+        worldIn.addFreshEntity(projectile);
+    }
+
+
+
 
     public static Vec3 getPosByTick(LivingEntityPatch entitypatch, float partialTicks, String joint){
         Animator animator = entitypatch.getAnimator();

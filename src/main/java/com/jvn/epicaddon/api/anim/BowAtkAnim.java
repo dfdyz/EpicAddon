@@ -45,27 +45,17 @@ import static com.jvn.epicaddon.resources.EpicAddonAnimations.getPosByTick;
 
 public class BowAtkAnim extends AttackAnimation {
     //private final int Aid;
-    public final String Hjoint;
-    public BowAtkAnim(float convertTime,float antic, float contact, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner,String shoot, String path, Model model) {
+    //public final String Hjoint;
+    public BowAtkAnim(float convertTime,float antic, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
         super(convertTime, path, model,
-                new PhaseEx(0.0F, 0f, antic, recovery, antic, hand, scanner, collider, false),
-                new PhaseEx(antic, antic, contact, recovery, Float.MAX_VALUE, hand, shoot, null, true));
+                new PhaseEx(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider, false));
 
-        Hjoint = shoot;
+        //Hjoint = shoot;
         this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true);
         //this.Aid = aid;
     }
 
-    public BowAtkAnim(float convertTime,float antic, float contact, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner,String shoot, String path, Model model, PhaseEx... phaseEx) {
-        super(convertTime, path, model,
-                new PhaseEx(0.0F, 0f, antic, recovery, antic, hand, scanner, collider, false),
-                new PhaseEx(antic, antic, contact, recovery, Float.MAX_VALUE, hand, shoot, null, true));
-        Hjoint = shoot;
-        this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
-        this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true);
-        //this.Aid = aid;
-    }
 
     @Override
     public void setLinkAnimation(Pose pose1, float timeModifier, LivingEntityPatch<?> entitypatch, LinkAnimation dest) {

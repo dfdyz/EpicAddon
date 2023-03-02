@@ -2,6 +2,8 @@ package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.entity.projectile.GenShinArrow;
+import com.jvn.epicaddon.entity.projectile.YoimiyaSAArrow;
+import com.jvn.epicaddon.renderer.entity.prijectile.GSYoimiyaSAArrowRenderer;
 import com.jvn.epicaddon.renderer.particle.BladeTrailParticle;
 import com.jvn.epicaddon.renderer.particle.GenShinBowShootParticle;
 import com.jvn.epicaddon.renderer.particle.SparksSplashHitParticle;
@@ -33,12 +35,18 @@ public class RegEntity {
                 .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build("genshin_arrow")
     );
 
+    public static final RegistryObject<EntityType<YoimiyaSAArrow>> GS_YoimiyaSA_ARROW = ENTITIES.register("gs_yoimiya_sa_arrow", () ->
+            EntityType.Builder.<YoimiyaSAArrow>of(YoimiyaSAArrow::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build("gs_yoimiya_sa_arrow")
+    );
+
     @Mod.EventBusSubscriber(modid = EpicAddon.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public class EntityRegister{
+    public static class EntityRendererRegister{
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event){
             event.registerEntityRenderer(GENSHIN_ARROW.get(), TippableArrowRenderer::new);
+            event.registerEntityRenderer(GS_YoimiyaSA_ARROW.get(), GSYoimiyaSAArrowRenderer::new);
         }
     }
 

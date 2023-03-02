@@ -25,6 +25,12 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import yesman.epicfight.skill.SkillCategories;
+import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
+import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 import java.util.Arrays;
 
@@ -64,6 +70,7 @@ public class GenShinArrow extends Arrow {
         }
 
         Entity entity1 = this.getOwner();
+
         DamageSource damagesource;
         if (entity1 == null) {
             damagesource = DamageSource.arrow(this, this);
@@ -98,6 +105,7 @@ public class GenShinArrow extends Arrow {
                     }
                 }
 
+                if(entity1 == null) return;
                 if (!this.level.isClientSide && entity1 instanceof LivingEntity) {
                     EnchantmentHelper.doPostHurtEffects(livingentity, entity1);
                     EnchantmentHelper.doPostDamageEffects((LivingEntity)entity1, livingentity);
@@ -106,6 +114,21 @@ public class GenShinArrow extends Arrow {
                 this.doPostHurtEffects(livingentity);
                 if (entity1 != null && livingentity != entity1 && livingentity instanceof Player && entity1 instanceof ServerPlayer && !this.isSilent()) {
                     ((ServerPlayer)entity1).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.ARROW_HIT_PLAYER, 0.0F));
+                }
+
+
+
+                EntityPatch entityPatch = (EntityPatch) (entity1.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).orElse(null));
+                if(entityPatch instanceof ServerPlayerPatch){
+                    ServerPlayerPatch playerPatch = (ServerPlayerPatch) entityPatch;
+                    SkillContainer skill = playerPatch.getSkill(SkillCategories.WEAPON_SPECIAL_ATTACK);
+                    //System.out.println("233333");
+                    if(skill != null){
+                        //System.out.println(skill.getResource());
+
+                        skill.getSkill().setConsumptionSynchronize(playerPatch, skill.getResource()+3);
+                        //skill.update();
+                    }
                 }
             }
         }

@@ -15,7 +15,7 @@ public enum EpicAddonSkillCategories implements SkillCategory {
         this.shouldSaved = shouldSave;
         this.shouldSyncronized = shouldSyncronized;
         this.modifiable = modifiable;
-        this.id = SkillCategory.ENUM_MANAGER.assign(this);
+        this.id = this.ENUM_MANAGER.assign(this);
     }
 
     @Override

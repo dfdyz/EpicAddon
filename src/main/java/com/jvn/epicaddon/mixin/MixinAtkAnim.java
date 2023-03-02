@@ -1,8 +1,10 @@
 package com.jvn.epicaddon.mixin;
 
+import com.jvn.epicaddon.api.anim.GravityRestter;
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.utils.Trail;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,13 +19,24 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 @Mixin(value = StaticAnimation.class, remap = false)
-public abstract class MixinAtkAnim implements IAnimSTOverride {
+public abstract class MixinAtkAnim implements IAnimSTOverride, GravityRestter {
     protected Trail trail;
     private boolean colorOverride = false;
     private boolean posOverride = false;
     private boolean lifetimeOverride = false;
-
+    private boolean resetGravity = true;
     //private static final StaticAnimation anim = null;
+
+
+    @Override
+    public boolean ShouldResetGravity() {
+        return resetGravity;
+    }
+
+    @Override
+    public void setMode(boolean should) {
+        this.resetGravity = should;
+    }
 
     @Override
     public boolean isColorOverride() {
@@ -104,6 +117,11 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     private String prevJoint;
     @Inject(at = @At("HEAD"),method = "begin")
     private void MixinBegin(LivingEntityPatch<?> entitypatch,CallbackInfo cbi){
+        if(entitypatch instanceof PlayerPatch && this.resetGravity && entitypatch.getOriginal().isNoGravity()){
+            //System.out.println("2333333");
+            entitypatch.getOriginal().setNoGravity(false);
+        }
+        //System.out.println("2333333");
         if(entitypatch.getOriginal().getLevel().isClientSide()){
             if(entitypatch instanceof PlayerPatch || entitypatch instanceof HumanoidMobPatch){
                 StaticAnimation animation = getAtkAnim();

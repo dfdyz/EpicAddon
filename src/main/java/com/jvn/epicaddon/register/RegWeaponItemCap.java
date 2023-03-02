@@ -190,19 +190,20 @@ public class RegWeaponItemCap {
 
     public static final Function<Item, CapabilityItem.Builder> GenShin_Bow = (item) -> {
             WeaponCapability.Builder builder = (WeaponCapability.Builder)WeaponCapability.builder()
-                .category(CapabilityItem.WeaponCategories.GREATSWORD)
+                .category(CapabilityItem.WeaponCategories.RANGED)
                 .styleProvider((playerpatch) -> CapabilityItem.Styles.ONE_HAND)
                 .collider(WeaponCollider.GenShin_Bow_scan)
                 .swingSound(EpicFightSounds.WHOOSH_BIG)
                 .hitSound(EpicFightSounds.BLADE_HIT)
                 .canBePlacedOffhand(false)
                 .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
-                        EpicAddonAnimations.GenShin_Bow_Auto1,
-                        EpicAddonAnimations.GenShin_Bow_Auto2,
-                        EpicAddonAnimations.GenShin_Bow_Auto3,
-                        EpicAddonAnimations.GenShin_Bow_Auto4,
-                        EpicAddonAnimations.GenShin_Bow_Auto2, Animations.GREATSWORD_AIR_SLASH)
-                //.specialAttack(CapabilityItem.Styles.ONE_HAND, Skills.GIANT_WHIRLWIND)
+                        EpicAddonAnimations.GS_Yoimiya_Auto1,
+                        EpicAddonAnimations.GS_Yoimiya_Auto2,
+                        EpicAddonAnimations.GS_Yoimiya_Auto3,
+                        EpicAddonAnimations.GS_Yoimiya_Auto4,
+                        EpicAddonAnimations.GS_Yoimiya_Auto5,
+                        EpicAddonAnimations.GS_Yoimiya_Auto2, Animations.GREATSWORD_AIR_SLASH)
+                .specialAttack(CapabilityItem.Styles.ONE_HAND, RegEpicAddonSkills.GS_YOIMIYA_SPECIALATK)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, Animations.BIPED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, Animations.BIPED_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, Animations.BIPED_RUN)

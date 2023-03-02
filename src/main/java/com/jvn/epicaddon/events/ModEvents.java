@@ -1,6 +1,7 @@
 package com.jvn.epicaddon.events;
 
 import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.api.camera.CamAnimLoader;
 import com.jvn.epicaddon.command.CmdMgr;
 import com.jvn.epicaddon.renderer.HealthBarRenderer;
 import com.jvn.epicaddon.resources.config.ClientConfig;

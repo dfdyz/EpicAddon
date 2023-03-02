@@ -1,8 +1,6 @@
 package com.jvn.epicaddon.renderer;
 
-import com.google.common.collect.ImmutableMap;
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.resources.ModResourceLocation;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -10,18 +8,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import yesman.epicfight.main.EpicFightMod;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import java.util.OptionalDouble;
 
 @OnlyIn(Dist.CLIENT)
 public class EpicAddonRenderType extends RenderType {
@@ -30,7 +24,7 @@ public class EpicAddonRenderType extends RenderType {
     boolean writeDepth;
 
 
-    public static final ParticleRenderType GENSHIN_BOW = new ParticleRenderType() {
+    public static final ParticleRenderType GENSHIN_BOW_PARTICLE = new ParticleRenderType() {
         public void begin(BufferBuilder p_107448_, TextureManager p_107449_) {
             RenderSystem.disableBlend();
             RenderSystem.depthMask(true);
@@ -47,6 +41,33 @@ public class EpicAddonRenderType extends RenderType {
             return "GENSHIN_BOW";
         }
     };
+
+
+
+    public static class EpicaddonParticle implements ParticleRenderType {
+        private final String path;
+
+        public EpicaddonParticle(String path){
+            this.path = path;
+        }
+        public void begin(BufferBuilder p_107448_, TextureManager p_107449_) {
+            RenderSystem.disableBlend();
+            RenderSystem.depthMask(true);
+            RenderSystem.setShader(GameRenderer::getParticleShader);
+            RenderSystem.setShaderTexture(0, GetTextures(path));
+            p_107448_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        public void end(Tesselator p_107451_) {
+            p_107451_.end();
+        }
+
+        public String toString() {
+            return "GENSHIN_BOW";
+        }
+    }
+
+    //public static final ParticleRenderType EPICADDON_PARTICLE = ;
 
     public static final ParticleRenderType BladeTrail = new ParticleRenderType() {
         public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
