@@ -1,17 +1,13 @@
 package com.jvn.epicaddon.renderer.particle;
 
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -39,7 +35,7 @@ public class GenShinBowShootParticle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return EpicAddonRenderType.GENSHIN_BOW;
+        return EpicAddonRenderType.GENSHIN_BOW_PARTICLE;
     }
 
     private Vector3f[] avector3f = new Vector3f[]{new Vector3f(-3.0F, -3.0F, 0.0F), new Vector3f(-3.0F, 3.0F, 0.0F), new Vector3f(3.0F, 3.0F, 0.0F), new Vector3f(3.0F, -3.0F, 0.0F)};
@@ -81,7 +77,7 @@ public class GenShinBowShootParticle extends TextureSheetParticle {
         }
         @Override
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new GenShinBowShootParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,4);
+            return new GenShinBowShootParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,7);
         }
     }
 }

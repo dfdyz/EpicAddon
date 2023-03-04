@@ -3,8 +3,8 @@ package com.jvn.epicaddon.resources;
 import yesman.epicfight.skill.SkillCategory;
 
 public enum EpicAddonSkillCategories implements SkillCategory {
-    SAO_SINGLE_SWORD(true,true,true)
-    ;
+    SAO_SINGLE_SWORD(true,true,true),
+    GenShinImpact_Bow(true,true,true);
 
     boolean shouldSaved;
     boolean shouldSyncronized;
@@ -15,7 +15,7 @@ public enum EpicAddonSkillCategories implements SkillCategory {
         this.shouldSaved = shouldSave;
         this.shouldSyncronized = shouldSyncronized;
         this.modifiable = modifiable;
-        this.id = SkillCategory.ENUM_MANAGER.assign(this);
+        this.id = this.ENUM_MANAGER.assign(this);
     }
 
     @Override

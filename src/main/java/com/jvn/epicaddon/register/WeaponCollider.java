@@ -10,7 +10,7 @@ public class WeaponCollider {
     public static final Collider SAO_SWORD_DASH = new MultiOBBCollider(3, 1.56D, 1.1D, 1.8D, 0.0D, 0.8D, -0.732D);
     public static final Collider SAO_RAPIER_DASH = new MultiOBBCollider(8, 1.56D, 1.1D, 2.5D, 0.0D, 0.7D, -1.2D);
 
-    public static final Collider GenShin_Bow_scan = new MultiOBBCollider(2, 5D, 3D, 9D, 0.0D, 1D, -10D);
+    public static final Collider GenShin_Bow_scan = new MultiOBBCollider(2, 6D, 4D, 10D, 0.0D, 1D, -10.5D);
 
     public static final Collider SAO_SWORD_DUAL_AUTO10 = new MultiOBBCollider(3, 1.1D, 1.1D, 1.8D, 0.0D, 0.8D, -0.732D);
 

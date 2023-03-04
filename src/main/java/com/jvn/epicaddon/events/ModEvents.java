@@ -1,6 +1,7 @@
 package com.jvn.epicaddon.events;
 
 import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.api.camera.CamAnimLoader;
 import com.jvn.epicaddon.command.CmdMgr;
 import com.jvn.epicaddon.renderer.HealthBarRenderer;
 import com.jvn.epicaddon.resources.config.ClientConfig;
@@ -61,7 +62,7 @@ public class ModEvents {
             return;
         }
 
-        if (!Minecraft.getInstance().options.hideGui && !livingentity.level.getGameRules().getBoolean(EpicFightGamerules.DISABLE_ENTITY_UI)) {
+        if (!Minecraft.getInstance().options.hideGui) {
             HealthBarRenderer.draw(livingentity, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick(),healthBarStyle);
         }
     }
@@ -86,7 +87,9 @@ public class ModEvents {
         if(healthBarStyle == null){
             healthBarStyle = new HealthBarStyle(6.0f,1,0.0f,60f);
         }
-        HealthBarRenderer.draw(entityIn,event.getPoseStack(),event.getBuffers(),event.getPartialRenderTick(),healthBarStyle);
+        if (!Minecraft.getInstance().options.hideGui) {
+            HealthBarRenderer.draw(entityIn,event.getPoseStack(),event.getBuffers(),event.getPartialRenderTick(),healthBarStyle);
+        }
     }
 
 

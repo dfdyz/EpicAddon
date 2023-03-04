@@ -2,6 +2,7 @@ package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.renderer.particle.*;
+import com.jvn.epicaddon.renderer.particle.YoimiyaSA.GsYoimiyaFirework;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleType;
@@ -26,6 +27,9 @@ public class RegParticle {
     public static final RegistryObject<HitParticleType> SPARKS_SPLASH_HIT = PARTICLES.register("sparks_splash_hit",() -> new HitParticleType(true, HitParticleType.RANDOM_WITHIN_BOUNDING_BOX, EpicAddonHitParticalType.Atker2Tar));
     public static final RegistryObject<SimpleParticleType> GENSHIN_BOW = PARTICLES.register("genshin_bow", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> GS_YOIMIYA_SA = PARTICLES.register("gs_yoimiya_sa", () -> new SimpleParticleType(true));
+
+
     @Mod.EventBusSubscriber(modid = EpicAddon.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public class ParticleRegister{
         @OnlyIn(Dist.CLIENT)
@@ -36,6 +40,7 @@ public class RegParticle {
             PE.register(SPARKS_SPLASH.get(), SparksSplashParticle.Provider::new);
             PE.register(SPARKS_SPLASH_HIT.get(), SparksSplashHitParticle.Provider::new);
             PE.register(GENSHIN_BOW.get(), GenShinBowShootParticle.Provider::new);
+            PE.register(GS_YOIMIYA_SA.get(), GsYoimiyaFirework.Provider::new);
         }
     }
 }

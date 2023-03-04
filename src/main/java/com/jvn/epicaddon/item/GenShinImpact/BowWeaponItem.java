@@ -52,4 +52,6 @@ public class BowWeaponItem extends BowItem {
         super.onCraftedBy(itemStack,level,player);
         InitItemStack(itemStack);
     }
+
+
 }

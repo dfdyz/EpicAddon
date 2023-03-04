@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.forgeevent.SkillRegistryEvent;
+import yesman.epicfight.api.utils.ExtendedDamageSource;
 import yesman.epicfight.api.utils.math.ValueCorrector;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.main.EpicFightMod;
@@ -24,12 +25,10 @@ import java.util.Map;
 public class RegEpicAddonSkills {
 
     public static Skill WEAPON_SKILL_RAPIER;
-
-
     public static Skill SAO_DUALSWORD;
     public static Skill SAO_SINGLESWORDGUARD;
-
     public static Skill SAO_RAPIER;
+    public static Skill GS_YOIMIYA_SPECIALATK;
 
     private static final Map<ResourceLocation, Skill> LEARNABLE_SKILLS = Maps.newHashMap();
 
@@ -41,6 +40,15 @@ public class RegEpicAddonSkills {
         SAO_RAPIER = event.registerSkill(new RapierSkill(RapierSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_rapier_skill"))),true);
 
         WEAPON_SKILL_RAPIER = event.registerSkill(new SimpleSpecialAttackSkill(SimpleSpecialAttackSkill.createBuilder(new ResourceLocation(EpicAddon.MODID, "weapon_skill_rapier")).setConsumption(30.0F).setAnimations(EpicAddonAnimations.SAO_RAPIER_SPECIAL_DASH)),false);
+
+        GS_YOIMIYA_SPECIALATK = event.registerSkill(new SimpleSpecialAttackSkill(SimpleSpecialAttackSkill.createBuilder(new ResourceLocation(EpicAddon.MODID, "gs_yoimiya_sa")).setConsumption(30.0F).setAnimations(EpicAddonAnimations.GS_Yoimiya_SA))
+                .newPropertyLine()
+                .addProperty(AnimationProperty.AttackPhaseProperty.MAX_STRIKES, ValueCorrector.adder(10))
+                .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(2.0F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.ARMOR_NEGATION, ValueCorrector.adder(20.0F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.multiplier(5F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.LONG)
+                .registerPropertiesToAnimation(),false);
 
         LOGGER.info("EpicAddon Skill Loaded");
     }
