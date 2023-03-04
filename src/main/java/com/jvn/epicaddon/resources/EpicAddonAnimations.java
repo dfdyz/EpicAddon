@@ -9,25 +9,26 @@ import com.jvn.epicaddon.entity.projectile.YoimiyaSAArrow;
 import com.jvn.epicaddon.events.CameraEvent;
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.register.WeaponCollider;
+import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
+import com.jvn.epicaddon.utils.FireworkUtils;
 import com.jvn.epicaddon.utils.Trail;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.commons.compress.utils.Lists;
-import org.lwjgl.system.CallbackI;
 import org.slf4j.Logger;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.Pose;
@@ -43,12 +44,8 @@ import yesman.epicfight.api.utils.math.ValueCorrector;
 import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Models;
-import yesman.epicfight.skill.SkillCategories;
-import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.capabilities.item.CapabilityItem;
-import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 
 import java.util.List;
@@ -339,13 +336,17 @@ public class EpicAddonAnimations {
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
                             CameraEvent.SetAnim(Yoimiya, ep.getOriginal());
                         }, StaticAnimation.Event.Side.CLIENT),
+                        StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
+                            YoimiyaSAFirework(ep);
+                        }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(2.375F, (ep) -> {
                             YoimiyaSA(ep);
                         }, StaticAnimation.Event.Side.SERVER),
-                        StaticAnimation.Event.create(0.05f, (ep) -> {
+                        StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
                             if(ep instanceof PlayerPatch){
                                 Player player = (Player) ((PlayerPatch)ep).getOriginal();
                                 player.setDeltaMovement(0,0,0);
+                                player.setPos(player.position());
                                 player.setSpeed(0);
                                 player.setNoGravity(true);
                                 ep.setMaxStunShield(114514.0f);
@@ -392,10 +393,10 @@ public class EpicAddonAnimations {
                 Vec3 shootVec = new Vec3(Math.cos(ang), 0 , Math.sin(ang));
                 Vec3 shootPos = handPos.add(shootVec.x,0,shootVec.z);
 
-                Projectile projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
+                GenShinArrow projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
                 projectile.setPos(shootPos);
-                ((Arrow) projectile).pickup = AbstractArrow.Pickup.DISALLOWED;
-
+                projectile.pickup = AbstractArrow.Pickup.DISALLOWED;
+                projectile.setDmg((float) entitypatch.getOriginal().getAttributeValue(Attributes.ATTACK_DAMAGE)*0.2333f);
                 projectile.shoot(shootVec.x(), 0.1f, shootVec.z(), 4.2f, 1.0f);
                 worldIn.addFreshEntity(projectile);
             }
@@ -406,10 +407,10 @@ public class EpicAddonAnimations {
                 Vec3 shootVec = shootTarget.subtract(shootPos);
                 shootPos = shootPos.add((new Vec3(shootVec.x,0,shootVec.z)).normalize());
 
-                Projectile projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
+                GenShinArrow projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
                 projectile.setPos(shootPos);
-                ((Arrow) projectile).pickup = AbstractArrow.Pickup.DISALLOWED;
-                //((Arrow) projectile).setPierceLevel((byte) 2);
+                projectile.pickup = AbstractArrow.Pickup.DISALLOWED;
+                projectile.setDmg((float) entitypatch.getOriginal().getAttributeValue(Attributes.ATTACK_DAMAGE)*0.2333f);
                 projectile.shoot(shootVec.x(), shootVec.y(), shootVec.z(), 4.2f, 1.0f);
                 worldIn.addFreshEntity(projectile);
             }
@@ -422,43 +423,63 @@ public class EpicAddonAnimations {
         }
     }
 
+    public static final Vec3[] Positions = new Vec3[]{
+            new Vec3(-5,1.1,-2),
+            new Vec3(-4.5,0.2,0.3),
+            new Vec3(-3,0.8,3),
+            new Vec3(-3,1.3,-3),
+
+            new Vec3(-4,1.2,-2),
+            new Vec3(-3,0.4,2),
+            new Vec3(-4.5,0.2,0.3),
+            new Vec3(-4,1.2,-2),
+    };
+
+    public static final int[] lifetimes = {
+            3,3,3,3,1,2,2,1
+    };
     public static void YoimiyaSAFirework(LivingEntityPatch<?> entitypatch){
         Entity entity = entitypatch.getOriginal();
         Level worldIn = entity.getLevel();
 
-        float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
-        Vec3 shootVec = new Vec3(Math.cos(ang), -0.8, Math.sin(ang));
-        //Vec3 shootPos = entity..add(shootVec.x,0,shootVec.z);
+        //Vec3 shootPos = entity..add(shootVec.x,0,w.z);
 
         //new FireworkRocketEntity()
 
-        //YoimiyaSAArrow projectile = new YoimiyaSAArrow(worldIn, shootPos, entitypatch.getOriginal());
-        //projectile.shoot(shootVec.x, shootVec.y, shootVec.z, 4.2f, 1.0f);
-        //projectile.setDmg(20F);
-        //projectile.setExpRadio(3.5F);
-        //worldIn.addFreshEntity(projectile);
-    }
 
+
+        if (worldIn instanceof ServerLevel){
+            float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
+            //Vec3 offset = new Vec3(Math.cos(ang), -0.8, Math.sin(ang));
+            Vec3 Center = entity.position();
+
+            //ClientLevel clientLevel = (ClientLevel) worldIn;
+
+            for (int i=0; i<Positions.length; ++i) {
+                Vec3 spos = Center.add(Positions[i].yRot(-ang));
+                ((ServerLevel) worldIn).sendParticles(RegParticle.GS_YOIMIYA_SA.get(),spos.x,spos.y+0.2f,spos.z,0,lifetimes[i],i,1,1D);
+                //clientLevel.createFireworks(spos.x, spos.y ,spos.z, 2, 2.5, 2, FireworkUtils.Green);
+            }
+
+        }
+    }
 
     public static void YoimiyaSA(LivingEntityPatch<?> entitypatch){
         Level worldIn = entitypatch.getOriginal().getLevel();
         Vec3 handPos = getPosByTick(entitypatch,0.4f,"Tool_L");
 
         float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
-        Vec3 shootVec = new Vec3(Math.cos(ang), -0.8, Math.sin(ang));
+        Vec3 shootVec = new Vec3(Math.cos(ang), -1.03, Math.sin(ang));
         Vec3 shootPos = handPos.add(shootVec.x,0,shootVec.z);
 
-
-
         YoimiyaSAArrow projectile = new YoimiyaSAArrow(worldIn, shootPos, entitypatch.getOriginal());
-        projectile.shoot(shootVec.x, shootVec.y, shootVec.z, 4.2f, 1.0f);
-        projectile.setDmg(20F);
-        projectile.setExpRadio(5F);
+        projectile.shoot(shootVec.x*2, shootVec.y*2, shootVec.z*2, 4.2f, 1.0f);
+
+        float dmg = (float) entitypatch.getOriginal().getAttributeValue(Attributes.ATTACK_DAMAGE);
+        projectile.setDmg(dmg);
+        projectile.setExpRadio(5.5F);
         worldIn.addFreshEntity(projectile);
     }
-
-
-
 
     public static Vec3 getPosByTick(LivingEntityPatch entitypatch, float partialTicks, String joint){
         Animator animator = entitypatch.getAnimator();

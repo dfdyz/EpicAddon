@@ -3,8 +3,8 @@ package com.jvn.epicaddon.resources;
 import yesman.epicfight.skill.SkillCategory;
 
 public enum EpicAddonSkillCategories implements SkillCategory {
-    SAO_SINGLE_SWORD(true,true,true)
-    ;
+    SAO_SINGLE_SWORD(true,true,true),
+    GenShinImpact_Bow(true,true,true);
 
     boolean shouldSaved;
     boolean shouldSyncronized;

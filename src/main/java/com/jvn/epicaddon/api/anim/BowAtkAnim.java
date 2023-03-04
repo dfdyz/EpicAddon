@@ -127,7 +127,7 @@ public class BowAtkAnim extends AttackAnimation {
                 }
                 else {
                     //System.out.println("Atk");
-                    this.ShootProjectile(entitypatch, elapsedTime, phase.getJoint());
+                    //this.ShootProjectile(entitypatch, elapsedTime, phase.getJoint());
                 }
             }
         }
@@ -162,8 +162,9 @@ public class BowAtkAnim extends AttackAnimation {
         entitypatch.currentlyAttackedEntity.add(entitypatch.getOriginal());
     }
 
+    /*
     public void ShootProjectile(LivingEntityPatch<?> entitypatch, float time, String joint){
-        /*
+
         if(entitypatch.currentlyAttackedEntity.size() > 0){
             Entity target = entitypatch.currentlyAttackedEntity.get(0);
             Level worldIn = entitypatch.getOriginal().getLevel();
@@ -197,11 +198,11 @@ public class BowAtkAnim extends AttackAnimation {
             if(worldIn instanceof ServerLevel){
                 Vec3 vec3 = getPosByTick(entitypatch,0.4f,"Tool_L");
                 ((ServerLevel)worldIn).sendParticles(RegParticle.GENSHIN_BOW.get() ,vec3.x,vec3.y,vec3.z,0,1D,1D,0.9019607D,1D);
-            }*/
+            }
             //entitypatch.playSound(EpicAddonSounds.GENSHIN_BOW, 0.0F, 0.0F);
-            entitypatch.currentlyAttackedEntity.clear();
+            //entitypatch.currentlyAttackedEntity.clear();
         //}
-    }
+    }*/
 
     @Override
     public void hurtCollidingEntities(LivingEntityPatch<?> entitypatch, float prevElapsedTime, float elapsedTime, EntityState prevState, EntityState state, Phase phase) {

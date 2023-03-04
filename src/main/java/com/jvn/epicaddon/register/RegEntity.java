@@ -46,7 +46,7 @@ public class RegEntity {
         @SubscribeEvent
         public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event){
             event.registerEntityRenderer(GENSHIN_ARROW.get(), TippableArrowRenderer::new);
-            event.registerEntityRenderer(GS_YoimiyaSA_ARROW.get(), GSYoimiyaSAArrowRenderer::new);
+            event.registerEntityRenderer(GS_YoimiyaSA_ARROW.get(), TippableArrowRenderer::new);
         }
     }
 

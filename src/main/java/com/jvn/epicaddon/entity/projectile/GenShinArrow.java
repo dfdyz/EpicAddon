@@ -12,6 +12,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,6 +36,7 @@ import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import java.util.Arrays;
 
 public class GenShinArrow extends Arrow {
+    private float dmg = 1;
     //private final int iii;
     public GenShinArrow(Level level) {
         super(RegEntity.GENSHIN_ARROW.get(), level);
@@ -57,6 +59,10 @@ public class GenShinArrow extends Arrow {
         //iii = 0;
     }
 
+    public void setDmg(float dmg){
+        this.dmg = dmg;
+    }
+
     @Override
     protected void onHitEntity(EntityHitResult entityHitResult) {
         //super.onHitEntity(entityHitResult);
@@ -68,17 +74,13 @@ public class GenShinArrow extends Arrow {
             long j = (long)this.random.nextInt(i / 2 + 2);
             i = (int)Math.min(j + (long)i, 2147483647L);
         }
-
         Entity entity1 = this.getOwner();
 
         DamageSource damagesource;
         if (entity1 == null) {
-            damagesource = DamageSource.arrow(this, this);
+            damagesource = DamageSource.arrow(this,this);
         } else {
-            damagesource = DamageSource.arrow(this, entity1);
-            if (entity1 instanceof LivingEntity) {
-                ((LivingEntity)entity1).setLastHurtMob(entity);
-            }
+            damagesource = DamageSource.arrow(this,entity1);
         }
 
         boolean flag = entity.getType() == EntityType.ENDERMAN;
@@ -87,7 +89,8 @@ public class GenShinArrow extends Arrow {
             entity.setSecondsOnFire(5);
         }
 
-        if (entity.hurt(damagesource, (float)i)) {
+        if (entity.hurt(damagesource, dmg)) {
+            entity.setInvulnerable(false);
             if (flag) {
                 return;
             }
@@ -106,6 +109,7 @@ public class GenShinArrow extends Arrow {
                 }
 
                 if(entity1 == null) return;
+
                 if (!this.level.isClientSide && entity1 instanceof LivingEntity) {
                     EnchantmentHelper.doPostHurtEffects(livingentity, entity1);
                     EnchantmentHelper.doPostDamageEffects((LivingEntity)entity1, livingentity);
@@ -115,8 +119,6 @@ public class GenShinArrow extends Arrow {
                 if (entity1 != null && livingentity != entity1 && livingentity instanceof Player && entity1 instanceof ServerPlayer && !this.isSilent()) {
                     ((ServerPlayer)entity1).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.ARROW_HIT_PLAYER, 0.0F));
                 }
-
-
 
                 EntityPatch entityPatch = (EntityPatch) (entity1.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).orElse(null));
                 if(entityPatch instanceof ServerPlayerPatch){
@@ -134,5 +136,17 @@ public class GenShinArrow extends Arrow {
         }
         this.playSound(SoundEvents.ARROW_HIT, 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         this.discard();
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compoundTag) {
+        super.addAdditionalSaveData(compoundTag);
+        compoundTag.putFloat("Dmg", dmg);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compoundTag) {
+        super.readAdditionalSaveData(compoundTag);
+        this.dmg = compoundTag.getFloat("Dmg");
     }
 }
