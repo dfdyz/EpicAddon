@@ -18,7 +18,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '18.0.6.32'
+version = '18.0.6.33'
 group = 'com.dfdyz.epicaddon' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'epicaddon'
 
@@ -42,7 +42,7 @@ minecraft {
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'official', version: '1.18.2'
 
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -169,6 +169,8 @@ dependencies {
 
     implementation fg.deobf("curse.maven:epicfightmod-405076:3990391")
 
+    implementation fg.deobf("curse.maven:EpicfightPirates-690400:4327247")
+
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     // Examples using mod jars from ./libs
@@ -190,7 +192,7 @@ jar {
         attributes([
                 "Specification-Title"     : "epicaddon",
                 "Specification-Vendor"    : "examplemodsareus",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Specification-Version"   : project.getVersion(), // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "examplemodsareus",

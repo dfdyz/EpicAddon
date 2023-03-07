@@ -58,7 +58,6 @@ public class GenShinBowShootParticle extends TextureSheetParticle {
             vector3f.add(f, f1, f2);
         }
 
-        //int idx = (int) (7.0f*(age+tick)/lifeTick);
         float u0 = age * 1f/7;
         float u1 = Math.min(1, (age+1) * 1f/7);
         int light = this.getLightColor(tick);

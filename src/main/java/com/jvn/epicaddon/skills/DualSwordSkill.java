@@ -1,6 +1,7 @@
 package com.jvn.epicaddon.skills;
 
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -11,6 +12,7 @@ import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
 import yesman.epicfight.world.entity.eventlistener.PlayerEventListener;
@@ -74,5 +76,15 @@ public class DualSwordSkill extends PassiveSkill {
     @Override
     public boolean isExecutableState(PlayerPatch<?> executer) {
         return true;
+    }
+
+    @Override
+    public boolean canExecute(PlayerPatch<?> executer) {
+        return super.canExecute(executer);
+    }
+
+    @Override
+    public void executeOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {
+        super.executeOnServer(executer, args);
     }
 }

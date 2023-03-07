@@ -12,11 +12,8 @@ public class GenShinBowCap extends WeaponCapability {
         super(builder);
     }
 
-
     @Override
     public UseAnim getUseAnimation(LivingEntityPatch<?> playerpatch) {
         return UseAnim.NONE;
     }
-
-
 }

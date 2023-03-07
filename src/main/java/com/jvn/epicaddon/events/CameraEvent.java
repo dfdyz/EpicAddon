@@ -2,7 +2,6 @@ package com.jvn.epicaddon.events;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.camera.CamAnim;
-import com.jvn.epicaddon.mixin.CameraAccessor;
 import net.minecraft.client.Camera;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +36,6 @@ public class CameraEvent {
         }
 
         Camera camera = event.getCamera();
-        CameraAccessor cameraAccessor = (CameraAccessor) camera;
         double partialTicks = event.getPartialTicks();
 
         CamAnim.Pose pose = currentAnim.getPose((tick + (float)partialTicks)/20f);
@@ -52,8 +50,8 @@ public class CameraEvent {
         //System.out.println(pose);
 
         //cameraAccessor.invokeMove(p.x,p.y,p.z);
-        cameraAccessor.invokeSetRotation(yawLock-pose.rotY, pose.rotX);
-        cameraAccessor.invokeSetPosition(camPos.x,camPos.y,camPos.z);
+        camera.setRotation(yawLock-pose.rotY, pose.rotX);
+        camera.setPosition(camPos.x,camPos.y,camPos.z);
         //event.move
         event.setYaw(yawLock-pose.rotY);
         event.setPitch(pose.rotX);

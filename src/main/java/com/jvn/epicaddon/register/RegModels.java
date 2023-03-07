@@ -2,6 +2,8 @@ package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.item.Destiny.DestinyWeaponItem;
+import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -12,19 +14,26 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.PatchedRenderersEvent;
 import yesman.epicfight.client.renderer.patched.item.RenderBow;
 
 import java.util.Map;
 import java.util.Random;
 
+@Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegModels {
-
+    private static final Logger LOGGER = LogUtils.getLogger();
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
     public static void RegItemModelOverride(FMLClientSetupEvent event){
+
         event.enqueueWork(() -> {
+            LOGGER.info("RegItemModelOverride");
             ItemProperties.register(RegItems.Destiny.get(), new ResourceLocation(EpicAddon.MODID, "style"), (itemStack, clientWorld, livingEntity,i) -> {
                 CompoundTag tags = itemStack.getOrCreateTag();
                 String type = tags.getString("epicaddon_type");
@@ -56,7 +65,10 @@ public class RegModels {
         });
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
     public static void RegItemEFMRenderer(PatchedRenderersEvent.Add event){
+        LOGGER.info("RegItemEFMRendererOverride");
         event.addItemRenderer(RegItems.TrainingBow.get(), new RenderBow());
     }
 }

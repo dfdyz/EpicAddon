@@ -32,6 +32,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import org.jetbrains.annotations.Nullable;
 import yesman.epicfight.client.particle.EpicFightParticleRenderTypes;
 import yesman.epicfight.particle.EpicFightParticles;
 import yesman.epicfight.particle.HitParticleType;
@@ -78,8 +79,14 @@ public class DestinyWeaponItem extends ProjectileWeaponItem {
         return 20;
     }
 
+
     protected void setType(ItemStack stack, String typeName){
         stack.getOrCreateTag().putString("epicaddon_type",typeName);
+    }
+
+    @Override
+    public void verifyTagAfterLoad(CompoundTag p_150898_) {
+        super.verifyTagAfterLoad(p_150898_);
     }
 
     protected int getTypeIdx(ItemStack stack){

@@ -28,7 +28,7 @@ public class RegWeaponItemCap {
 
     //private static final Map<String, Function<Item, CapabilityItem.Builder>> PRESETS = Maps.newHashMap();
     public static final Function<Item, CapabilityItem.Builder> SAO_SINGLE_SWORD = (item) -> {
-        WeaponCapability.Builder builder = LockableWeaponCap.builder()
+        LockableWeaponCap.Builder builder = LockableWeaponCap.builder()
                 .category(CapabilityItem.WeaponCategories.SWORD)
                 .styleProvider((playerpatch) -> {
                     /*
