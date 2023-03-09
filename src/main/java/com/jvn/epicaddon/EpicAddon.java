@@ -17,7 +17,7 @@ public class EpicAddon
     public static final String MODID = "epicaddon";
     public static EpicAddon instance;
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    //private static final Logger LOGGER = LogUtils.getLogger();
 
     // public static final AnimationManager
 

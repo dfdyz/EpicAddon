@@ -18,7 +18,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '18.0.6.33'
+version = '18.0.6.34'
 group = 'com.dfdyz.epicaddon' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'epicaddon'
 
@@ -167,9 +167,11 @@ dependencies {
     // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 
-    implementation fg.deobf("curse.maven:epicfightmod-405076:3990391")
+    implementation fg.deobf("curse.maven:epicfightmod-405076:4018756")
 
-    implementation fg.deobf("curse.maven:EpicfightPirates-690400:4327247")
+    implementation fg.deobf("curse.maven:Yamato-833891:4424528")
+
+    implementation fg.deobf("curse.maven:DualGreatSword-654098:3972299")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 

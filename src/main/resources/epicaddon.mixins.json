@@ -6,7 +6,6 @@
 	"client": [
 	],
 	"mixins": [
-		"MixinWeaponCap",
 		"MixinNBTCapabilities",
 		"MixinAtkAnim"
 	],

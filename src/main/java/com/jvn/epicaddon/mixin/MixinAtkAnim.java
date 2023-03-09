@@ -27,7 +27,6 @@ public abstract class MixinAtkAnim implements IAnimSTOverride, GravityRestter {
     private boolean resetGravity = true;
     //private static final StaticAnimation anim = null;
 
-
     @Override
     public boolean ShouldResetGravity() {
         return resetGravity;
