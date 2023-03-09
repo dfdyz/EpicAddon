@@ -1,7 +1,6 @@
 package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.api.cap.GenShinBowCap;
-import com.jvn.epicaddon.api.cap.LockableWeaponCap;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import com.jvn.epicaddon.resources.EpicAddonStyles;
@@ -28,18 +27,9 @@ public class RegWeaponItemCap {
 
     //private static final Map<String, Function<Item, CapabilityItem.Builder>> PRESETS = Maps.newHashMap();
     public static final Function<Item, CapabilityItem.Builder> SAO_SINGLE_SWORD = (item) -> {
-        WeaponCapability.Builder builder = LockableWeaponCap.builder()
+        WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(CapabilityItem.WeaponCategories.SWORD)
                 .styleProvider((playerpatch) -> {
-                    /*
-                    if(playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD
-                            && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
-                            && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_dual_sword_skill")){
-                        return (((PlayerPatch)playerpatch).getStamina()/((PlayerPatch)playerpatch).getMaxStamina() >= 0.5F) ? EpicAddonStyles.SAO_DUAL_SWORD : EpicAddonStyles.SAO_DUAL_SWORD_LOCKED;
-                    }
-
-                     */
-
                     if(playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD
                             && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
                             && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_dual_sword_skill")){
@@ -51,45 +41,23 @@ public class RegWeaponItemCap {
                     }
                     return EpicAddonStyles.SAO_SINGLE_SWORD;
                 })
+                .passiveSkill(RegEpicAddonSkills.SAO_SINGLESWORD_INTERNAL)
                 .collider(WeaponCollider.SAO_SWORD)
                 .hitSound(EpicFightSounds.BLADE_HIT)
-                .newStyleCombo(EpicAddonStyles.SAO_SINGLE_SWORD, EpicAddonAnimations.SAO_SINGLE_SWORD_AUTO1, Animations.SWORD_AUTO1, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.SWORD_AIR_SLASH)
+                .newStyleCombo(EpicAddonStyles.SAO_SINGLE_SWORD,
+                        EpicAddonAnimations.SAO_SINGLE_SWORD_AUTO1,
+                        Animations.SWORD_AUTO1,
+                        Animations.SWORD_AUTO3,
+                        Animations.SWORD_DASH, Animations.SWORD_DASH,
+                        Animations.SWORD_AIR_SLASH)
                 .newStyleCombo(EpicAddonStyles.SAO_RAPIER,
                         EpicAddonAnimations.SAO_RAPIER_AUTO1,
                         EpicAddonAnimations.SAO_RAPIER_AUTO2,
                         EpicAddonAnimations.SAO_RAPIER_AUTO3,
                         EpicAddonAnimations.SAO_RAPIER_AUTO4,
                         EpicAddonAnimations.SAO_RAPIER_AUTO5,
-                        EpicAddonAnimations.SAO_RAPIER_DASH, EpicAddonAnimations.SAO_RAPIER_AIR)
-                /*
-                .newStyleCombo(EpicAddonStyles.SAO_RAPIER_LOCKED,
-                        EpicAddonAnimations.SAO_RAPIER_AUTO1,
-                        EpicAddonAnimations.SAO_RAPIER_AUTO2,
-                        Animations.SWORD_DASH, Animations.SWORD_AIR_SLASH)
-
-                 */
-                .ChildStyleProvider(EpicAddonStyles.SAO_DUAL_SWORD ,(entityPatch -> {
-                    return !(((PlayerPatch)entityPatch).getStamina()/((PlayerPatch)entityPatch).getMaxStamina() >= 0.5F) ? EpicAddonStyles.SAO_DUAL_SWORD_LOCKED : null;
-                }))
-                .ChildStyleCombo(EpicAddonStyles.SAO_DUAL_SWORD, EpicAddonStyles.SAO_DUAL_SWORD_LOCKED,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO1,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO2,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO3,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO4,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO5,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO6,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO7,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO8,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO9,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO10,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO11,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO12,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO13,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO14,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO15,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO16,
-                        Animations.SWORD_DASH,
-                        Animations.GREATSWORD_AIR_SLASH)
+                        EpicAddonAnimations.SAO_RAPIER_DASH, EpicAddonAnimations.SAO_RAPIER_DASH,
+                        EpicAddonAnimations.SAO_RAPIER_AIR)
                 .newStyleCombo(EpicAddonStyles.SAO_DUAL_SWORD,
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO1,
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO2,
@@ -107,30 +75,8 @@ public class RegWeaponItemCap {
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO14,
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO15,
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO16,
-                        EpicAddonAnimations.SAO_DOUBLE_CHOPPER,
+                        EpicAddonAnimations.SAO_DOUBLE_CHOPPER, Animations.SPEAR_DASH,
                         Animations.GREATSWORD_AIR_SLASH)
-                /*
-                .newStyleCombo(EpicAddonStyles.SAO_DUAL_SWORD_LOCKED,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO1,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO2,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO3,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO4,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO5,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO6,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO7,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO8,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO9,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO10,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO11,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO12,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO13,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO14,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO15,
-                        EpicAddonAnimations.SAO_DUAL_SWORD_AUTO16,
-                        Animations.SWORD_DASH,
-                        Animations.GREATSWORD_AIR_SLASH)
-
-                 */
                 .specialAttack(EpicAddonStyles.SAO_SINGLE_SWORD, Skills.SWEEPING_EDGE)
                 .specialAttack(EpicAddonStyles.SAO_DUAL_SWORD, Skills.DANCING_EDGE)
                 .specialAttack(EpicAddonStyles.SAO_RAPIER, RegEpicAddonSkills.WEAPON_SKILL_RAPIER)
@@ -159,11 +105,6 @@ public class RegWeaponItemCap {
                             }
                         }
                     }
-                    /*
-                    else if(entitypatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SHIELD){
-                        tag = true;
-                    }
-                    */
                     return tag;
                 });
                 if (item instanceof TieredItem) {

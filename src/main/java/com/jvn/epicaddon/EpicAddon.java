@@ -17,7 +17,7 @@ public class EpicAddon
     public static final String MODID = "epicaddon";
     public static EpicAddon instance;
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    //private static final Logger LOGGER = LogUtils.getLogger();
 
     // public static final AnimationManager
 
@@ -32,8 +32,8 @@ public class EpicAddon
         bus.addListener(EpicAddonAnimations::registerAnimations);
         bus.addListener(RegEpicAddonSkills::registerSkills);
         bus.addListener(RegWeaponItemCap::register);
-        bus.addListener(RegModels::RegItemModelOverride);
-        bus.addListener(RegModels::RegItemEFMRenderer);
+        //bus.addListener(RegModels::RegItemModelOverride);
+        //bus.addListener(RegModels::RegItemEFMRenderer);
 
         EpicAddonSkillCategories.ENUM_MANAGER.loadPreemptive(EpicAddonSkillCategories.class);
         EpicAddonStyles.ENUM_MANAGER.loadPreemptive(EpicAddonStyles.class);

@@ -12,10 +12,13 @@ import com.jvn.epicaddon.register.WeaponCollider;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.utils.FireworkUtils;
+import com.jvn.epicaddon.utils.GlobalVal;
 import com.jvn.epicaddon.utils.Trail;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -371,7 +374,6 @@ public class EpicAddonAnimations {
         for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
             camAnim.load();
         }
-        //Yoimiya.keys_.add(new CamAnim.Key((new Vec3(11,5,34)).scale(0.5f),-12,-167.856f,2));
 
         ((IAnimSTOverride)(Animations.SWORD_AUTO1)).setColorOverride(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
 
@@ -442,26 +444,24 @@ public class EpicAddonAnimations {
         Entity entity = entitypatch.getOriginal();
         Level worldIn = entity.getLevel();
 
-        //Vec3 shootPos = entity..add(shootVec.x,0,w.z);
-
-        //new FireworkRocketEntity()
-
-
-
         if (worldIn instanceof ServerLevel){
             float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
-            //Vec3 offset = new Vec3(Math.cos(ang), -0.8, Math.sin(ang));
-            Vec3 Center = entity.position();
 
-            //ClientLevel clientLevel = (ClientLevel) worldIn;
+            Vec3 Center = entity.position();
 
             for (int i=0; i<Positions.length; ++i) {
                 Vec3 spos = Center.add(Positions[i].yRot(-ang));
                 ((ServerLevel) worldIn).sendParticles(RegParticle.GS_YOIMIYA_SA.get(),spos.x,spos.y+0.2f,spos.z,0,lifetimes[i],i,1,1D);
-                //clientLevel.createFireworks(spos.x, spos.y ,spos.z, 2, 2.5, 2, FireworkUtils.Green);
             }
-
         }
+
+        SoundEvent[] sounds = new SoundEvent[]{
+                EpicAddonSounds.Yoimiya_Skill1,
+                EpicAddonSounds.Yoimiya_Skill2,
+                EpicAddonSounds.Yoimiya_Skill3
+        };
+
+        entitypatch.playSound(sounds[Math.abs(GlobalVal.random.nextInt())%3],0.0F, 0.0F);
     }
 
     public static void YoimiyaSA(LivingEntityPatch<?> entitypatch){
