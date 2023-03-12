@@ -2,6 +2,7 @@ package com.jvn.epicaddon.command;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.camera.CamAnim;
+import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.mojang.brigadier.Command;
@@ -31,18 +32,17 @@ public class CmdMgr {
         command = Commands.literal(EpicAddon.MODID).executes(context -> {
                     LocalPlayer player = Minecraft.getInstance().player;
                     if (player != null) {
-                        player.displayClientMessage(Component.nullToEmpty("Reload\nSwordTrail <boolean>\nHealthBar <boolean>\nOptFineMode <boolean>"),false);
+                        player.displayClientMessage(Component.nullToEmpty("Reload\nSwordTrail <boolean>\nHealthBar <boolean>\nOptFineMode <boolean> --W.I.P."),false);
                     }
                     return Command.SINGLE_SUCCESS;
                 })
                 .then(Commands.literal("Reload")
                         .executes(context -> {
                             ClientConfig.Load();
-
+                            BladeTrailTextureLoader.Load();
                             for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
                                 camAnim.load();
                             }
-
                             MSGClient("[EpicAddon]Reload All Config.");
                             return Command.SINGLE_SUCCESS;
                         }))

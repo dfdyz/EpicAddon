@@ -35,7 +35,7 @@ public class CamAnim {
     }
 
     public void load(){
-        System.out.println("CamAnimLoad: "+resourceLocation.getNamespace()+":"+resourceLocation.getPath());
+        System.out.println("[EpicAddon] CamAnimLoad: "+resourceLocation.getNamespace()+":"+resourceLocation.getPath());
         try {
             keys_.clear();
             String str = "";

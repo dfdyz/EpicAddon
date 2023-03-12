@@ -1,13 +1,18 @@
 package com.jvn.epicaddon;
 
+import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.register.*;
 import com.jvn.epicaddon.resources.*;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.mojang.logging.LogUtils;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -25,10 +30,10 @@ public class EpicAddon
     {
         instance = this;
         //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_CONFIG);
-        ClientConfig.Load();
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         //bus.addListener(CmdMgr::registerClientCommand);
+        bus.addListener(this::setupCommon);
         bus.addListener(EpicAddonAnimations::registerAnimations);
         bus.addListener(RegEpicAddonSkills::registerSkills);
         bus.addListener(RegWeaponItemCap::register);
@@ -51,6 +56,17 @@ public class EpicAddon
         return instance;
     }
 
+    private void setupCommon(final FMLCommonSetupEvent event){
+        if(FMLEnvironment.dist == Dist.CLIENT){
+            event.enqueueWork(BladeTrailTextureLoader::Load);
+            ClientConfig.Load();
+            event.enqueueWork(() -> {
+                for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
+                    camAnim.load();
+                }
+            });
+        }
+    }
 
 /*
     private void setup(final FMLCommonSetupEvent event)

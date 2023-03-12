@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -22,7 +23,6 @@ public class EpicAddonRenderType extends RenderType {
 
     boolean writeColor;
     boolean writeDepth;
-
 
     public static final ParticleRenderType GENSHIN_BOW_PARTICLE = new ParticleRenderType() {
         public void begin(BufferBuilder p_107448_, TextureManager p_107449_) {
@@ -42,33 +42,52 @@ public class EpicAddonRenderType extends RenderType {
         }
     };
 
+    public static class BladeTrailRenderType implements ParticleRenderType {
+        private final ResourceLocation Texture;
 
-
-    public static class EpicaddonParticle implements ParticleRenderType {
-        private final String path;
-
-        public EpicaddonParticle(String path){
-            this.path = path;
+        public BladeTrailRenderType(String path){
+            this.Texture = new ResourceLocation(EpicAddon.MODID, "bladetrail/" + path + ".png");
         }
-        public void begin(BufferBuilder p_107448_, TextureManager p_107449_) {
-            RenderSystem.disableBlend();
+
+        public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
+            RenderSystem.enableBlend();
+            RenderSystem.disableCull();
+            //RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
-            RenderSystem.setShader(GameRenderer::getParticleShader);
-            RenderSystem.setShaderTexture(0, GetTextures(path));
-            p_107448_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+            RenderSystem.setShader(GameRenderer::getPositionColorTexLightmapShader);
+
+            TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+            AbstractTexture abstracttexture = texturemanager.getTexture(Texture);
+
+            RenderSystem.bindTexture(abstracttexture.getId());
+
+            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+
+            RenderSystem.setShaderTexture(0, abstracttexture.getId());
+
+            bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
-        public void end(Tesselator p_107451_) {
-            p_107451_.end();
+        public void end(Tesselator tesselator) {
+            tesselator.getBuilder().setQuadSortOrigin(0.0F, 0.0F, 0.0F);
+            tesselator.end();
+            RenderSystem.disableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.enableCull();
         }
 
+        @Override
         public String toString() {
-            return "GENSHIN_BOW";
+            return "BLADE_TRAIL";
         }
     }
 
     //public static final ParticleRenderType EPICADDON_PARTICLE = ;
 
+    public static final ResourceLocation BladeTrailDefaultTexture = GetTextures("particle/trail");
     public static final ParticleRenderType BladeTrail = new ParticleRenderType() {
         public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
             RenderSystem.enableBlend();
@@ -77,11 +96,12 @@ public class EpicAddonRenderType extends RenderType {
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
-            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+            RenderSystem.setShader(GameRenderer::getPositionColorTexLightmapShader);
 
             TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
-            AbstractTexture abstracttexture = texturemanager.getTexture(GetTextures("particle/trail"));
+            AbstractTexture abstracttexture = texturemanager.getTexture(BladeTrailDefaultTexture);
             RenderSystem.bindTexture(abstracttexture.getId());
+            RenderSystem.setShaderTexture(0, abstracttexture.getId());
 
             RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
             RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);

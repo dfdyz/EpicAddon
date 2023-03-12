@@ -18,7 +18,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '18.0.6.34'
+version = '18.0.6.4'
 group = 'com.dfdyz.epicaddon' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'epicaddon'
 
@@ -160,9 +160,12 @@ dependencies {
 
     implementation fg.deobf("curse.maven:epicfightmod-405076:4018756")
 
-    implementation fg.deobf("curse.maven:Yamato-833891:4424528")
+    //implementation fg.deobf("curse.maven:Yamato-833891:4424528")
 
-    implementation fg.deobf("curse.maven:DualGreatSword-654098:3972299")
+    //implementation fg.deobf("curse.maven:DualGreatSword-654098:3972299")
+
+    //implementation fg.deobf("curse.maven:ESSENTIAL-546670:3918566")
+
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 

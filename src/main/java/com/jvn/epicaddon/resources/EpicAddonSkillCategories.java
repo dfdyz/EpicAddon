@@ -4,7 +4,7 @@ import yesman.epicfight.skill.SkillCategory;
 
 public enum EpicAddonSkillCategories implements SkillCategory {
     SAO_SINGLE_SWORD(true,true,true),
-    GenShinImpact_Bow(true,true,true);
+    GEN_SHIN_IMPACT_BOW(true,true,true);
 
     boolean shouldSaved;
     boolean shouldSyncronized;

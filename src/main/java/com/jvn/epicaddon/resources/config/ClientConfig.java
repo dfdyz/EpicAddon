@@ -16,7 +16,7 @@ import java.io.*;
 import java.util.Map;
 
 public class ClientConfig {
-    private static final Gson GSON = (new GsonBuilder()).create();
+    public static final Gson GSON = (new GsonBuilder()).create();
     public static ConfigVal cfg = new ConfigVal();
 
     private static Logger LOGGER = LogUtils.getLogger();
@@ -80,7 +80,7 @@ public class ClientConfig {
         //LOGGER.info(json);
         if(json != ""){
             try {
-                cfg = GSON.fromJson(json, new  TypeToken<ConfigVal>(){}.getType());
+                cfg = GSON.fromJson(json, new TypeToken<ConfigVal>(){}.getType());
             } catch (JsonSyntaxException e) {
                 WriteString(cfgpath,GSON.toJson(cfg));
                 throw new RuntimeException(e);

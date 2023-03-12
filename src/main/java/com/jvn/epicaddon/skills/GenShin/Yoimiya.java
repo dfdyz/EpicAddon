@@ -13,7 +13,7 @@ public class Yoimiya extends PassiveSkill {
     }
 
     public static Skill.Builder<PassiveSkill> createBuilder(ResourceLocation resourceLocation) {
-        return (new Skill.Builder<PassiveSkill>(resourceLocation)).setCategory(EpicAddonSkillCategories.GenShinImpact_Bow).setConsumption(0.0F).setMaxStack(0).setResource(Skill.Resource.NONE).setRequiredXp(0);
+        return (new Skill.Builder<PassiveSkill>(resourceLocation)).setCategory(EpicAddonSkillCategories.GEN_SHIN_IMPACT_BOW).setConsumption(0.0F).setMaxStack(0).setResource(Skill.Resource.NONE).setRequiredXp(0);
     }
 
 }

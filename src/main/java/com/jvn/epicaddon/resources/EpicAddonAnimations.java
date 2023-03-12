@@ -369,15 +369,13 @@ public class EpicAddonAnimations {
         ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);
         ((GravityRestter) GS_Yoimiya_SA).setMode(false);
 
-        Yoimiya = regCamAnim(new CamAnim(0.3f ,EpicAddon.MODID, "camanim/yoimiya"));
-
-        for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
-            camAnim.load();
-        }
-
         ((IAnimSTOverride)(Animations.SWORD_AUTO1)).setColorOverride(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
 
         LOGGER.info("EpicAddon AnimLoaded");
+    }
+
+    public static void RegCamAnims(){
+        Yoimiya = regCamAnim(new CamAnim(0.3f ,EpicAddon.MODID, "camanim/yoimiya"));
     }
 
     public static CamAnim regCamAnim(CamAnim anim){

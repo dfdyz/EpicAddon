@@ -3,7 +3,7 @@ package com.jvn.epicaddon.utils;
 public class Trail {
     public float x,y,z,ex,ey,ez;
     public int r,g,b,a, lifetime;
-
+    public String textureRegisterId = "";
     public Trail(float x, float y, float z, float ex, float ey, float ez,int r,int g,int b,int a){
         this.x = x;
         this.y = y;
@@ -16,6 +16,20 @@ public class Trail {
         this.b = b;
         this.a = a;
         this.lifetime = 3;
+    }
+    public Trail(float x, float y, float z, float ex, float ey, float ez,int r,int g,int b,int a, String texture){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.ex = ex;
+        this.ey = ey;
+        this.ez = ez;
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a;
+        this.lifetime = 3;
+        textureRegisterId = texture;
     }
 
     public Trail(float x, float y, float z, float ex, float ey, float ez,int r,int g,int b,int a,int lifetime){
@@ -62,6 +76,7 @@ public class Trail {
         this.b = org.b;
         this.a = org.a;
         this.lifetime = org.lifetime;
+        this.textureRegisterId = org.textureRegisterId;
         return this;
     }
 
@@ -91,6 +106,7 @@ public class Trail {
         this.b = 0;
         this.a = 0;
         this.lifetime = 0;
+        this.textureRegisterId = "";
     }
 
 

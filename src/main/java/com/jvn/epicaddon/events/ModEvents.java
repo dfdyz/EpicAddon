@@ -4,6 +4,7 @@ import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.camera.CamAnimLoader;
 import com.jvn.epicaddon.command.CmdMgr;
 import com.jvn.epicaddon.renderer.HealthBarRenderer;
+import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.jvn.epicaddon.resources.config.RenderConfig;
 import com.jvn.epicaddon.utils.GlobalVal;
@@ -39,7 +40,6 @@ public class ModEvents {
     public static void registerClientCommands(RegisterClientCommandsEvent event) {
         CmdMgr.registerClientCommands(event);
     }
-
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent

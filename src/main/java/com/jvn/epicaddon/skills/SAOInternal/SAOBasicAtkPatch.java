@@ -100,7 +100,6 @@ public class SAOBasicAtkPatch extends BasicAttack {
         if (container.getExecuter().getTickSinceLastAction() > 10 && (Integer)container.getDataManager().getDataValue(COMBO_COUNTER) > 0) {
             container.getDataManager().setData(COMBO_COUNTER, 0);
         }
-
     }
 
 

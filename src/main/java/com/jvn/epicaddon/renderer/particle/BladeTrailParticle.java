@@ -4,6 +4,7 @@ package com.jvn.epicaddon.renderer.particle;
 import com.google.common.collect.Lists;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
+import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
 import com.jvn.epicaddon.resources.config.RenderConfig;
 import com.jvn.epicaddon.utils.Trail;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -234,10 +235,12 @@ public class BladeTrailParticle extends TextureSheetParticle {
     }
      */
 
-
     @Override
     public ParticleRenderType getRenderType() {
-        return EpicAddonRenderType.BladeTrail;
+        EpicAddonRenderType.BladeTrailRenderType type = BladeTrailTextureLoader.RenderType.get(trail.textureRegisterId);
+        //System.out.println(type.toString());
+        if(type == null) return EpicAddonRenderType.BladeTrail;
+        return type;
     }
 
     @OnlyIn(Dist.CLIENT)
