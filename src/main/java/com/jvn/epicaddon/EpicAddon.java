@@ -58,13 +58,14 @@ public class EpicAddon
 
     private void setupCommon(final FMLCommonSetupEvent event){
         if(FMLEnvironment.dist == Dist.CLIENT){
-            event.enqueueWork(BladeTrailTextureLoader::Load);
+            BladeTrailTextureLoader.Load();
             ClientConfig.Load();
-            event.enqueueWork(() -> {
-                for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
-                    camAnim.load();
-                }
-            });
+            EpicAddonAnimations.RegCamAnims();
+
+            for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
+                camAnim.load();
+            }
+
         }
     }
 
