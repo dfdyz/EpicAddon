@@ -1,4 +1,4 @@
-package com.jvn.epicaddon.skills;
+package com.jvn.epicaddon.skills.SAO;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;

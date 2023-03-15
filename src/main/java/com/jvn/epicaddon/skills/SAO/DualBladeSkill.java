@@ -1,4 +1,4 @@
-package com.jvn.epicaddon.skills;
+package com.jvn.epicaddon.skills.SAO;
 
 import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;

@@ -1,10 +1,8 @@
 package com.jvn.epicaddon.mixin;
 
-import com.jvn.epicaddon.api.anim.GravityRestter;
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.utils.Trail;
-import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,20 +11,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.model.ClientModels;
+import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 @Mixin(value = StaticAnimation.class, remap = false)
-public abstract class MixinAtkAnim implements IAnimSTOverride, GravityRestter {
+public abstract class MixinAtkAnim implements IAnimSTOverride {
     protected Trail trail;
     private boolean colorOverride = false;
     private boolean posOverride = false;
     private boolean lifetimeOverride = false;
-    private boolean resetGravity = true;
+    //private boolean resetGravity = true;
     //private static final StaticAnimation anim = null;
-
+/*
     @Override
     public boolean ShouldResetGravity() {
         return resetGravity;
@@ -36,6 +35,8 @@ public abstract class MixinAtkAnim implements IAnimSTOverride, GravityRestter {
     public void setMode(boolean should) {
         this.resetGravity = should;
     }
+
+ */
 
     @Override
     public boolean isColorOverride() {
@@ -79,7 +80,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride, GravityRestter {
             if(trail == null){
                 trail = new Trail();
             }
-            this.trail.CopyColFrom(tr);
+            this.trail.CopyPosFrom(tr);
         }
         else{
             posOverride = false;
@@ -101,26 +102,17 @@ public abstract class MixinAtkAnim implements IAnimSTOverride, GravityRestter {
         }
         return this;
     }
-
-
     private StaticAnimation getAtkAnim(){
         if(namespaceId >= 0 && animationId >= 0) return EpicFightMod.getInstance().animationManager.findAnimationById(namespaceId,animationId);
         else return null;
     }
-
     @Shadow
     private int namespaceId;
     @Shadow
     private int animationId;
-
-    private String prevJoint;
+    public String prevJoint;
     @Inject(at = @At("HEAD"),method = "begin")
     private void MixinBegin(LivingEntityPatch<?> entitypatch,CallbackInfo cbi){
-        if(entitypatch instanceof PlayerPatch && this.resetGravity && entitypatch.getOriginal().isNoGravity()){
-            //System.out.println("2333333");
-            entitypatch.getOriginal().setNoGravity(false);
-        }
-        //System.out.println("2333333");
         if(entitypatch.getOriginal().getLevel().isClientSide()){
             if(entitypatch instanceof PlayerPatch || entitypatch instanceof HumanoidMobPatch){
                 StaticAnimation animation = getAtkAnim();
@@ -158,7 +150,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride, GravityRestter {
                     double animid = Double.longBitsToDouble(animation.getId());
                     //System.out.println(String.format("Particle 2(mod=%d, anim=%d, joint=%s)",animation.getNamespaceId(),animation.getId(),jointID));
                     if(jointID == "Tool_R" || jointID == "Tool_L"){
-                        double jointId = Double.longBitsToDouble(entitypatch.getEntityModel(ClientModels.LOGICAL_CLIENT).getArmature().searchPathIndex(jointID));
+                        double jointId = Double.longBitsToDouble(entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature().searchPathIndex(jointID));
                         entitypatch.getOriginal().level.addParticle(RegParticle.BLADE_TRAIL.get(), eid, modid, animid, jointId, jointID == "Tool_R" ? -1:1, 0);
                     }
                     else {

@@ -1,4 +1,4 @@
-package com.jvn.epicaddon.skills;
+package com.jvn.epicaddon.skills.SAO;
 
 import com.google.common.collect.Lists;
 import com.jvn.epicaddon.resources.EpicAddonStyles;

@@ -9,14 +9,10 @@ import com.jvn.epicaddon.entity.projectile.YoimiyaSAArrow;
 import com.jvn.epicaddon.events.CameraEvent;
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.register.WeaponCollider;
-import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
-import com.jvn.epicaddon.utils.FireworkUtils;
 import com.jvn.epicaddon.utils.GlobalVal;
 import com.jvn.epicaddon.utils.Trail;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -25,8 +21,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -49,7 +43,6 @@ import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 
 import java.util.List;
 
@@ -57,10 +50,8 @@ public class EpicAddonAnimations {
     public static List<CamAnim> CamAnimRegistry = Lists.newArrayList();
     public static StaticAnimation Test;
     public static StaticAnimation SAO_SINGLE_SWORD_AUTO1;
-
     public static StaticAnimation SAO_DUAL_SWORD_HOLD;
     public static StaticAnimation SAO_DUAL_SWORD_NORMAL;
-
     public static StaticAnimation SAO_DUAL_SWORD_RUN;
     public static StaticAnimation SAO_DUAL_SWORD_AUTO1;
     public static StaticAnimation SAO_DUAL_SWORD_AUTO2;
@@ -72,18 +63,14 @@ public class EpicAddonAnimations {
     public static StaticAnimation SAO_DUAL_SWORD_AUTO8;
     public static StaticAnimation SAO_DUAL_SWORD_AUTO9;
     public static StaticAnimation SAO_DUAL_SWORD_AUTO10;
-
     public static StaticAnimation SAO_DUAL_SWORD_AUTO11;
     public static StaticAnimation SAO_DUAL_SWORD_AUTO12;
-
     public static StaticAnimation SAO_DUAL_SWORD_AUTO13;
     public static StaticAnimation SAO_DUAL_SWORD_AUTO14;
-
     public static StaticAnimation SAO_DUAL_SWORD_AUTO15;
     public static StaticAnimation SAO_DUAL_SWORD_AUTO16;
     public static StaticAnimation SAO_SINGLE_SWORD_GUARD;
     public static StaticAnimation SAO_DOUBLE_CHOPPER;
-
     public static StaticAnimation SAO_RAPIER_IDLE;
     public static StaticAnimation SAO_RAPIER_AUTO1;
     public static StaticAnimation SAO_RAPIER_AUTO2;
@@ -92,9 +79,7 @@ public class EpicAddonAnimations {
     public static StaticAnimation SAO_RAPIER_AUTO5;
     public static StaticAnimation SAO_RAPIER_AIR;
     public static StaticAnimation SAO_RAPIER_SPECIAL_DASH;
-
     public static StaticAnimation SAO_RAPIER_DASH;
-
     public static StaticAnimation DESTINY_AIM;
     public static StaticAnimation DESTINY_SHOT;
     public static StaticAnimation DESTINY_RELOAD;
@@ -103,9 +88,7 @@ public class EpicAddonAnimations {
     public static StaticAnimation GS_Yoimiya_Auto3;
     public static StaticAnimation GS_Yoimiya_Auto4;
     public static StaticAnimation GS_Yoimiya_Auto5;
-
     public static StaticAnimation GS_Yoimiya_SA;
-
     public static CamAnim Yoimiya;
 
     public static void registerAnimations(AnimationRegistryEvent event) {
@@ -114,12 +97,12 @@ public class EpicAddonAnimations {
         event.getRegistryMap().put(EpicAddon.MODID, EpicAddonAnimations::Reg);
     }
 
-    public static void Reg() {
+    private static void Reg() {
         Models<?> models = FMLEnvironment.dist == Dist.CLIENT ? ClientModels.LOGICAL_CLIENT : Models.LOGICAL_SERVER;
         Model biped = models.biped;
         Logger LOGGER = LogUtils.getLogger();
         LOGGER.info("EpicAddon AnimLoading");
-        Test = new BasicAttackAnimation(0.2F, 0.4F, 0.6F, 0.8F, null, "Tool_R", "biped/test_anim", biped);
+        //Test = new BasicAttackAnimation(0.2F, 0.4F, 0.6F, 0.8F, null, "Tool_R", "biped/test_anim", biped);
 
         //DUAL SWORD
         SAO_DUAL_SWORD_HOLD = new StaticAnimation(true, "biped/living/sao_dual_sword_hold", biped);
@@ -369,7 +352,11 @@ public class EpicAddonAnimations {
         ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);
         ((GravityRestter) GS_Yoimiya_SA).setMode(false);
 
-        ((IAnimSTOverride)(Animations.SWORD_AUTO1)).setColorOverride(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
+        if(FMLEnvironment.dist == Dist.CLIENT){
+            ((IAnimSTOverride)SAO_RAPIER_SPECIAL_DASH).setLifeTimeOverride(10).setPosOverride(
+                    new Trail(0f,0.2f,-0.3f,0f,-0.2f,-0.3f,0,0,0,0));
+            ((IAnimSTOverride)Animations.SWORD_AUTO1).setColorOverride(new Trail(0,0,-0.2f,0,-0.2f,-1.6f,255,30,30,120));
+        }
 
         LOGGER.info("EpicAddon AnimLoaded");
     }

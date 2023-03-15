@@ -43,12 +43,12 @@ import java.util.Locale;
 
 import static com.jvn.epicaddon.resources.EpicAddonAnimations.getPosByTick;
 
-public class BowAtkAnim extends AttackAnimation {
+public class BowAtkAnim extends AttackAnimEx {
     //private final int Aid;
     //public final String Hjoint;
     public BowAtkAnim(float convertTime,float antic, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
         super(convertTime, path, model,
-                new PhaseEx(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider, false));
+                new PhaseEx(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider));
 
         //Hjoint = shoot;
         this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
@@ -121,14 +121,8 @@ public class BowAtkAnim extends AttackAnimation {
                     entitypatch.currentlyAttackedEntity.clear();
                 }
 
-                if(!phase.atking){
-                    //System.out.println("scan target");
-                    this.ScanTarget(entitypatch, prevElapsedTime, elapsedTime, prevState, state, phase);
-                }
-                else {
-                    //System.out.println("Atk");
-                    //this.ShootProjectile(entitypatch, elapsedTime, phase.getJoint());
-                }
+                this.ScanTarget(entitypatch, prevElapsedTime, elapsedTime, prevState, state, phase);
+
             }
         }
     }
@@ -207,37 +201,6 @@ public class BowAtkAnim extends AttackAnimation {
     @Override
     public void hurtCollidingEntities(LivingEntityPatch<?> entitypatch, float prevElapsedTime, float elapsedTime, EntityState prevState, EntityState state, Phase phase) {
 
-    }
-
-    public static class PhaseEx extends AttackAnimation.Phase{
-        protected final boolean atking;
-
-        public PhaseEx(float start, float antic, float contact, float recovery, float end, String jointName, Collider collider) {
-            super(start, antic, contact, recovery, end, jointName, collider);
-            atking = false;
-        }
-
-        public PhaseEx(float start, float antic, float contact, float recovery, float end, InteractionHand hand, String jointName, Collider collider,boolean isAtkPhase) {
-            super(start, antic, contact, recovery, end, hand, jointName, collider);
-            atking = isAtkPhase;
-        }
-
-        public PhaseEx(float start, float antic, float preDelay, float contact, float recovery, float end, String jointName, Collider collider, boolean isAtkPhase) {
-            super(start, antic, preDelay, contact, recovery, end, jointName, collider);
-            atking = isAtkPhase;
-        }
-
-        public PhaseEx(float start, float antic, float preDelay, float contact, float recovery, float end, InteractionHand hand, String jointName, Collider collider, boolean isAtkPhase) {
-            super(start, antic, preDelay, contact, recovery, end, hand, jointName, collider);
-            atking = isAtkPhase;
-        }
-
-        public String getJoint(){
-            return this.jointName;
-        }
-        public float getContact(){
-            return this.contact;
-        }
     }
 
     @Override

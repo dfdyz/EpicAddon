@@ -97,10 +97,8 @@ public class SAOBasicAtkPatch extends BasicAttack {
     }
 
     public void updateContainer(SkillContainer container) {
-        if (container.getExecuter().getTickSinceLastAction() > 10 && (Integer)container.getDataManager().getDataValue(COMBO_COUNTER) > 0) {
+        if (container.getExecuter().getTickSinceLastAction() > 50 && container.getDataManager().getDataValue(COMBO_COUNTER) > 0) {
             container.getDataManager().setData(COMBO_COUNTER, 0);
         }
     }
-
-
 }

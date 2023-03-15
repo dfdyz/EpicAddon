@@ -114,6 +114,19 @@ public class BladeTrailParticle extends TextureSheetParticle {
         if(!this.animationEnd && !(entitypatch!=null && entitypatch.getOriginal()!=null && entitypatch.getOriginal().isAlive())){
             this.animationEnd = true;
         }
+
+        if(entitypatch != null){
+            Vec3 entityPos = entitypatch.getOriginal().position();
+            this.x = entityPos.x;
+            this.xo = entityPos.x;
+            this.y = entityPos.y;
+            this.yo = entityPos.y;
+            this.z = entityPos.z;
+            this.zo = entityPos.z;
+
+            //this.move(entityPos.x, entityPos.y + entitypatch.getOriginal().getEyeHeight(), entityPos.z);
+        }
+
         AnimationPlayer animPlayer = this.entitypatch.getAnimator().getPlayerFor(this.anim);
         this.Nodes.removeIf(v -> !v.isAlive());
 
