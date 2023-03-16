@@ -1,23 +1,22 @@
 package com.jvn.epicaddon.api.camera;
 
 import com.google.common.base.Utf8;
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
 import com.google.gson.internal.Streams;
+import com.google.gson.reflect.TypeToken;
+import com.jvn.epicaddon.utils.Trail;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.phys.Vec3;
-import org.apache.commons.compress.utils.Lists;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.sql.Array;
-import java.text.Format;
 import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Scanner;
 
 public class CamAnim {
     public final float linkTime;
@@ -35,7 +34,6 @@ public class CamAnim {
     }
 
     public void load(){
-        System.out.println("[EpicAddon] CamAnimLoad: "+resourceLocation.getNamespace()+":"+resourceLocation.getPath());
         try {
             keys_.clear();
             String str = "";
@@ -50,14 +48,16 @@ public class CamAnim {
 
             //System.out.println(str);
 
-            String[] strs = str.split("\n");
-
-            for(int i =0; i< strs.length; ++i){
-                if(strs[i] != "")
-                {
-                    keys_.add(Key.ReadFromText(strs[i]));
-                }
+            Gson gson = new Gson();
+            List<Key.KeyFrameInfo> kfis = gson.fromJson(str,new TypeToken<List<Key.KeyFrameInfo>>(){}.getType());
+            if(kfis == null){
+                System.out.println("[EpicAddon] CamAnimLoad Failed: "+resourceLocation.getNamespace()+":"+resourceLocation.getPath());
+                return;
             }
+            for(int i =0; i< kfis.size(); ++i){
+                keys_.add(Key.ReadFromText(kfis.get(i)));
+            }
+            System.out.println("[EpicAddon] CamAnimLoad: "+resourceLocation.getNamespace()+":"+resourceLocation.getPath());
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -141,17 +141,14 @@ public class CamAnim {
             }
         };
 
-        public static Key ReadFromText(String str){
-            Scanner scanner = new Scanner(str);
-            float x,y,z,rx,ry,time;
-            x = scanner.nextFloat();
-            y = scanner.nextFloat();
-            z = scanner.nextFloat();
-            rx = scanner.nextFloat();
-            ry = scanner.nextFloat();
-            time = scanner.nextFloat();
+        public static Key ReadFromText(KeyFrameInfo kfi){
 
-            return new Key(new Vec3(x,y,z), rx, ry, time);
+
+            return new Key(new Vec3(kfi.x,kfi.y,kfi.z), kfi.rx, kfi.ry, kfi.t);
+        }
+
+        public static class KeyFrameInfo{
+            public float x,y,z,rx,ry,t;
         }
     }
 }

@@ -1,35 +1,18 @@
 package com.jvn.epicaddon.api.anim;
 
-import com.jvn.epicaddon.entity.projectile.GenShinArrow;
-import com.jvn.epicaddon.register.RegParticle;
-import com.jvn.epicaddon.resources.EpicAddonAnimations;
-import com.jvn.epicaddon.resources.EpicAddonSounds;
-import com.mojang.math.Vector3f;
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.entity.projectile.LargeFireball;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
-import org.apache.commons.lang3.ArrayUtils;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
-import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.LinkAnimation;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.api.model.Model;
-import yesman.epicfight.api.utils.AttackResult;
-import yesman.epicfight.api.utils.ExtendedDamageSource;
 import yesman.epicfight.api.utils.HitEntityList;
 import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.gameasset.Models;
@@ -40,8 +23,6 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
-
-import static com.jvn.epicaddon.resources.EpicAddonAnimations.getPosByTick;
 
 public class BowAtkAnim extends AttackAnimEx {
     //private final int Aid;

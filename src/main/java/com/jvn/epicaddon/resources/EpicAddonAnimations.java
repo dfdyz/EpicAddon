@@ -1,5 +1,6 @@
 package com.jvn.epicaddon.resources;
 
+import com.google.common.collect.Lists;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.anim.BowAtkAnim;
 import com.jvn.epicaddon.api.anim.GravityRestter;
@@ -25,7 +26,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import org.apache.commons.compress.utils.Lists;
 import org.slf4j.Logger;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.Pose;
@@ -48,7 +48,7 @@ import java.util.List;
 
 public class EpicAddonAnimations {
     public static List<CamAnim> CamAnimRegistry = Lists.newArrayList();
-    public static StaticAnimation Test;
+    //public static StaticAnimation Test;
     public static StaticAnimation SAO_SINGLE_SWORD_AUTO1;
     public static StaticAnimation SAO_DUAL_SWORD_HOLD;
     public static StaticAnimation SAO_DUAL_SWORD_NORMAL;
@@ -362,7 +362,7 @@ public class EpicAddonAnimations {
     }
 
     public static void RegCamAnims(){
-        Yoimiya = regCamAnim(new CamAnim(0.3f ,EpicAddon.MODID, "camanim/yoimiya"));
+        Yoimiya = regCamAnim(new CamAnim(0.3f ,EpicAddon.MODID, "camanim/yoimiya.json"));
     }
 
     public static CamAnim regCamAnim(CamAnim anim){
@@ -454,7 +454,7 @@ public class EpicAddonAnimations {
         Vec3 handPos = getPosByTick(entitypatch,0.4f,"Tool_L");
 
         float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
-        Vec3 shootVec = new Vec3(Math.cos(ang), -1.03, Math.sin(ang));
+        Vec3 shootVec = new Vec3(Math.cos(ang), -1.2, Math.sin(ang));
         Vec3 shootPos = handPos.add(shootVec.x,0,shootVec.z);
 
         YoimiyaSAArrow projectile = new YoimiyaSAArrow(worldIn, shootPos, entitypatch.getOriginal());

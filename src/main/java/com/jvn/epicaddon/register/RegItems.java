@@ -1,7 +1,6 @@
 package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.item.*;
 import com.jvn.epicaddon.item.Destiny.DestinyWeaponItem;
 import com.jvn.epicaddon.item.GenShinImpact.BowWeaponItem;
 import com.jvn.epicaddon.item.SAO.DarkRepulsorItem;
@@ -10,13 +9,10 @@ import com.jvn.epicaddon.item.SAO.LambentLightItem;
 import com.jvn.epicaddon.item.SAO.SingelSwordItem;
 import com.jvn.epicaddon.resources.EpicAddonItemGroup;
 import com.jvn.epicaddon.resources.EpicAddonTier;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.apache.commons.compress.utils.Lists;
-
-import java.util.List;
 
 public class RegItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, EpicAddon.MODID);
