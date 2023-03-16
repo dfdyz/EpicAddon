@@ -3,6 +3,7 @@ package com.jvn.epicaddon.resources;
 import com.google.common.collect.Lists;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.anim.BowAtkAnim;
+import com.jvn.epicaddon.api.anim.FallAtkAnim;
 import com.jvn.epicaddon.api.anim.GravityRestter;
 import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.entity.projectile.GenShinArrow;
@@ -89,6 +90,11 @@ public class EpicAddonAnimations {
     public static StaticAnimation GS_Yoimiya_Auto4;
     public static StaticAnimation GS_Yoimiya_Auto5;
     public static StaticAnimation GS_Yoimiya_SA;
+
+    //public static StaticAnimation GS_BowFallAtk_Test;
+    //public static StaticAnimation GS_BowFallAtk_Test1;
+    //public static StaticAnimation GS_BowFallAtk_Test2;
+    //public static StaticAnimation GS_BowFallAtk_Test3;
     public static CamAnim Yoimiya;
 
     public static void registerAnimations(AnimationRegistryEvent event) {
@@ -349,6 +355,12 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.SERVER)
                 });
 
+
+        //GS_BowFallAtk_Test1 = new StaticAnimation(false,"biped/fall_attack_test",biped);
+        //GS_BowFallAtk_Test2 = new StaticAnimation(true,"biped/fall_attack_test_l",biped);
+
+        //GS_BowFallAtk_Test = new FallAtkAnim(GS_BowFallAtk_Test1, GS_BowFallAtk_Test2, Animations.SWORD_AIR_SLASH);
+
         ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);
         ((GravityRestter) GS_Yoimiya_SA).setMode(false);
 
@@ -411,15 +423,15 @@ public class EpicAddonAnimations {
     }
 
     public static final Vec3[] Positions = new Vec3[]{
-            new Vec3(-5,1.1,-2),
-            new Vec3(-4.5,0.2,0.3),
-            new Vec3(-3,0.8,3),
-            new Vec3(-3,1.3,-3),
+            new Vec3(-6.5,1.1,-2.6),
+            new Vec3(-5.85,0.2,0.39),
+            new Vec3(-3.9,0.8,3.9),
+            new Vec3(-3.9,1.3,-4.2),
 
-            new Vec3(-4,1.2,-2),
-            new Vec3(-3,0.4,2),
-            new Vec3(-4.5,0.2,0.3),
-            new Vec3(-4,1.2,-2),
+            new Vec3(-5.2,1.2,-2.6),
+            new Vec3(-3.9,0.4,2.6),
+            new Vec3(-5.85,0.2,0.39),
+            new Vec3(-5.2,1.2,-2.6),
     };
 
     public static final int[] lifetimes = {
@@ -465,7 +477,6 @@ public class EpicAddonAnimations {
         projectile.setExpRadio(5.5F);
         worldIn.addFreshEntity(projectile);
     }
-
     public static Vec3 getPosByTick(LivingEntityPatch entitypatch, float partialTicks, String joint){
         Animator animator = entitypatch.getAnimator();
         Armature armature = entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature();

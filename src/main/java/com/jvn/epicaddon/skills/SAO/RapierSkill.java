@@ -27,7 +27,7 @@ public class RapierSkill extends PassiveSkill {
     }
 
     public static Skill.Builder<PassiveSkill> createBuilder(ResourceLocation resourceLocation) {
-        return (new Skill.Builder<PassiveSkill>(resourceLocation)).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setConsumption(0.0F).setMaxStack(0).setResource(Resource.NONE).setRequiredXp(0);
+        return (new Skill.Builder<PassiveSkill>(resourceLocation)).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setConsumption(0.0F).setMaxStack(0).setResource(Resource.NONE).setRequiredXp(0).setActivateType(ActivateType.PASSIVE);
     }
 
 }

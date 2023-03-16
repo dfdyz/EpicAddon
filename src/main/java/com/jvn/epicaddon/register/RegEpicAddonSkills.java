@@ -4,6 +4,9 @@ package com.jvn.epicaddon.register;
 import com.google.common.collect.Maps;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
+import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.jvn.epicaddon.skills.GenShinInternal.GSBowInternal;
+import com.jvn.epicaddon.skills.GenShinInternal.GSFallAttack;
 import com.jvn.epicaddon.skills.SAO.DualBladeSkill;
 import com.jvn.epicaddon.skills.SAOInternal.SAOSingleSwordInternal;
 import com.jvn.epicaddon.skills.SAOInternal.SAOBasicAtkPatch;
@@ -35,14 +38,16 @@ public class RegEpicAddonSkills {
     public static Skill SAO_RAPIER;
     public static Skill GS_YOIMIYA_SPECIALATK;
 
-    public static Skill BasicAtkPatch;
+    public static Skill SAOBasicAtkPatch;
+    public static Skill GS_Bow_FallAttackPatch;
+    public static Skill GS_Bow_Internal;
 
     private static final Map<ResourceLocation, Skill> LEARNABLE_SKILLS = Maps.newHashMap();
 
     public static void registerSkills(SkillRegistryEvent event) {
         Logger LOGGER = LogUtils.getLogger();
         LOGGER.info("EpicAddon Skill Loading Event");
-        SAO_DUALSWORD = event.registerSkill(new DualBladeSkill(DualBladeSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_dual_sword_skill"))),true);
+        SAO_DUALSWORD = event.registerSkill(new DualBladeSkill(DualBladeSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_dual_sword_skill"))), true);
         SAO_SINGLESWORDGUARD = event.registerSkill(new SingleSwordGuardSkill(SingleSwordGuardSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_single_sword_guard_skill"))),true);
         SAO_RAPIER = event.registerSkill(new RapierSkill(RapierSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_rapier_skill"))),true);
 
@@ -57,8 +62,11 @@ public class RegEpicAddonSkills {
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.LONG)
                 .registerPropertiesToAnimation(),false);
 
-        BasicAtkPatch = event.registerSkill(new SAOBasicAtkPatch(BasicAttack.createBuilder()),false);
-        SAO_SINGLESWORD_INTERNAL = event.registerSkill(new SAOSingleSwordInternal(SAOSingleSwordInternal.createBuilder(new ResourceLocation(EpicAddon.MODID, "single_sword_internal")).setCategory(SkillCategories.WEAPON_PASSIVE)),false);
+        SAOBasicAtkPatch = event.registerSkill(new SAOBasicAtkPatch(SAOBasicAtkPatch.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_basic_attack_patch")).setCategory(SkillCategories.BASIC_ATTACK).setConsumption(0.0F).setActivateType(Skill.ActivateType.ONE_SHOT).setResource(Skill.Resource.NONE)),false);
+        SAO_SINGLESWORD_INTERNAL = event.registerSkill(new SAOSingleSwordInternal(SAOSingleSwordInternal.createBuilder(new ResourceLocation(EpicAddon.MODID, "sao_single_sword_internal")).setCategory(SkillCategories.WEAPON_PASSIVE).setConsumption(0.0F).setActivateType(Skill.ActivateType.PASSIVE).setResource(Skill.Resource.NONE)),false);
+
+        //GS_Bow_FallAttackPatch = event.registerSkill(new GSFallAttack(GSFallAttack.createBuilder(new ResourceLocation(EpicAddon.MODID,"gs_air_attack_patch")).setCategory(SkillCategories.AIR_ATTACK).setConsumption(2.0F).setActivateType(Skill.ActivateType.ONE_SHOT).setResource(Skill.Resource.STAMINA)),false);
+        //GS_Bow_Internal = event.registerSkill(new GSBowInternal(GSBowInternal.GetBuilder("gs_bow_internal").setCategory(SkillCategories.WEAPON_PASSIVE).setCategory(SkillCategories.WEAPON_PASSIVE).setConsumption(0.0F).setActivateType(Skill.ActivateType.PASSIVE).setResource(Skill.Resource.NONE)),false);
 
         LOGGER.info("EpicAddon Skill Loaded");
     }

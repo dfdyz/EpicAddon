@@ -103,14 +103,18 @@ public class CamAnim {
         }
 
         public static Pose lerp(Pose p1, Pose p2, float t){
-            double x = (p1.pos.x*(1-t) + p2.pos.x*t);
-            double y = (p1.pos.y*(1-t) + p2.pos.y*t);
-            double z = (p1.pos.z*(1-t) + p2.pos.z*t);
-            Vec3 p = new Vec3(x,y,z);
+            Vec3 p = lerpVec3(p1.pos,p2.pos,t);
             float _rotY = p1.rotY*(1-t) + p2.rotY*t;
             float _rotX = p1.rotX*(1-t) + p2.rotX*t;
 
             return new Pose(p, _rotX, _rotY);
+        }
+
+        public static Vec3 lerpVec3(Vec3 v1, Vec3 v2, float t){
+            double x = (v1.x*(1-t) + v2.x*t);
+            double y = (v1.y*(1-t) + v2.y*t);
+            double z = (v1.z*(1-t) + v2.z*t);
+            return new Vec3(x,y,z);
         }
 
         @Override
@@ -121,8 +125,6 @@ public class CamAnim {
                     ", rotX=" + rotX +
                     '}';
         }
-
-
     }
 
     public static class Key{

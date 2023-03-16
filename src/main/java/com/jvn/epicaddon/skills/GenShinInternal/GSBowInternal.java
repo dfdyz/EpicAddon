@@ -1,17 +1,18 @@
 package com.jvn.epicaddon.skills.GenShinInternal;
 
 import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.register.RegEpicAddonSkills;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import yesman.epicfight.gameasset.Skills;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.skill.SkillContainer;
-import yesman.epicfight.skill.SkillDataManager;
-
-import java.util.UUID;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 public class GSBowInternal extends Skill {
 
-    public Builder<GSBowInternal> GetBuilder(String registryName){
+    public static Builder<GSBowInternal> GetBuilder(String registryName){
         return new Builder<GSBowInternal>(new ResourceLocation(EpicAddon.MODID, registryName)).setCategory(SkillCategories.WEAPON_PASSIVE);
     }
 
@@ -22,5 +23,18 @@ public class GSBowInternal extends Skill {
     @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
+        container.getExecuter().getSkillCapability().skillContainers[SkillCategories.AIR_ATTACK.universalOrdinal()].setSkill(RegEpicAddonSkills.GS_Bow_FallAttackPatch);
     }
+
+    @Override
+    public void onRemoved(SkillContainer container) {
+        super.onRemoved(container);
+        container.getExecuter().getSkillCapability().skillContainers[SkillCategories.AIR_ATTACK.universalOrdinal()].setSkill(Skills.AIR_ATTACK);
+    }
+
+    @Override
+    public void executeOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {
+        super.executeOnServer(executer, args);
+    }
+
 }
