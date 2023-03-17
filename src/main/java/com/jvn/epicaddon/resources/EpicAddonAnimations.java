@@ -3,7 +3,7 @@ package com.jvn.epicaddon.resources;
 import com.google.common.collect.Lists;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.anim.BowAtkAnim;
-import com.jvn.epicaddon.api.anim.FallAtkAnim;
+import com.jvn.epicaddon.api.anim.FallAtkStartAnim;
 import com.jvn.epicaddon.api.anim.GravityRestter;
 import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.entity.projectile.GenShinArrow;
@@ -91,10 +91,9 @@ public class EpicAddonAnimations {
     public static StaticAnimation GS_Yoimiya_Auto5;
     public static StaticAnimation GS_Yoimiya_SA;
 
-    //public static StaticAnimation GS_BowFallAtk_Test;
-    //public static StaticAnimation GS_BowFallAtk_Test1;
-    //public static StaticAnimation GS_BowFallAtk_Test2;
-    //public static StaticAnimation GS_BowFallAtk_Test3;
+    public static StaticAnimation GS_Yoimiya_FallAtk_Start;
+    public static StaticAnimation GS_Yoimiya_FallAtk_Last;
+    public static StaticAnimation GS_BowFallAtk_Test2;
     public static CamAnim Yoimiya;
 
     public static void registerAnimations(AnimationRegistryEvent event) {
@@ -355,12 +354,15 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.SERVER)
                 });
 
-
-        //GS_BowFallAtk_Test1 = new StaticAnimation(false,"biped/fall_attack_test",biped);
-        //GS_BowFallAtk_Test2 = new StaticAnimation(true,"biped/fall_attack_test_l",biped);
-
+        //GS_BowFallAtk_Loop = new FallAtkAnimLoop(0.1f,true,"biped/fall_attack_test_l",biped,Animations.SWORD_AIR_SLASH);
+        GS_Yoimiya_FallAtk_Last = new BasicAttackAnimation(0.05F, 0.5F, 0.8F, 2.1F, WeaponCollider.GenShin_Bow_FallAttack, "Root", "biped/gs_yoimiya_fall_atk_last", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(0.5F))
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 7f);
+        GS_Yoimiya_FallAtk_Start = new FallAtkStartAnim(0.1f,"biped/gs_yoimiya_fall_atk_start",0.02f, 7.5f,"biped/gs_yoimiya_fall_atk_loop", biped, GS_Yoimiya_FallAtk_Last)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3.6f);
         //GS_BowFallAtk_Test = new FallAtkAnim(GS_BowFallAtk_Test1, GS_BowFallAtk_Test2, Animations.SWORD_AIR_SLASH);
 
+        ((GravityRestter) GS_Yoimiya_FallAtk_Start).setMode(false);
         ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);
         ((GravityRestter) GS_Yoimiya_SA).setMode(false);
 

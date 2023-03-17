@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.jvn.epicaddon.skills.GenShinInternal.GSBasicAtkPatch;
 import com.jvn.epicaddon.skills.GenShinInternal.GSBowInternal;
 import com.jvn.epicaddon.skills.GenShinInternal.GSFallAttack;
 import com.jvn.epicaddon.skills.SAO.DualBladeSkill;
@@ -40,6 +41,7 @@ public class RegEpicAddonSkills {
 
     public static Skill SAOBasicAtkPatch;
     public static Skill GS_Bow_FallAttackPatch;
+    public static Skill GS_Bow_BasicAttackPatch;
     public static Skill GS_Bow_Internal;
 
     private static final Map<ResourceLocation, Skill> LEARNABLE_SKILLS = Maps.newHashMap();
@@ -65,8 +67,10 @@ public class RegEpicAddonSkills {
         SAOBasicAtkPatch = event.registerSkill(new SAOBasicAtkPatch(SAOBasicAtkPatch.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_basic_attack_patch")).setCategory(SkillCategories.BASIC_ATTACK).setConsumption(0.0F).setActivateType(Skill.ActivateType.ONE_SHOT).setResource(Skill.Resource.NONE)),false);
         SAO_SINGLESWORD_INTERNAL = event.registerSkill(new SAOSingleSwordInternal(SAOSingleSwordInternal.createBuilder(new ResourceLocation(EpicAddon.MODID, "sao_single_sword_internal")).setCategory(SkillCategories.WEAPON_PASSIVE).setConsumption(0.0F).setActivateType(Skill.ActivateType.PASSIVE).setResource(Skill.Resource.NONE)),false);
 
-        //GS_Bow_FallAttackPatch = event.registerSkill(new GSFallAttack(GSFallAttack.createBuilder(new ResourceLocation(EpicAddon.MODID,"gs_air_attack_patch")).setCategory(SkillCategories.AIR_ATTACK).setConsumption(2.0F).setActivateType(Skill.ActivateType.ONE_SHOT).setResource(Skill.Resource.STAMINA)),false);
-        //GS_Bow_Internal = event.registerSkill(new GSBowInternal(GSBowInternal.GetBuilder("gs_bow_internal").setCategory(SkillCategories.WEAPON_PASSIVE).setCategory(SkillCategories.WEAPON_PASSIVE).setConsumption(0.0F).setActivateType(Skill.ActivateType.PASSIVE).setResource(Skill.Resource.NONE)),false);
+        GS_Bow_FallAttackPatch = event.registerSkill(new GSFallAttack(GSFallAttack.createBuilder(new ResourceLocation(EpicAddon.MODID,"gs_air_attack_patch")).setCategory(SkillCategories.AIR_ATTACK).setConsumption(2.0F).setActivateType(Skill.ActivateType.ONE_SHOT).setResource(Skill.Resource.STAMINA)),false);
+        GS_Bow_BasicAttackPatch = event.registerSkill(new GSBasicAtkPatch(GSBasicAtkPatch.createBuilder(new ResourceLocation(EpicAddon.MODID,"gs_basic_attack_patch")).setCategory(SkillCategories.BASIC_ATTACK).setConsumption(0.0F).setActivateType(Skill.ActivateType.ONE_SHOT).setResource(Skill.Resource.NONE)),false);
+
+        GS_Bow_Internal = event.registerSkill(new GSBowInternal(GSBowInternal.GetBuilder("gs_bow_internal").setCategory(SkillCategories.WEAPON_PASSIVE).setCategory(SkillCategories.WEAPON_PASSIVE).setConsumption(0.0F).setActivateType(Skill.ActivateType.PASSIVE).setResource(Skill.Resource.NONE)),false);
 
         LOGGER.info("EpicAddon Skill Loaded");
     }

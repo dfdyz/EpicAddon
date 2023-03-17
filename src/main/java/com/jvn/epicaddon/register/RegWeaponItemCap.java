@@ -137,13 +137,14 @@ public class RegWeaponItemCap {
                 .swingSound(EpicFightSounds.WHOOSH_BIG)
                 .hitSound(EpicFightSounds.BLADE_HIT)
                 .canBePlacedOffhand(false)
+                .passiveSkill(RegEpicAddonSkills.GS_Bow_Internal)
                 .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
                         EpicAddonAnimations.GS_Yoimiya_Auto1,
                         EpicAddonAnimations.GS_Yoimiya_Auto2,
                         EpicAddonAnimations.GS_Yoimiya_Auto3,
                         EpicAddonAnimations.GS_Yoimiya_Auto4,
                         EpicAddonAnimations.GS_Yoimiya_Auto5,
-                        EpicAddonAnimations.GS_Yoimiya_Auto2, Animations.GREATSWORD_AIR_SLASH)
+                        EpicAddonAnimations.GS_Yoimiya_Auto2, EpicAddonAnimations.GS_Yoimiya_FallAtk_Start)
                 .specialAttack(CapabilityItem.Styles.ONE_HAND, RegEpicAddonSkills.GS_YOIMIYA_SPECIALATK)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, Animations.BIPED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, Animations.BIPED_WALK)
