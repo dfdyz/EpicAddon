@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -24,23 +23,53 @@ public class EpicAddonRenderType extends RenderType {
     boolean writeColor;
     boolean writeDepth;
 
-    public static final ParticleRenderType GENSHIN_BOW_PARTICLE = new ParticleRenderType() {
+    public static class EpicAddonParticleRenderType implements ParticleRenderType {
+        private final ResourceLocation Texture;
+        private final String Name;
+        public EpicAddonParticleRenderType(String path, String name) {
+            this.Texture = new ResourceLocation(EpicAddon.MODID, path+".png");
+            Name = name;
+        }
+
         public void begin(BufferBuilder p_107448_, TextureManager p_107449_) {
-            RenderSystem.disableBlend();
+            //RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.enableBlend();
+            RenderSystem.disableCull();
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
-            RenderSystem.setShader(GameRenderer::getParticleShader);
-            RenderSystem.setShaderTexture(0, GetTextures("particle/genshin_bow"));
-            p_107448_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+            RenderSystem.setShader(GameRenderer::getPositionColorTexLightmapShader);
+
+            TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+            AbstractTexture abstracttexture = texturemanager.getTexture(Texture);
+
+            RenderSystem.bindTexture(abstracttexture.getId());
+
+            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+
+            RenderSystem.setShaderTexture(0, abstracttexture.getId());
+
+            p_107448_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
         public void end(Tesselator p_107451_) {
+            p_107451_.getBuilder().setQuadSortOrigin(0.0F, 0.0F, 0.0F);
             p_107451_.end();
+            RenderSystem.disableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.enableCull();
         }
 
         public String toString() {
-            return "GENSHIN_BOW";
+            return Name;
         }
     };
+
+    public static final ParticleRenderType GENSHIN_BOW_PARTICLE = new EpicAddonParticleRenderType("textures/particle/genshin_bow", "GENSHIN_BOW");
+    public static final ParticleRenderType GENSHIN_BOW_LANDING_PARTICLE = new EpicAddonParticleRenderType("textures/particle/genshin_bow_landing", "GENSHIN_BOW");
+    public static final ParticleRenderType GENSHIN_BOW_LANDING_PARTICLE3 = new EpicAddonParticleRenderType("textures/particle/genshin_bow_landing3", "GENSHIN_BOW");
+
 
     public static class BladeTrailRenderType implements ParticleRenderType {
         private final ResourceLocation Texture;

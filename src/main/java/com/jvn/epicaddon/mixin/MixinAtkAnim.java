@@ -5,6 +5,7 @@ import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.utils.Trail;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -37,6 +38,8 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     }
 
  */
+
+
 
     @Override
     public boolean isColorOverride() {
@@ -138,7 +141,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     }
 
     @Inject(at = @At("HEAD"),method = "tick")
-    private void MixinTick(LivingEntityPatch<?> entitypatch,CallbackInfo cbi){
+    private void MixinTick(LivingEntityPatch<?> entitypatch, CallbackInfo cbi){
         if(entitypatch.getOriginal().getLevel().isClientSide()){
             if(entitypatch instanceof PlayerPatch || entitypatch instanceof HumanoidMobPatch){
                 StaticAnimation animation = getAtkAnim();

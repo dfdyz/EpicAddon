@@ -8,7 +8,7 @@
 	],
 	"mixins": [
 		"MixinNBTCapabilities",
-		"MixinAtkAnimGravityReseter"
+		"MixinAtkAnimCommon"
 	],
 	"injector": {
 		"defaultRequire": 1

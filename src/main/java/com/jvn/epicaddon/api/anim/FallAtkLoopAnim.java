@@ -1,35 +1,27 @@
 package com.jvn.epicaddon.api.anim;
 
+import com.jvn.epicaddon.api.anim.fuckAPI.StateSpectrumUtils;
 import com.jvn.epicaddon.utils.JointMasks;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import yesman.epicfight.api.animation.JointTransform;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.ActionAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
+import yesman.epicfight.api.animation.types.LinkAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.ClientAnimationProperties;
 import yesman.epicfight.api.client.animation.JointMaskEntry;
 import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.model.Model;
-import yesman.epicfight.api.utils.math.OpenMatrix4f;
-import yesman.epicfight.api.utils.math.Vec3f;
-import yesman.epicfight.gameasset.Models;
+import yesman.epicfight.client.ClientEngine;
+import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class FallAtkLoopAnim extends ActionAnimation {
@@ -46,7 +38,6 @@ public class FallAtkLoopAnim extends ActionAnimation {
                 JointMaskEntry.builder().defaultMask(JointMasks.ALL).mask(LivingMotions.FALL ,JointMasks.ALL).create());
     }
 
-
     @Override
     public void tick(LivingEntityPatch<?> entitypatch) {
         super.tick(entitypatch);
@@ -55,8 +46,23 @@ public class FallAtkLoopAnim extends ActionAnimation {
                 entitypatch.playAnimationSynchronized(atk,0);
             }
         }
+        else {
+            if(entitypatch.getOriginal() == Minecraft.getInstance().player){
+                ClientEngine.instance.renderEngine.unlockRotation(Minecraft.getInstance().cameraEntity);
+            }
+        }
         entitypatch.getOriginal().setDeltaMovement(0,0,0);
         entitypatch.getOriginal().move(MoverType.SELF, new Vec3(0,-2,0));
+    }
+
+    @Override
+    public void linkTick(LivingEntityPatch<?> entitypatch, LinkAnimation linkAnimation) {
+        super.linkTick(entitypatch, linkAnimation);
+        if(entitypatch.isLogicalClient()){
+            if(entitypatch.getOriginal() == Minecraft.getInstance().player){
+                ClientEngine.instance.renderEngine.unlockRotation(Minecraft.getInstance().cameraEntity);
+            }
+        }
     }
 
     @Override
