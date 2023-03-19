@@ -1,6 +1,7 @@
 package com.jvn.epicaddon;
 
 import com.jvn.epicaddon.api.camera.CamAnim;
+import com.jvn.epicaddon.network.EpicAddonNetworkManager;
 import com.jvn.epicaddon.register.*;
 import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import yesman.epicfight.network.EpicFightNetworkManager;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("epicaddon")
@@ -62,6 +64,7 @@ public class EpicAddon
             }
 
         }
+        //event.enqueueWork(EpicAddonNetworkManager::registerPackets);
     }
 
 /*

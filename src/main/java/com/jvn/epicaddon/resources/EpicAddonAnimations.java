@@ -2,10 +2,7 @@ package com.jvn.epicaddon.resources;
 
 import com.google.common.collect.Lists;
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.api.anim.BowAtkAnim;
-import com.jvn.epicaddon.api.anim.FallAtkFinalAnim;
-import com.jvn.epicaddon.api.anim.FallAtkStartAnim;
-import com.jvn.epicaddon.api.anim.GravityRestter;
+import com.jvn.epicaddon.api.anim.*;
 import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.events.CameraEvent;
 import com.jvn.epicaddon.register.RegParticle;
@@ -80,7 +77,8 @@ public class EpicAddonAnimations {
 
     public static StaticAnimation GS_Yoimiya_FallAtk_Start;
     public static StaticAnimation GS_Yoimiya_FallAtk_Last;
-    public static StaticAnimation GS_BowFallAtk_Test2;
+    public static StaticAnimation GS_Yoimiya_FallAtk_Loop;
+    //public static StaticAnimation GS_BowFallAtk_Test2;
     public static CamAnim Yoimiya;
 
     public static void registerAnimations(AnimationRegistryEvent event) {
@@ -263,40 +261,40 @@ public class EpicAddonAnimations {
         GS_Yoimiya_Auto1 = new BowAtkAnim(0.1F, 0.62F, 0.8333F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto1", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.4F, (ep) -> {
-                            YoimiyaSkillFunction.BowShoot(ep, "Tool_L");
-                           }, StaticAnimation.Event.Side.SERVER),
+                            YoimiyaSkillFunction.BowShoot(ep,"Tool_L");
+                           }, StaticAnimation.Event.Side.BOTH),
                         StaticAnimation.Event.create(0.585F, (ep) -> {
-                            YoimiyaSkillFunction.BowShoot(ep, "Tool_L");
-                        }, StaticAnimation.Event.Side.SERVER),
+                            YoimiyaSkillFunction.BowShoot(ep,"Tool_L");
+                        }, StaticAnimation.Event.Side.BOTH),
                 })
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.75f);
 
         GS_Yoimiya_Auto2 = new BowAtkAnim(0.1F, 0.7F, 0.98F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto2", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.6F, (ep) -> {
-                            YoimiyaSkillFunction.BowShoot(ep, "Tool_R");
-                        }, StaticAnimation.Event.Side.SERVER),
+                            YoimiyaSkillFunction.BowShoot(ep,"Tool_R");
+                        }, StaticAnimation.Event.Side.BOTH),
                 });
 
         GS_Yoimiya_Auto3 = new BowAtkAnim(0.1F, 0.88F, 1.03F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto3", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.95f)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.84F, (ep) -> {
-                            YoimiyaSkillFunction.BowShoot(ep, "Tool_L");
-                        }, StaticAnimation.Event.Side.SERVER),
+                            YoimiyaSkillFunction.BowShoot(ep,"Tool_L");
+                        }, StaticAnimation.Event.Side.BOTH),
                 });
 
         GS_Yoimiya_Auto4 = new BowAtkAnim(0.05F, 2.12F, 2.733F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto4", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(1.2083F, (ep) -> {
-                            YoimiyaSkillFunction.BowShoot(ep, "Tool_L");
-                        }, StaticAnimation.Event.Side.SERVER),
+                            YoimiyaSkillFunction.BowShoot(ep,"Tool_L");
+                        }, StaticAnimation.Event.Side.BOTH),
                         StaticAnimation.Event.create(1.7916F, (ep) -> {
-                            YoimiyaSkillFunction.BowShoot(ep, "Tool_R");
-                        }, StaticAnimation.Event.Side.SERVER),
+                            YoimiyaSkillFunction.BowShoot(ep,"Tool_R");
+                        }, StaticAnimation.Event.Side.BOTH),
                         StaticAnimation.Event.create(2.0416F, (ep) -> {
-                            YoimiyaSkillFunction.BowShoot(ep, "Tool_L");
-                        }, StaticAnimation.Event.Side.SERVER),
+                            YoimiyaSkillFunction.BowShoot(ep,"Tool_L");
+                        }, StaticAnimation.Event.Side.BOTH),
                 })
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3.1f);
 
@@ -305,7 +303,7 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.7083F, (ep) -> {
                             YoimiyaSkillFunction.BowShoot(ep, "Tool_L");
-                        }, StaticAnimation.Event.Side.SERVER),
+                        }, StaticAnimation.Event.Side.BOTH),
                 });
 
         GS_Yoimiya_SA = new BowAtkAnim(0.02F, 0.5F, 4.56F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_sa", biped)
@@ -345,7 +343,8 @@ public class EpicAddonAnimations {
         GS_Yoimiya_FallAtk_Last = new FallAtkFinalAnim(0.05F, 0.5F, 0.8F, 2.1F, WeaponCollider.GenShin_Bow_FallAttack, "Root", "biped/gs_yoimiya_fall_atk_last", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(0.5F))
                 .addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true)
-                .addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, EpicAddonSounds.GENSHIN_BOW)
+                .addProperty(AnimationProperty.AttackPhaseProperty.HIT_SOUND, EpicAddonSounds.GENSHIN_BOW_FALLATK)
+                .addProperty(AnimationProperty.AttackPhaseProperty.SWING_SOUND, EpicAddonSounds.GENSHIN_BOW_FALLATK)
                 .addProperty(AnimationProperty.AttackPhaseProperty.MAX_STRIKES, ValueCorrector.setter(114514))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.LONG)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.setter(1))
@@ -360,8 +359,12 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.SERVER)
                 })
         ;
-        GS_Yoimiya_FallAtk_Start = new FallAtkStartAnim(0.1f,"biped/gs_yoimiya_fall_atk_start",0.1f, 7.5f,"biped/gs_yoimiya_fall_atk_loop", biped, GS_Yoimiya_FallAtk_Last)
+
+        GS_Yoimiya_FallAtk_Loop = new FallAtkLoopAnim(0.1f,"biped/gs_yoimiya_fall_atk_loop", biped, GS_Yoimiya_FallAtk_Last);
+
+        GS_Yoimiya_FallAtk_Start = new FallAtkStartAnim(0.1f,"biped/gs_yoimiya_fall_atk_start", biped, GS_Yoimiya_FallAtk_Loop)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3.6f);
+
         //GS_BowFallAtk_Test = new FallAtkAnim(GS_BowFallAtk_Test1, GS_BowFallAtk_Test2, Animations.SWORD_AIR_SLASH);
 
         ((GravityRestter) GS_Yoimiya_FallAtk_Start).setMode(false);

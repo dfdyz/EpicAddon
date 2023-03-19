@@ -9,6 +9,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
@@ -26,16 +28,18 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class FallAtkLoopAnim extends ActionAnimation {
     private StaticAnimation atk;
-    private final float fallSpeed;
-    public FallAtkLoopAnim(float convertTime,float fallSpeed, String path, Model model, StaticAnimation atk){
+    //private final float fallSpeed;
+    public FallAtkLoopAnim(float convertTime, String path, Model model, StaticAnimation atk){
         super(convertTime ,path,model);
         this.atk = atk;
-        this.fallSpeed = fallSpeed;
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false);
-        this.addProperty(ClientAnimationProperties.PRIORITY, Layer.Priority.HIGHEST);
-        //this.addProperty(ClientAnimationProperties.LAYER_TYPE, Layer.LayerType.COMPOSITE_LAYER);
-        this.addProperty(ClientAnimationProperties.JOINT_MASK,
-                JointMaskEntry.builder().defaultMask(JointMasks.ALL).mask(LivingMotions.FALL ,JointMasks.ALL).create());
+
+        if(FMLEnvironment.dist == Dist.CLIENT){
+            this.addProperty(ClientAnimationProperties.PRIORITY, Layer.Priority.HIGHEST);
+            //this.addProperty(ClientAnimationProperties.LAYER_TYPE, Layer.LayerType.COMPOSITE_LAYER);
+            this.addProperty(ClientAnimationProperties.JOINT_MASK,
+                    JointMaskEntry.builder().defaultMask(JointMasks.ALL).mask(LivingMotions.FALL ,JointMasks.ALL).create());
+        }
     }
 
     @Override

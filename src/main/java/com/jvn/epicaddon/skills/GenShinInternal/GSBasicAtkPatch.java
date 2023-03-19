@@ -73,15 +73,15 @@ public class GSBasicAtkPatch extends Skill {
                 List<StaticAnimation> combo = cap.getAutoAttckMotion(executer);
                 int comboSize = combo.size();
                 boolean dashAttack = player.isSprinting();
-                boolean fallAttack = player.getDeltaMovement().y <= -0D;
+                boolean fallAttack = player.getDeltaMovement().y <= -0.3D;
 
                 if(fallAttack){
                     Vec3 epos = executer.getOriginal().position();
-                    ClipContext clipContext = new ClipContext(epos, epos.add(0,-5.5,0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, executer.getOriginal());
+                    ClipContext clipContext = new ClipContext(epos, epos.add(0,-3.6,0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, executer.getOriginal());
                     Level level = executer.getOriginal().level;
                     BlockHitResult result = level.clip(clipContext);
                     fallAttack = result.getType() == HitResult.Type.MISS || result.getType() == HitResult.Type.ENTITY;
-                    System.out.println(fallAttack);
+                    //System.out.println(fallAttack);
                 }
 
                 if (dashAttack) {

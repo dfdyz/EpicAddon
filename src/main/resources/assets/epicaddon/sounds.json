@@ -5,6 +5,12 @@
     "subtitle":"weapon.genshin_bow",
     "sounds":[{"name":"epicaddon:weapon/genshin_bow", "stream":true}]
   },
+  "weapon.genshin_bow_fallatk":
+  {
+    "category":"weapon",
+    "subtitle":"weapon.genshin_bow_fallatk",
+    "sounds":[{"name":"epicaddon:weapon/genshin_bow_fallatk", "stream":true}]
+  },
   "character.yoimiya.skill1":
   {
     "category":"weapon",
@@ -23,7 +29,4 @@
     "subtitle":"character.yoimiya.skill3",
     "sounds":[{"name":"epicaddon:character/yoimiya/skill_3", "stream":true}]
   }
-
-
-
 }

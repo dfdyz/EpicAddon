@@ -5,6 +5,8 @@ import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.skills.GenShinInternal.GSFallAttack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import yesman.epicfight.api.animation.JointTransform;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
@@ -25,12 +27,14 @@ import java.util.Locale;
 
 public class FallAtkStartAnim extends ActionAnimation {
     public StaticAnimation Loop;
-    public FallAtkStartAnim(float convertTime, String path, float loopConvertTime, float fallSpeed,String loopPath, Model model, StaticAnimation AtkAnim){
+    public FallAtkStartAnim(float convertTime, String path, Model model, StaticAnimation Loop){
         super(convertTime, path, model);
-        this.Loop = new FallAtkLoopAnim(loopConvertTime ,fallSpeed,loopPath, model, AtkAnim);
+        this.Loop = Loop;
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false);
-        this.addProperty(ClientAnimationProperties.PRIORITY, Layer.Priority.HIGHEST);
-        this.addProperty(ClientAnimationProperties.LAYER_TYPE, Layer.LayerType.BASE_LAYER);
+        if(FMLEnvironment.dist == Dist.CLIENT){
+            this.addProperty(ClientAnimationProperties.PRIORITY, Layer.Priority.HIGHEST);
+            this.addProperty(ClientAnimationProperties.LAYER_TYPE, Layer.LayerType.BASE_LAYER);
+        }
     }
 
     @Override
@@ -47,6 +51,7 @@ public class FallAtkStartAnim extends ActionAnimation {
                         container.getDataManager().registerData(GSFallAttack.FALL_STATE);
                     }
                     container.getDataManager().setData(GSFallAttack.FALL_STATE, 0);
+                    container.update();
                 }
             }
         }
@@ -72,12 +77,6 @@ public class FallAtkStartAnim extends ActionAnimation {
                 ClientEngine.instance.renderEngine.unlockRotation(Minecraft.getInstance().cameraEntity);
             }
         }
-    }
-
-    @Override
-    public void loadAnimation(ResourceManager resourceManager) {
-        super.loadAnimation(resourceManager);
-        load(resourceManager,Loop);
     }
 
     @Override
@@ -117,6 +116,7 @@ public class FallAtkStartAnim extends ActionAnimation {
                         spp.playAnimationSynchronized(Loop,0f);
                         //spp.getEventListener().triggerEvents(ATTACK_ANIMATION_END_EVENT, new FallAttackEvent(spp, entitypatch.currentlyAttackedEntity, this.getNamespaceId(),this.getId()));
                     }
+                    container.update();
                 }
             }
         }

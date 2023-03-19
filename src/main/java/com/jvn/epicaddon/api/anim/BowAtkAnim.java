@@ -66,11 +66,6 @@ public class BowAtkAnim extends AttackAnimEx {
     @Override
     protected Vec3f getCoordVector(LivingEntityPatch<?> entitypatch, DynamicAnimation dynamicAnimation) {
         Vec3f vec3 = super.getCoordVector(entitypatch, dynamicAnimation);
-
-        if (entitypatch.shouldBlockMoving() && this.getProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE).orElse(false)) {
-            vec3.scale(0.0F);
-        }
-
         return vec3;
     }
 

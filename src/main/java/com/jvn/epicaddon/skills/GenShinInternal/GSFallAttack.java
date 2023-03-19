@@ -46,7 +46,7 @@ public class GSFallAttack extends Skill {
         Player player = executer.getOriginal();
 
         Vec3 epos = executer.getOriginal().position();
-        ClipContext clipContext = new ClipContext(epos, epos.add(0,-5.5,0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, executer.getOriginal());
+        ClipContext clipContext = new ClipContext(epos, epos.add(0,-3.6,0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, executer.getOriginal());
         Level level = executer.getOriginal().level;
         BlockHitResult result = level.clip(clipContext);
         boolean fallAttack = result.getType() == HitResult.Type.MISS || result.getType() == HitResult.Type.ENTITY;
