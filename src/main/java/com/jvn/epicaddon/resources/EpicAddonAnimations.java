@@ -310,7 +310,7 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3f)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
-                            CameraEvent.SetAnim(Yoimiya, ep.getOriginal());
+                            CameraEvent.SetAnim(Yoimiya, ep.getOriginal(), true);
                         }, StaticAnimation.Event.Side.CLIENT),
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
                             YoimiyaSkillFunction.YoimiyaSAFirework(ep);

@@ -26,8 +26,9 @@ public class CameraEvent {
     private static boolean isEnd = true;
     private static boolean linking = false;
     private static LivingEntity orginal;
-
     private static final Vec3 Vec3UP = new Vec3(0,1f,0);
+
+    private static boolean isLockPos = false;
 
     private static CamAnim.Pose pose_;
 
@@ -59,7 +60,11 @@ public class CameraEvent {
         CamAnim.Pose pose;
         if(linking){
             pose = pose_;
-            Vec3 camPos = CamAnim.Pose.lerpVec3((pose.pos.yRot((float) Math.toRadians(-yawLock-90f))).add(posLock), camera.getPosition(),(linkTick + (float) partialTicks)/maxLinkTick);
+            Vec3 camPos = CamAnim.Pose.lerpVec3(
+                    (pose.pos.yRot((float) Math.toRadians(-yawLock-90f)))
+                            .add(isLockPos ? posLock : orginal.getPosition((float) partialTicks))
+                    , camera.getPosition(),
+                    (linkTick + (float) partialTicks)/maxLinkTick);
 
             float _rot_y = MathUtils.lerpBetween(yawLock-pose.rotY, event.getYaw(), (linkTick + (float) partialTicks)/maxLinkTick);
             float _rot_x = MathUtils.lerpBetween(pose.rotX, event.getPitch(), (linkTick + (float) partialTicks)/maxLinkTick);
@@ -75,10 +80,11 @@ public class CameraEvent {
             pose_ = pose;
 
             //Vec3 curPos = camera.getPosition();
-            Vec3 camPos = (pose.pos.yRot((float) Math.toRadians(-yawLock-90f))).add(posLock);
+
+
+            Vec3 camPos = (pose.pos.yRot((float) Math.toRadians(-yawLock-90f))).add(isLockPos ? posLock : orginal.getPosition((float) partialTicks));
 
             //Vec3 p = camPos.subtract(curPos);
-
 
             //System.out.println(pose);
 
@@ -115,7 +121,7 @@ public class CameraEvent {
             tick = 0;
         }
     }
-    public static void SetAnim(CamAnim anim, LivingEntity org){
+    public static void SetAnim(CamAnim anim, LivingEntity org, boolean lockOrgPos){
         if(org instanceof Player){
             if (!((Player) org).isLocalPlayer()) return;
         }
@@ -131,5 +137,6 @@ public class CameraEvent {
         linkTick = 0;
         maxLinkTick = 5;
         currentAnim = anim;
+        isLockPos = lockOrgPos;
     }
 }

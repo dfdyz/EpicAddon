@@ -1,5 +1,6 @@
 package com.jvn.epicaddon.register;
 
+import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.cap.GenShinBowCap;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
@@ -15,12 +16,14 @@ import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.gameasset.Skills;
+import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.RangedWeaponCapability;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 public class RegWeaponItemCap {
@@ -30,14 +33,34 @@ public class RegWeaponItemCap {
         WeaponCapability.Builder builder = WeaponCapability.builder()
                 .category(CapabilityItem.WeaponCategories.SWORD)
                 .styleProvider((playerpatch) -> {
-                    if(playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD
-                            && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
-                            && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_dual_sword_skill")){
-                        return EpicAddonStyles.SAO_DUAL_SWORD;
-                    }
-                    if(((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
-                            && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_rapier_skill")){
+                    if(playerpatch instanceof PlayerPatch){
+                        if(playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD
+                                && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
+                                && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_dual_sword_skill")){
+                            return EpicAddonStyles.SAO_DUAL_SWORD;
+                        }
+                        if(((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
+                                && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_rapier_skill")){
                             return EpicAddonStyles.SAO_RAPIER;
+                        }
+                    }
+                    else if (playerpatch instanceof HumanoidMobPatch) {
+                        String[] tags = (String[]) playerpatch.getOriginal().getTags().toArray();
+                        for (String tag : tags) {
+                            String[] arg = tag.split(":");
+                            if(arg.length > 2 && arg[0] == EpicAddon.MODID){
+                                if(arg[1] == "sao_single_sword"){
+                                    switch (arg[3]){
+                                        case "dual_sword":
+                                            return EpicAddonStyles.SAO_DUAL_SWORD;
+                                        case "rapier":
+                                            return EpicAddonStyles.SAO_RAPIER;
+                                        default:
+                                            return EpicAddonStyles.SAO_SINGLE_SWORD;
+                                    }
+                                }
+                            }
+                        }
                     }
                     return EpicAddonStyles.SAO_SINGLE_SWORD;
                 })
@@ -159,6 +182,8 @@ public class RegWeaponItemCap {
 
         return builder;
     };
+
+
 
     //@SubscribeEvent
     public static void register(WeaponCapabilityPresetRegistryEvent event){

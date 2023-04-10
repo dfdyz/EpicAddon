@@ -54,8 +54,9 @@ public class YoimiyaSkillFunction {
                     //Vec3 shootPos = handPos;
                     Vec3 shootTarget = target.position();
                     shootTarget = new Vec3(shootTarget.x,target.getEyeY(),shootTarget.z);
-                    Vec3 shootVec = shootTarget.subtract(position);
-                    Vec3 shootPos = position.add((new Vec3(shootVec.x,entitypatch.getOriginal().getEyeHeight(),shootVec.z)).normalize());
+                    Vec3 center = position.add(0,entitypatch.getOriginal().getEyeHeight(),0);
+                    Vec3 shootVec = shootTarget.subtract(center);
+                    Vec3 shootPos = center.add((new Vec3(shootVec.x,0,shootVec.z)).normalize());
 
                     GenShinArrow projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
                     projectile.setPos(shootPos);

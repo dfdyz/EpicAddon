@@ -139,6 +139,7 @@ public class DestinyWeaponItem extends ProjectileWeaponItem {
         CapabilityItem fromCap =  playerpatch.getHoldingItemCapability(InteractionHand.MAIN_HAND);
         //System.out.println("ItemChange("+getType(itemstack)+" -> "+type+")");
         setType(itemstack,type);
+
         playerpatch.updateHeldItem(fromCap,
                 EpicFightCapabilities.getItemStackCapability(itemstack),
                 itemstack,itemstack,InteractionHand.MAIN_HAND);
@@ -147,6 +148,7 @@ public class DestinyWeaponItem extends ProjectileWeaponItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand hand) {
         //updateItem(playerIn,hand);
+        if(worldIn.isClientSide()) return InteractionResultHolder.pass(playerIn.getItemInHand(hand));
         if(!playerIn.isShiftKeyDown()){
             if(getType(playerIn.getItemInHand(hand))==types[1]){
                 Vec3 Up = playerIn.getUpVector(1.0F);
@@ -178,6 +180,7 @@ public class DestinyWeaponItem extends ProjectileWeaponItem {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity playerIn, int sort, boolean inHand) {
+        if(level.isClientSide()) return;
         if(playerIn instanceof Player){
             if(inHand){
                 int i = getTypeIdx(stack);
@@ -221,5 +224,4 @@ public class DestinyWeaponItem extends ProjectileWeaponItem {
             else return UseAnim.BLOCK;
         }
     }
-
 }

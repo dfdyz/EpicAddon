@@ -7,6 +7,7 @@ import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.skills.GenShinInternal.GSBasicAtkPatch;
 import com.jvn.epicaddon.skills.GenShinInternal.GSBowInternal;
 import com.jvn.epicaddon.skills.GenShinInternal.GSFallAttack;
+import com.jvn.epicaddon.skills.GenShinInternal.GSSpecialAttack;
 import com.jvn.epicaddon.skills.SAO.DualBladeSkill;
 import com.jvn.epicaddon.skills.SAOInternal.SAOSingleSwordInternal;
 import com.jvn.epicaddon.skills.SAOInternal.SAOBasicAtkPatch;
@@ -53,7 +54,7 @@ public class RegEpicAddonSkills {
 
         WEAPON_SKILL_RAPIER = event.registerSkill(new SimpleSpecialAttackSkill(SimpleSpecialAttackSkill.createBuilder(new ResourceLocation(EpicAddon.MODID, "weapon_skill_rapier")).setConsumption(30.0F).setAnimations(EpicAddonAnimations.SAO_RAPIER_SPECIAL_DASH)),false);
 
-        GS_YOIMIYA_SPECIALATK = event.registerSkill(new SimpleSpecialAttackSkill(SimpleSpecialAttackSkill.createBuilder(new ResourceLocation(EpicAddon.MODID, "gs_yoimiya_sa")).setConsumption(30.0F).setAnimations(EpicAddonAnimations.GS_Yoimiya_SA))
+        GS_YOIMIYA_SPECIALATK = event.registerSkill(new GSSpecialAttack(GSSpecialAttack.createBuilder(new ResourceLocation(EpicAddon.MODID, "gs_yoimiya_sa")).setConsumption(30.0F).setAnimations(EpicAddonAnimations.GS_Yoimiya_SA))
                 .newPropertyLine()
                 .addProperty(AnimationProperty.AttackPhaseProperty.MAX_STRIKES, ValueCorrector.adder(10))
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(2.0F))

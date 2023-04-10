@@ -2,6 +2,7 @@ package com.jvn.epicaddon.renderer.particle;
 
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.Pose;
@@ -36,7 +38,10 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
 
 @OnlyIn(Dist.CLIENT) // copy from yesman
 public class BladeTrailParticle extends TextureSheetParticle {
@@ -48,7 +53,6 @@ public class BladeTrailParticle extends TextureSheetParticle {
     private boolean animationEnd;
     private float startEdgeCorrection = 0.0F;
     private final LivingEntityPatch<?> entitypatch;
-
     private static final int interpolateCount = 7;
 
     public BladeTrailParticle(ClientLevel level, LivingEntityPatch entitypatch, AttackAnimation anim, int jointid, Trail trail, SpriteSet spriteSet) {
@@ -206,6 +210,7 @@ public class BladeTrailParticle extends TextureSheetParticle {
 
         int start = (int)Math.max(startEdge,0);
         int end = (int)Math.min(endEdge + 1,Nodes.size()-2);
+
         for (int i = start; i < end; i++) {
             TrailEdge e1 = this.Nodes.get(i);
             TrailEdge e2 = this.Nodes.get(i + 1);
@@ -219,10 +224,10 @@ public class BladeTrailParticle extends TextureSheetParticle {
             pos3.transform(matrix4f);
             pos4.transform(matrix4f);
 
-            vertexConsumer.vertex(pos1.x(), pos1.y(), pos1.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e1.lifetime/trail.lifetime).uv(from, 1.0F).uv2(light).endVertex();
-            vertexConsumer.vertex(pos2.x(), pos2.y(), pos2.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e1.lifetime/trail.lifetime).uv(from, 0.0F).uv2(light).endVertex();
-            vertexConsumer.vertex(pos3.x(), pos3.y(), pos3.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e2.lifetime/trail.lifetime).uv(to, 0.0F).uv2(light).endVertex();
-            vertexConsumer.vertex(pos4.x(), pos4.y(), pos4.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * e2.lifetime/trail.lifetime).uv(to, 1.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos1.x(), pos1.y(), pos1.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * (e1.lifetime+partialTick)/trail.lifetime).uv(from, 1.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos2.x(), pos2.y(), pos2.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * (e1.lifetime+partialTick)/trail.lifetime).uv(from, 0.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos3.x(), pos3.y(), pos3.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * (e2.lifetime+partialTick)/trail.lifetime).uv(to, 0.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos4.x(), pos4.y(), pos4.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * (e2.lifetime+partialTick)/trail.lifetime).uv(to, 1.0F).uv2(light).endVertex();
 
             from += interval;
             to += interval;
