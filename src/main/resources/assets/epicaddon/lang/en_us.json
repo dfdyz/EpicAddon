@@ -8,14 +8,16 @@
   "item.epicaddon.anneal_blade": "Anneal Blade",
   "item.epicaddon.battle_scythe": "Battle Scythe[WIP]",
   "item.epicaddon.destiny": "-Destiny-",
-  "item.epicaddon.training_bow": "training_bow",
+  "item.epicaddon.training_bow": "Training Bow",
+  "item.epicaddon.custom_skillbook": "Skill Book",
 
   "skill.epicaddon.sao_dual_sword_skill.tooltip": "Dual Sword：An Extra Skill that unlocks the ability to weild two single-hand sword simultaneously. This skill is much more powerful than any other skill, it requires the user to have extraordinary reaction speed.",
-  "skill.epicaddon.sao_dual_sword_skill": "dual Sword",
+  "skill.epicaddon.sao_dual_sword_skill": "Dual Sword",
+  "tab.skill.epicaddon.sao_dual_sword_skill": "SKILL - Dual Sword",
 
   "skill.epicaddon.sao_rapier_skill.tooltip": "Rapier：An Skill that unlocks the ability to use different attack while weilding Rapier. This skill is much more quickly than any other skill.",
   "skill.epicaddon.sao_rapier_skill": "Rapier",
-
+  "tab.skill.epicaddon.sao_rapier_skill": "SKILL - Rapier",
 
   "skill.epicaddon.sao_single_sword_guard_skill.tooltip": "Use Single-hand to guard.",
   "skill.epicaddon.sao_single_sword_guard_skill": "Single-hand Sword Guard\nAvailable Weapon Types : %s",

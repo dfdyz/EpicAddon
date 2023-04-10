@@ -48,9 +48,9 @@ public class RegEpicAddonSkills {
     public static void registerSkills(SkillRegistryEvent event) {
         Logger LOGGER = LogUtils.getLogger();
         LOGGER.info("EpicAddon Skill Loading Event");
-        SAO_DUALSWORD = event.registerSkill(new DualBladeSkill(DualBladeSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_dual_sword_skill"))), true);
+        SAO_DUALSWORD = event.registerSkill(new DualBladeSkill(DualBladeSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_dual_sword_skill"))), false);
         SAO_SINGLESWORDGUARD = event.registerSkill(new SingleSwordGuardSkill(SingleSwordGuardSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_single_sword_guard_skill"))),true);
-        SAO_RAPIER = event.registerSkill(new RapierSkill(RapierSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_rapier_skill"))),true);
+        SAO_RAPIER = event.registerSkill(new RapierSkill(RapierSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_rapier_skill"))),false);
 
         WEAPON_SKILL_RAPIER = event.registerSkill(new SimpleSpecialAttackSkill(SimpleSpecialAttackSkill.createBuilder(new ResourceLocation(EpicAddon.MODID, "weapon_skill_rapier")).setConsumption(30.0F).setAnimations(EpicAddonAnimations.SAO_RAPIER_SPECIAL_DASH)),false);
 

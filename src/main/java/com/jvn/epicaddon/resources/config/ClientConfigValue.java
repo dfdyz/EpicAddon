@@ -1,6 +1,6 @@
 package com.jvn.epicaddon.resources.config;
 
-public class ConfigVal {
+public class ClientConfigValue {
     public boolean EnableSwordTrail = true;
     public boolean EnableHealthBar = true;
 
@@ -13,7 +13,7 @@ public class ConfigVal {
 
     public float HealthBarRenderDistance = 48f;
 
-    public ConfigVal(){
+    public ClientConfigValue(){
 
     }
 }

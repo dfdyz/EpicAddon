@@ -1,8 +1,6 @@
 package com.jvn.epicaddon.resources.config;
 
 import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.jvn.epicaddon.utils.GlobalVal;
 import com.jvn.epicaddon.utils.HealthBarStyle;
@@ -16,8 +14,7 @@ import java.io.*;
 import java.util.Map;
 
 public class ClientConfig {
-    public static final Gson GSON = (new GsonBuilder()).create();
-    public static ConfigVal cfg = new ConfigVal();
+    public static ClientConfigValue cfg = new ClientConfigValue();
 
     private static Logger LOGGER = LogUtils.getLogger();
 
@@ -56,10 +53,10 @@ public class ClientConfig {
         //LOGGER.info(json);
         if(json != ""){
             RenderConfig.TrailItem.clear();
-            RenderConfig.TrailItem = GSON.fromJson(json, new TypeToken<Map<String,Trail>>(){}.getType());
+            RenderConfig.TrailItem = CommonConfig.GSON.fromJson(json, new TypeToken<Map<String,Trail>>(){}.getType());
         }
         else{
-            WriteString(cfgpath,GSON.toJson(RenderConfig.TrailItem));
+            WriteString(cfgpath, CommonConfig.GSON.toJson(RenderConfig.TrailItem));
         }
 
         LOGGER.info("EpicAddon:Loading Health Bar Modifier");
@@ -68,10 +65,10 @@ public class ClientConfig {
         //LOGGER.info(json);
         if(json != ""){
             RenderConfig.HealthBarEntity.clear();
-            RenderConfig.HealthBarEntity = GSON.fromJson(json, new TypeToken<Map<String, HealthBarStyle>>(){}.getType());
+            RenderConfig.HealthBarEntity = CommonConfig.GSON.fromJson(json, new TypeToken<Map<String, HealthBarStyle>>(){}.getType());
         }
         else{
-            WriteString(cfgpath,GSON.toJson(RenderConfig.HealthBarEntity));
+            WriteString(cfgpath, CommonConfig.GSON.toJson(RenderConfig.HealthBarEntity));
         }
 
         LOGGER.info("EpicAddon:Loading Common Config");
@@ -80,14 +77,14 @@ public class ClientConfig {
         //LOGGER.info(json);
         if(json != ""){
             try {
-                cfg = GSON.fromJson(json, new TypeToken<ConfigVal>(){}.getType());
+                cfg = CommonConfig.GSON.fromJson(json, new TypeToken<ClientConfigValue>(){}.getType());
             } catch (JsonSyntaxException e) {
-                WriteString(cfgpath,GSON.toJson(cfg));
+                WriteString(cfgpath, CommonConfig.GSON.toJson(cfg));
                 throw new RuntimeException(e);
             }
         }
         else{
-            WriteString(cfgpath,GSON.toJson(cfg));
+            WriteString(cfgpath, CommonConfig.GSON.toJson(cfg));
         }
 
         GlobalVal.ANG = cfg.InitialAngle;
@@ -99,7 +96,7 @@ public class ClientConfig {
     public static void SaveCommon(){
         String cfgpath = FMLPaths.CONFIGDIR.get().resolve("EpicAddonCommon.json").toString();
         LOGGER.info("EpicAddon:Save Common Config");
-        WriteString(cfgpath,GSON.toJson(cfg));
+        WriteString(cfgpath, CommonConfig.GSON.toJson(cfg));
     }
 
 

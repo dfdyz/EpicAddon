@@ -21,6 +21,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.PatchedRenderersEvent;
 import yesman.epicfight.client.renderer.patched.item.RenderBow;
+import yesman.epicfight.skill.Skill;
+import yesman.epicfight.skill.SkillCategories;
+import yesman.epicfight.world.item.SkillBookItem;
 
 import java.util.Map;
 import java.util.Random;
@@ -61,6 +64,20 @@ public class RegModels {
             });
             ItemProperties.register(RegItems.TrainingBow.get(), new ResourceLocation(EpicAddon.MODID,"pulling"), (p_174630_, p_174631_, p_174632_, p_174633_) -> {
                 return p_174632_ != null && p_174632_.isUsingItem() && p_174632_.getUseItem() == p_174630_ ? 1.0F : 0.0F;
+            });
+
+            ItemProperties.register(RegItems.SKILLBOOK.get(), new ResourceLocation(EpicAddon.MODID,"skill"), (p_174630_, p_174631_, p_174632_, p_174633_) -> {
+                Skill skill = SkillBookItem.getContainSkill(p_174630_);
+
+                if (skill != null) {
+                    if (skill.getRegistryName().equals(RegEpicAddonSkills.SAO_DUALSWORD.getRegistryName())) {
+                        return 1;
+                    } else if (skill.getRegistryName().equals(RegEpicAddonSkills.SAO_RAPIER.getRegistryName())) {
+                        return 2;
+                    }
+                }
+
+                return 0;
             });
         });
     }
