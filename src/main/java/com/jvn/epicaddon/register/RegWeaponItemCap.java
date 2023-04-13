@@ -24,6 +24,7 @@ import yesman.epicfight.world.capabilities.item.WeaponCapability;
 import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.function.Function;
 
 public class RegWeaponItemCap {
@@ -45,7 +46,7 @@ public class RegWeaponItemCap {
                         }
                     }
                     else if (playerpatch instanceof HumanoidMobPatch) {
-                        String[] tags = (String[]) playerpatch.getOriginal().getTags().toArray();
+                        Set<String> tags = playerpatch.getOriginal().getTags();
                         for (String tag : tags) {
                             String[] arg = tag.split(":");
                             if(arg.length > 2 && arg[0] == EpicAddon.MODID){
@@ -60,7 +61,9 @@ public class RegWeaponItemCap {
                                     }
                                 }
                             }
+                            return CapabilityItem.Styles.ONE_HAND;
                         }
+                        return EpicAddonStyles.SAO_SINGLE_SWORD;
                     }
                     return EpicAddonStyles.SAO_SINGLE_SWORD;
                 })

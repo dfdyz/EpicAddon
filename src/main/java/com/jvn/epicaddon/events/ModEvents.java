@@ -2,6 +2,7 @@ package com.jvn.epicaddon.events;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.camera.CamAnimLoader;
+import com.jvn.epicaddon.api.renderer.TextureRT;
 import com.jvn.epicaddon.command.CmdMgr;
 import com.jvn.epicaddon.renderer.HealthBarRenderer;
 import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
@@ -9,19 +10,53 @@ import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.jvn.epicaddon.resources.config.RenderConfig;
 import com.jvn.epicaddon.utils.GlobalVal;
 import com.jvn.epicaddon.utils.HealthBarStyle;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.NativeImage;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.logging.LogUtils;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.SimpleTexture;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gameevent.GameEventListenerRegistrar;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.http.util.ByteArrayBuffer;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.RenderEnderDragonEvent;
 import yesman.epicfight.world.gamerule.EpicFightGamerules;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 @Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT)
 public class ModEvents {
@@ -91,6 +126,7 @@ public class ModEvents {
             HealthBarRenderer.draw(entityIn,event.getPoseStack(),event.getBuffers(),event.getPartialRenderTick(),healthBarStyle);
         }
     }
+
 
 
     @OnlyIn(Dist.CLIENT)

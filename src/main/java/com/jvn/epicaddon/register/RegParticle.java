@@ -30,6 +30,8 @@ public class RegParticle {
     public static final RegistryObject<SimpleParticleType> GENSHIN_BOW_LANDING2 = PARTICLES.register("genshin_bow_landing2", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> GENSHIN_BOW_LANDING3 = PARTICLES.register("genshin_bow_landing3", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> SAO_DEATH = PARTICLES.register("sao_death", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> SAO_DEATH_I = PARTICLES.register("sao_death_i", () -> new SimpleParticleType(true));
 
 
     public static final RegistryObject<SimpleParticleType> GS_YOIMIYA_SA = PARTICLES.register("gs_yoimiya_sa", () -> new SimpleParticleType(true));
@@ -49,6 +51,8 @@ public class RegParticle {
             PE.register(GENSHIN_BOW_LANDING.get(), GenShinBowLandingParticle.Provider::new);
             PE.register(GENSHIN_BOW_LANDING2.get(), GenShinBowLandingParticle2.Provider::new);
             PE.register(GENSHIN_BOW_LANDING3.get(), GenShinBowLandingParticle3.Provider::new);
+            PE.register(SAO_DEATH.get(), SAODeathParticle.Provider::new);
+            PE.register(SAO_DEATH_I.get(), SAODeathParticleInternal.Provider::new);
         }
     }
 }

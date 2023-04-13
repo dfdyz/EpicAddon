@@ -8,6 +8,7 @@ import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import com.jvn.epicaddon.resources.EpicAddonStyles;
 import com.jvn.epicaddon.resources.config.ClientConfig;
+import net.minecraft.world.level.gameevent.GameEventListenerRegistrar;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;

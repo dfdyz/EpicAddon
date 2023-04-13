@@ -23,10 +23,10 @@ public class EpicAddonRenderType extends RenderType {
     boolean writeColor;
     boolean writeDepth;
 
-    public static class EpicAddonParticleRenderType implements ParticleRenderType {
+    public static class EpicAddonQuadParticleRenderType implements ParticleRenderType {
         private final ResourceLocation Texture;
         private final String Name;
-        public EpicAddonParticleRenderType(String path, String name) {
+        public EpicAddonQuadParticleRenderType(String path, String name) {
             this.Texture = new ResourceLocation(EpicAddon.MODID, path+".png");
             Name = name;
         }
@@ -66,10 +66,13 @@ public class EpicAddonRenderType extends RenderType {
         }
     };
 
-    public static final ParticleRenderType GENSHIN_BOW_PARTICLE = new EpicAddonParticleRenderType("textures/particle/genshin_bow", "GENSHIN_BOW");
-    public static final ParticleRenderType GENSHIN_BOW_LANDING_PARTICLE = new EpicAddonParticleRenderType("textures/particle/genshin_bow_landing", "GENSHIN_BOW");
-    public static final ParticleRenderType GENSHIN_BOW_LANDING_PARTICLE3 = new EpicAddonParticleRenderType("textures/particle/genshin_bow_landing3", "GENSHIN_BOW");
 
+
+    public static final ParticleRenderType GENSHIN_BOW_PARTICLE = new EpicAddonQuadParticleRenderType("textures/particle/genshin_bow", "GENSHIN_BOW");
+    public static final ParticleRenderType GENSHIN_BOW_LANDING_PARTICLE = new EpicAddonQuadParticleRenderType("textures/particle/genshin_bow_landing", "GENSHIN_BOW");
+    public static final ParticleRenderType GENSHIN_BOW_LANDING_PARTICLE3 = new EpicAddonQuadParticleRenderType("textures/particle/genshin_bow_landing3", "GENSHIN_BOW");
+
+    public static final ParticleRenderType SAO_DEATH_PARTICLE = new EpicAddonQuadParticleRenderType("textures/particle/sao_death", "SAO_DEATH");
 
     public static class BladeTrailRenderType implements ParticleRenderType {
         private final ResourceLocation Texture;
@@ -154,36 +157,7 @@ public class EpicAddonRenderType extends RenderType {
         }
     };
 
-    public static final ParticleRenderType PARTICLE_OPAQUE = new ParticleRenderType() {
-        public void begin(BufferBuilder bufferBuilder, TextureManager p_107449_) {
-            RenderSystem.enableBlend();
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.enableDepthTest();
-            RenderSystem.depthMask(true);
-            RenderSystem.setShader(GameRenderer::getParticleShader);
 
-            TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
-            AbstractTexture abstracttexture = texturemanager.getTexture(GetTextures("particle/sparks"));
-            RenderSystem.bindTexture(abstracttexture.getId());
-
-            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-            RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-            RenderSystem.setShaderTexture(0, abstracttexture.getId());
-
-            bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        public void end(Tesselator tesselator) {
-            tesselator.getBuilder().setQuadSortOrigin(0.0F, 0.0F, 0.0F);
-            tesselator.end();
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-        }
-        @Override
-        public String toString() {
-            return "E_HIT_PARTICLE";
-        }
-    };
 
     /*
     public static final RenderType SwordTrail = create(EpicAddon.MODID + ":sword_trail_def", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, false,
