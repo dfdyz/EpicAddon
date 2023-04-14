@@ -20,7 +20,7 @@ public class SAODeathParticle extends NoRenderParticle {
         this.lifetime = 3;
 
         Vec3 o = new Vec3((x + ex)/2, (y + ey)/2, (z + ez)/2);
-        float per = 0.15f;
+        float per = 0.2f;
         int cx = (int) ((ex - x)/per);
         int cy = (int) ((ey - y)/per);
         int cz = (int) ((ez - z)/per);
