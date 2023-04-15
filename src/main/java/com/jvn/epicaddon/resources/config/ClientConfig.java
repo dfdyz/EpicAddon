@@ -2,6 +2,7 @@ package com.jvn.epicaddon.resources.config;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonSyntaxException;
+import com.jvn.epicaddon.events.DeathParticleHandler;
 import com.jvn.epicaddon.utils.GlobalVal;
 import com.jvn.epicaddon.utils.HealthBarStyle;
 import com.jvn.epicaddon.utils.Trail;
@@ -69,6 +70,18 @@ public class ClientConfig {
         }
         else{
             WriteString(cfgpath, CommonConfig.GSON.toJson(RenderConfig.HealthBarEntity));
+        }
+
+        LOGGER.info("EpicAddon:Loading Death Particle Modifier");
+        cfgpath = FMLPaths.CONFIGDIR.get().resolve("EpicAddonDeathParticle.json").toString();
+        json = ReadString(cfgpath);
+        //LOGGER.info(json);
+        if(json != ""){
+            DeathParticleHandler.TransformType.clear();
+            DeathParticleHandler.TransformType = CommonConfig.GSON.fromJson(json, new TypeToken<Map<String, DeathParticleHandler.ParticleTransform>>(){}.getType());
+        }
+        else{
+            WriteString(cfgpath, CommonConfig.GSON.toJson(DeathParticleHandler.TransformType));
         }
 
         LOGGER.info("EpicAddon:Loading Common Config");

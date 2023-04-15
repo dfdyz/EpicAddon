@@ -128,11 +128,11 @@ public class ModEvents {
     }
 
 
-
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void renderWorldLast(RenderLevelStageEvent event) {
-        GlobalVal.ANG +=event.getPartialTick()*ClientConfig.cfg.RotSpeed;
+        float partialTick = event.getPartialTick();
+        GlobalVal.ANG = GlobalVal.ANGInternal+partialTick * 0.05f * ClientConfig.cfg.RotSpeed;
         while (GlobalVal.ANG >= 360.0f){
             GlobalVal.ANG-=360.0f;
         }

@@ -1,5 +1,6 @@
 package com.jvn.epicaddon.renderer.particle;
 
+import com.jvn.epicaddon.utils.GlobalVal;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
@@ -37,10 +38,11 @@ public class SAODeathParticleInternal extends Particle {
                 random.nextFloat(2)-1f,
                 random.nextFloat(2)-1F);
         vector.normalize();
+
         rotation = random.nextFloat(360f);
         this.rotSpeed = random.nextFloat(30) + 10;
         this.lifetime = lifetime;
-        this.style = random.nextInt(2);
+        this.style = random.nextInt(8);
         this.gravity = 0;
     }
 
@@ -52,6 +54,8 @@ public class SAODeathParticleInternal extends Particle {
     @Override
     public void tick() {
         super.tick();
+        this.xd += 0.01f * GlobalVal.WX;
+        this.zd += 0.01f * GlobalVal.WZ;
         //rotation.set(rotation.i(),rotation.j(),rotation.k(), (float) (rotation.r() + rotSpeed/180*Math.PI));
     }
 

@@ -1,11 +1,13 @@
 package com.jvn.epicaddon.resources.config;
 
 import com.google.common.collect.Maps;
+import com.jvn.epicaddon.events.DeathParticleHandler;
 import com.jvn.epicaddon.item.Destiny.DestinyWeaponItem;
 import com.jvn.epicaddon.utils.HealthBarStyle;
 import com.jvn.epicaddon.utils.Trail;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -14,7 +16,6 @@ import java.util.function.Function;
 public class RenderConfig {
     public static Map<String, Trail> TrailItem = Maps.newHashMap();
     public static final Map<String, Function<ItemStack,Trail>> SpecialTrailItem = Maps.newHashMap();
-
     public static Map<String, HealthBarStyle> HealthBarEntity = Maps.newHashMap();
 
     static {
@@ -37,6 +38,27 @@ public class RenderConfig {
             }
             else return getItemTrailRaw("epicaddon:destiny");
         });
+    }
+
+    public static void AddDeathParticleConfig(EntityType type, DeathParticleHandler.ParticleTransform transform){
+        DeathParticleHandler.TransformType.putIfAbsent(type.getRegistryName().toString(), transform);
+    }
+
+    static {
+        AddDeathParticleConfig(EntityType.CREEPER,
+                new DeathParticleHandler.ParticleTransform(
+                        Vec3.ZERO,
+                        new Vec3(-0.5,0,-0.35),
+                        new Vec3(0.5,1.82,0.35),
+                        new Vec3(90,0,0),
+                        4));
+        AddDeathParticleConfig(EntityType.ENDERMAN,
+                new DeathParticleHandler.ParticleTransform(
+                        Vec3.ZERO,
+                        new Vec3(-0.5,0,-0.35),
+                        new Vec3(0.5,2.8,0.35),
+                        Vec3.ZERO,
+                        4));
     }
 
     public static void AddSpecial(String id,Function<ItemStack,Trail> func){
@@ -87,5 +109,8 @@ public class RenderConfig {
         AddHealthBarStyle(EntityType.TURTLE, new HealthBarStyle(1.08f,1,0.7f,110f));
         AddHealthBarStyle(EntityType.WITHER, new HealthBarStyle(1.0f,1,0.5f,110f));
         AddHealthBarStyle(EntityType.CHICKEN, new HealthBarStyle(0.78f,1,0.48f,100f));
+
+
+
     }
 }
