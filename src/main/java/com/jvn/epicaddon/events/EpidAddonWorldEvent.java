@@ -12,11 +12,16 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
+import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 import java.util.LinkedList;
 
@@ -72,18 +77,28 @@ public class EpidAddonWorldEvent {
         DeathParticleHandler.ParticleTransform transformType = DeathParticleHandler.TransformType.get(regName);
 
         if(transformType == null){
+            LazyOptional<EntityPatch> capability = entity.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY);
+
+
             Vec3 pos = entity.position();
             AABB box = entity.getBoundingBox();
             //type == 1
             float rot = entity.yBodyRot;
 
-            Vec3 minVec = (new Vec3(box.minX,box.minY,box.minZ)).subtract(pos);
-            Vec3 maxVec = (new Vec3(box.maxX,box.maxY,box.maxZ)).subtract(pos);
+
+
+            Vec3 minVec = (new Vec3(box.minX,box.minY-0.85f,box.minZ)).subtract(pos);
+            Vec3 maxVec = (new Vec3(box.maxX,box.maxY-0.85f,box.maxZ)).subtract(pos);
 
             int eid = entity.getId();
             double patchedEid = Double.longBitsToDouble(eid);
-
-            Vec3 rotation = new Vec3(0, -rot, 0);
+            Vec3 rotation;
+            if(capability.isPresent()){
+                rotation = new Vec3(90, -rot, 0);
+            }
+            else {
+                rotation = new Vec3(90, -90-rot, 0);
+            }
 
             DeathParticleHandler.TransformPool.putIfAbsent(eid,
                     new DeathParticleHandler.ParticleTransformed(Vec3.ZERO, minVec, maxVec, rotation));
@@ -93,6 +108,8 @@ public class EpidAddonWorldEvent {
             level.addParticle(RegParticle.SAO_DEATH.get(),
                     pos.x,pos.y,pos.z,
                     patchedEid,0,0);
+
+
         }
         else {
             Vec3 pos = entity.position();
