@@ -17,6 +17,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -224,10 +225,19 @@ public class BladeTrailParticle extends TextureSheetParticle {
             pos3.transform(matrix4f);
             pos4.transform(matrix4f);
 
-            vertexConsumer.vertex(pos1.x(), pos1.y(), pos1.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * (e1.lifetime+partialTick)/trail.lifetime).uv(from, 1.0F).uv2(light).endVertex();
-            vertexConsumer.vertex(pos2.x(), pos2.y(), pos2.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * (e1.lifetime+partialTick)/trail.lifetime).uv(from, 0.0F).uv2(light).endVertex();
-            vertexConsumer.vertex(pos3.x(), pos3.y(), pos3.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * (e2.lifetime+partialTick)/trail.lifetime).uv(to, 0.0F).uv2(light).endVertex();
-            vertexConsumer.vertex(pos4.x(), pos4.y(), pos4.z()).color(this.trail.r, this.trail.g, this.trail.b, this.trail.a * (e2.lifetime+partialTick)/trail.lifetime).uv(to, 1.0F).uv2(light).endVertex();
+
+            float a1 = Mth.clamp((e1.lifetime-partialTick)/trail.lifetime, 0f, 1f);
+            float a2 = Mth.clamp((e2.lifetime-partialTick)/trail.lifetime, 0f, 1f);
+
+            float r = this.trail.r / 256.0f;
+            float g = this.trail.g / 256.0f;
+            float b = this.trail.b / 256.0f;
+            float a = this.trail.a / 256.0f;
+
+            vertexConsumer.vertex(pos1.x(), pos1.y(), pos1.z()).color(r,g,b,a * a1).uv(from, 1.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos2.x(), pos2.y(), pos2.z()).color(r,g,b,a * a1).uv(from, 0.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos3.x(), pos3.y(), pos3.z()).color(r,g,b,a * a2).uv(to, 0.0F).uv2(light).endVertex();
+            vertexConsumer.vertex(pos4.x(), pos4.y(), pos4.z()).color(r,g,b,a * a2).uv(to, 1.0F).uv2(light).endVertex();
 
             from += interval;
             to += interval;
@@ -266,14 +276,10 @@ public class BladeTrailParticle extends TextureSheetParticle {
         final Vec3 start;
         final Vec3 end;
         int lifetime;
-        float linerTime;
-
-
         public TrailEdge(Vec3 start, Vec3 end, int lifetime) {
             this.start = start;
             this.end = end;
             this.lifetime = lifetime;
-            this.linerTime = lifetime;
         }
 
         boolean isAlive() {
