@@ -5,7 +5,8 @@
 	"package": "com.jvn.epicaddon.mixin",
 	"client": [
 		"MixinAtkAnim",
-		"MixinGUI"
+		"MixinGUI",
+		"MixinGameRenderer"
 	],
 	"mixins": [
 		"MixinNBTCapabilities",

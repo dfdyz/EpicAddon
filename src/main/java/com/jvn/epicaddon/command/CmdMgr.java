@@ -65,6 +65,25 @@ public class CmdMgr {
                                     MSGClient("[EpicAddon]Disabled Sword Trail Render.");
                                     return Command.SINGLE_SUCCESS;
                                 })))
+                .then(Commands.literal("GenShinVoice")
+                        .executes(context -> {
+                            MSGClient("[EpicAddon]GenShinVoice: " + (ClientConfig.cfg.EnableGenShinVoice ? "Enable" : "Disable"));
+                            return Command.SINGLE_SUCCESS;
+                        })
+                        .then(Commands.literal("true")
+                                .executes(context -> {
+                                    ClientConfig.cfg.EnableGenShinVoice = true;
+                                    ClientConfig.SaveCommon();
+                                    MSGClient("[EpicAddon]Enabled GenShinVoice.");
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        .then(Commands.literal("false")
+                                .executes(context -> {
+                                    ClientConfig.cfg.EnableGenShinVoice = false;
+                                    ClientConfig.SaveCommon();
+                                    MSGClient("[EpicAddon]Disabled GenShinVoice.");
+                                    return Command.SINGLE_SUCCESS;
+                                })))
                 .then(Commands.literal("HealthBar")
                         .executes(context -> {
                             MSGClient("[EpicAddon]HealthBar Render: " + ClientConfig.cfg.EnableHealthBar);

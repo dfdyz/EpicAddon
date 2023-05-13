@@ -2,8 +2,11 @@ package com.jvn.epicaddon.skills.GenShin;
 
 import com.jvn.epicaddon.entity.projectile.GenShinArrow;
 import com.jvn.epicaddon.entity.projectile.YoimiyaSAArrow;
+import com.jvn.epicaddon.events.PostEffectEvent;
 import com.jvn.epicaddon.register.RegParticle;
+import com.jvn.epicaddon.register.RegPostEffect;
 import com.jvn.epicaddon.resources.EpicAddonSounds;
+import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.jvn.epicaddon.utils.GlobalVal;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleOptions;
@@ -31,6 +34,7 @@ public class YoimiyaSkillFunction {
             //Vec3 vec3 = getPosByTick(entitypatch,0.4f,"Tool_L");
             Vec3 handPos = getJointWorldPos(entitypatch,joint);
             worldIn.addParticle(RegParticle.GENSHIN_BOW.get() ,handPos.x,handPos.y,handPos.z,0,0,0);
+            PostEffectEvent.PushPostEffectHighest(RegPostEffect.WhiteFlush, 0.3f);
         }
         else {
             if(entitypatch.currentlyAttackedEntity.size() > 0){
@@ -139,13 +143,15 @@ public class YoimiyaSkillFunction {
             }
         }
 
-        SoundEvent[] sounds = new SoundEvent[]{
-                EpicAddonSounds.Yoimiya_Skill1,
-                EpicAddonSounds.Yoimiya_Skill2,
-                EpicAddonSounds.Yoimiya_Skill3
-        };
+        if(ClientConfig.cfg.EnableGenShinVoice) {
+            SoundEvent[] sounds = new SoundEvent[]{
+                    EpicAddonSounds.Yoimiya_Skill1,
+                    EpicAddonSounds.Yoimiya_Skill2,
+                    EpicAddonSounds.Yoimiya_Skill3
+            };
 
-        entitypatch.playSound(sounds[Math.abs(GlobalVal.random.nextInt())%3],0.0F, 0.0F);
+            entitypatch.playSound(sounds[Math.abs(GlobalVal.random.nextInt())%3],0.0F, 0.0F);
+        }
     }
 
     public static void YoimiyaSA(LivingEntityPatch<?> entitypatch){

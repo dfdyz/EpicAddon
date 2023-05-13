@@ -36,7 +36,7 @@ public class RegItems {
 
     public static final RegistryObject<Item> BattleScythe = ITEMS.register("battle_scythe", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
     public static final RegistryObject<Item> Destiny = ITEMS.register("destiny", () -> new DestinyWeaponItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS)));
-
+    public static final RegistryObject<Item> SR_BaseBallBat = ITEMS.register("sr_baseball_bat", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
     public static final RegistryObject<Item> SKILLBOOK = ITEMS.register("custom_skillbook", () -> new CustomSkillBook(new Item.Properties().tab(EpicAddonItemGroup.ITEMS).rarity(Rarity.RARE).stacksTo(1)));
     //mtllib battle_scythe.mtl
 

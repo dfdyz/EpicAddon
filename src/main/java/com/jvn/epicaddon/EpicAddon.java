@@ -8,6 +8,7 @@ import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import com.jvn.epicaddon.resources.EpicAddonStyles;
 import com.jvn.epicaddon.resources.config.ClientConfig;
+import com.mojang.logging.LogUtils;
 import net.minecraft.world.level.gameevent.GameEventListenerRegistrar;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import org.slf4j.Logger;
 import yesman.epicfight.network.EpicFightNetworkManager;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -26,7 +28,7 @@ public class EpicAddon
     public static final String MODID = "epicaddon";
     public static EpicAddon instance;
     // Directly reference a slf4j logger
-    //private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     // public static final AnimationManager
 
@@ -65,6 +67,7 @@ public class EpicAddon
                 camAnim.load();
             }
 
+            RegPostEffect.Reg();
         }
         //event.enqueueWork(EpicAddonNetworkManager::registerPackets);
     }

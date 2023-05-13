@@ -5,12 +5,15 @@ import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.anim.*;
 import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.events.CameraEvent;
+import com.jvn.epicaddon.events.PostEffectEvent;
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.register.WeaponCollider;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.skills.GenShin.YoimiyaSkillFunction;
 import com.jvn.epicaddon.utils.Trail;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -78,6 +81,8 @@ public class EpicAddonAnimations {
     public static StaticAnimation GS_Yoimiya_FallAtk_Start;
     public static StaticAnimation GS_Yoimiya_FallAtk_Last;
     public static StaticAnimation GS_Yoimiya_FallAtk_Loop;
+
+    public static StaticAnimation SR_BBB_IDLE;
     //public static StaticAnimation GS_BowFallAtk_Test2;
     public static CamAnim Yoimiya;
 
@@ -366,6 +371,11 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3.6f);
 
         //GS_BowFallAtk_Test = new FallAtkAnim(GS_BowFallAtk_Test1, GS_BowFallAtk_Test2, Animations.SWORD_AIR_SLASH);
+
+        SR_BBB_IDLE = new  StaticAnimation(true, "biped/living/sr_bbb_idle", biped);
+
+
+
 
         ((GravityRestter) GS_Yoimiya_FallAtk_Start).setMode(false);
         ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);

@@ -2,6 +2,7 @@ package com.jvn.epicaddon.mixin;
 
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
+import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.jvn.epicaddon.utils.Trail;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -116,6 +117,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     public String prevJoint;
     @Inject(at = @At("HEAD"),method = "begin")
     private void MixinBegin(LivingEntityPatch<?> entitypatch,CallbackInfo cbi){
+        if(!ClientConfig.cfg.EnableSwordTrail) return;
         if(entitypatch.getOriginal().getLevel().isClientSide()){
             if(entitypatch instanceof PlayerPatch || entitypatch instanceof HumanoidMobPatch){
                 StaticAnimation animation = getAtkAnim();
@@ -142,6 +144,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
 
     @Inject(at = @At("HEAD"),method = "tick")
     private void MixinTick(LivingEntityPatch<?> entitypatch, CallbackInfo cbi){
+        if(!ClientConfig.cfg.EnableSwordTrail) return;
         if(entitypatch.getOriginal().getLevel().isClientSide()){
             if(entitypatch instanceof PlayerPatch || entitypatch instanceof HumanoidMobPatch){
                 StaticAnimation animation = getAtkAnim();

@@ -14,8 +14,10 @@ import org.slf4j.Logger;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
 import yesman.epicfight.gameasset.Animations;
+import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.gameasset.Skills;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -186,7 +188,23 @@ public class RegWeaponItemCap {
         return builder;
     };
 
+    public static final Function<Item, CapabilityItem.Builder> SR_BaseBallBat = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(CapabilityItem.WeaponCategories.SWORD)
+                .styleProvider((playerpatch) -> CapabilityItem.Styles.ONE_HAND)
+                .collider(ColliderPreset.SWORD)
+                .hitSound(EpicFightSounds.BLADE_HIT)
+                .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SWORD_AUTO1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.SWORD_AIR_SLASH)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+                .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK)
+                .specialAttack(CapabilityItem.Styles.ONE_HAND, Skills.SWEEPING_EDGE)
+                .specialAttack(CapabilityItem.Styles.TWO_HAND, Skills.DANCING_EDGE)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, EpicAddonAnimations.SR_BBB_IDLE)
+                .weaponCombinationPredicator((entitypatch) -> EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD);
 
+        return builder;
+    };
 
     //@SubscribeEvent
     public static void register(WeaponCapabilityPresetRegistryEvent event){
@@ -195,6 +213,7 @@ public class RegWeaponItemCap {
         event.getTypeEntry().put("sao_single_sword", SAO_SINGLE_SWORD);
         event.getTypeEntry().put("destiny", DESTINY);
         event.getTypeEntry().put("genshin_bow", GenShin_Bow);
+        event.getTypeEntry().put("sr_baseball_bat", SR_BaseBallBat);
         LOGGER.info("WeaponCapability Loaded");
     }
 
