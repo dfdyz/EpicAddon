@@ -194,11 +194,9 @@ public class RegWeaponItemCap {
                 .styleProvider((playerpatch) -> CapabilityItem.Styles.ONE_HAND)
                 .collider(ColliderPreset.SWORD)
                 .hitSound(EpicFightSounds.BLADE_HIT)
-                .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SWORD_AUTO1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.SWORD_AIR_SLASH)
-                .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+                .newStyleCombo(CapabilityItem.Styles.ONE_HAND, EpicAddonAnimations.SR_BBB_Auto1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.SWORD_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK)
                 .specialAttack(CapabilityItem.Styles.ONE_HAND, Skills.SWEEPING_EDGE)
-                .specialAttack(CapabilityItem.Styles.TWO_HAND, Skills.DANCING_EDGE)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, EpicAddonAnimations.SR_BBB_IDLE)
                 .weaponCombinationPredicator((entitypatch) -> EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD);

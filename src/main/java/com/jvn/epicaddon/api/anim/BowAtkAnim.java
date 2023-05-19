@@ -1,5 +1,6 @@
 package com.jvn.epicaddon.api.anim;
 
+import com.jvn.epicaddon.mixin.PhaseAccessor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -8,6 +9,7 @@ import net.minecraftforge.entity.PartEntity;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
+import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.LinkAnimation;
@@ -24,12 +26,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-public class BowAtkAnim extends AttackAnimEx {
+public class BowAtkAnim extends AttackAnimation {
     //private final int Aid;
     //public final String Hjoint;
     public BowAtkAnim(float convertTime,float antic, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
         super(convertTime, path, model,
-                new PhaseEx(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider));
+                new Phase(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider));
 
         //Hjoint = shoot;
         this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
@@ -44,7 +46,7 @@ public class BowAtkAnim extends AttackAnimEx {
 
         if (entitypatch instanceof PlayerPatch<?>) {
             PlayerPatch<?> playerpatch = (PlayerPatch<?>)entitypatch;
-            PhaseEx phase = (PhaseEx) this.getPhaseByTime(playerpatch.getAnimator().getPlayerFor(this).getElapsedTime());
+            PhaseAccessor phase =  (PhaseAccessor)this.getPhaseByTime(playerpatch.getAnimator().getPlayerFor(this).getElapsedTime());
             extTime *= (float)(this.totalTime * playerpatch.getAttackSpeed(phase.getHand()));
         }
 
@@ -79,7 +81,7 @@ public class BowAtkAnim extends AttackAnimEx {
             float prevElapsedTime = player.getPrevElapsedTime();
             EntityState state = this.getState(elapsedTime);
             EntityState prevState = this.getState(prevElapsedTime);
-            PhaseEx phase = (PhaseEx) this.getPhaseByTime(elapsedTime);
+            Phase phase = this.getPhaseByTime(elapsedTime);
 
             if (state.getLevel() == 1 && !state.turningLocked()) {
                 if (entitypatch instanceof MobPatch) {
@@ -98,16 +100,16 @@ public class BowAtkAnim extends AttackAnimEx {
                 }
 
                 this.ScanTarget(entitypatch, prevElapsedTime, elapsedTime, prevState, state, phase);
-
             }
         }
     }
 
-    public void ScanTarget(LivingEntityPatch<?> entitypatch, float prevElapsedTime, float elapsedTime, EntityState prevState, EntityState state, PhaseEx phase){
+    public void ScanTarget(LivingEntityPatch<?> entitypatch, float prevElapsedTime, float elapsedTime, EntityState prevState, EntityState state, Phase phase){
+        PhaseAccessor phaseAccessor = (PhaseAccessor)phase;
         Collider collider = this.getCollider(entitypatch, elapsedTime);
         LivingEntity entity = entitypatch.getOriginal();
         entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature().initializeTransform();
-        float poseTime = state.attacking() ? elapsedTime : phase.getContact();
+        float poseTime = state.attacking() ? elapsedTime : phaseAccessor.getContact();
         List<Entity> list = collider.updateAndSelectCollideEntity(entitypatch, this, poseTime, poseTime, phase.getColliderJointName(), this.getPlaySpeed(entitypatch));
 
         if (list.size() > 0) {

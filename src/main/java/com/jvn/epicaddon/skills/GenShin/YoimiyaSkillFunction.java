@@ -34,7 +34,7 @@ public class YoimiyaSkillFunction {
             //Vec3 vec3 = getPosByTick(entitypatch,0.4f,"Tool_L");
             Vec3 handPos = getJointWorldPos(entitypatch,joint);
             worldIn.addParticle(RegParticle.GENSHIN_BOW.get() ,handPos.x,handPos.y,handPos.z,0,0,0);
-            PostEffectEvent.PushPostEffectHighest(RegPostEffect.WhiteFlush, 0.3f);
+            //PostEffectEvent.PushPostEffectHighest(RegPostEffect.WhiteFlush, 0.3f);
         }
         else {
             if(entitypatch.currentlyAttackedEntity.size() > 0){

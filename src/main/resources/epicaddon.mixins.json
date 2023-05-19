@@ -11,7 +11,8 @@
 	"mixins": [
 		"MixinNBTCapabilities",
 		"MixinAtkAnimCommon",
-		"MixinLivingEntity"
+		"MixinLivingEntity",
+		"PhaseAccessor"
 	],
 	"injector": {
 		"defaultRequire": 1

@@ -83,6 +83,7 @@ public class EpicAddonAnimations {
     public static StaticAnimation GS_Yoimiya_FallAtk_Loop;
 
     public static StaticAnimation SR_BBB_IDLE;
+    public static StaticAnimation SR_BBB_Auto1;
     //public static StaticAnimation GS_BowFallAtk_Test2;
     public static CamAnim Yoimiya;
 
@@ -373,9 +374,10 @@ public class EpicAddonAnimations {
         //GS_BowFallAtk_Test = new FallAtkAnim(GS_BowFallAtk_Test1, GS_BowFallAtk_Test2, Animations.SWORD_AIR_SLASH);
 
         SR_BBB_IDLE = new  StaticAnimation(true, "biped/living/sr_bbb_idle", biped);
-
-
-
+        SR_BBB_Auto1 = new BasicAttackAnimation(0.12F, 0.35F, 0.73F, 0.9F, WeaponCollider.SR_BBb_Normal, "Tool_R", "biped/sr_bbb_combo1", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(2.1F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
 
         ((GravityRestter) GS_Yoimiya_FallAtk_Start).setMode(false);
         ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);

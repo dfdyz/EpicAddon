@@ -18,6 +18,7 @@ public class WeaponCollider {
     public static final Collider SAO_RAPIER_DASH_SHORT = new MultiOBBCollider(3, 0.6, 0.8, 1.4, 0.0, 0.9D, -0.98D);
 
     public static final Collider SAO_SWORD_AIR = new MultiOBBCollider(6, 1.75D, 1.2D, 1.8D, 0.0D, 1.6D, -0.7D);
+    public static final Collider SR_BBb_Normal = new MultiOBBCollider(3, 0.6, 1.0, 1.4, 0.0, 0.0, -0.8D);
 
     // new MultiOBBCollider(4, 0.6, 1.0, 2, 0.0, 0.0, -0.2);
 }

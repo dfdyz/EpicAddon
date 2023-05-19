@@ -37,7 +37,7 @@ public class ClientConfig {
         }
         else {
             try {
-                str = readFromInputStream(FileName);
+                str = readFromFile(FileName);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -126,7 +126,7 @@ public class ClientConfig {
         }
     }
 
-    private static String readFromInputStream(String s) throws IOException {
+    public static String readFromFile(String s) throws IOException {
         InputStream inputStream = new FileInputStream(new File(s));
         StringBuilder resultStringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
