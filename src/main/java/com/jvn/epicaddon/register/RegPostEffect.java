@@ -1,22 +1,43 @@
 package com.jvn.epicaddon.register;
 
+import com.ibm.icu.impl.Row;
+import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.api.PostRenderer.BrokenMask;
 import com.jvn.epicaddon.api.PostRenderer.PostEffectBase;
+import com.jvn.epicaddon.api.PostRenderer.SpaceBroken;
 import com.jvn.epicaddon.api.PostRenderer.WhiteFlush;
 import com.jvn.epicaddon.events.PostEffectEvent;
+import com.jvn.epicaddon.utils.EffectUtils;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegPostEffect {
     public static PostEffectEvent.AbstractPostEffectObj WhiteFlush;
+    public static PostEffectEvent.AbstractPostEffectObj SpaceBroken;
 
     public static void Reg(){
         WhiteFlush = new PostEffectEvent.AbstractPostEffectObj() {
-            PostEffectBase postEffect1;
-            PostEffectBase postEffect2;
+            PostEffectBase blit;
             WhiteFlush whiteFlush;
+
+            @Override
+            public void Init(){
+                if(blit == null || this.whiteFlush == null){
+                    Minecraft mc = Minecraft.getInstance();
+                    try{
+                        blit = new PostEffectBase(new EffectInstance(mc.getResourceManager(), "minecraft:blit"));
+                        whiteFlush = new WhiteFlush(mc);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
             @Override
             public void Process(float remainTime) {
                 Minecraft mc = Minecraft.getInstance();
@@ -24,21 +45,50 @@ public class RegPostEffect {
                 RenderTarget temp = PostEffectBase.createTempTarget(main, main.width, main.height);
                 RenderTarget temp2 = PostEffectBase.createTempTarget(main, 1, 1);
 
-                if(postEffect1 == null || postEffect2 == null || whiteFlush == null){
+                blit.process(main, temp2, 0);
+                whiteFlush.process(main, temp2, temp,remainTime);
+                blit.process(temp,main, 0);
+                temp.destroyBuffers();
+                temp2.destroyBuffers();
+            }
+        };
+
+        SpaceBroken = new PostEffectEvent.AbstractPostEffectObj() {
+            PostEffectBase blit;
+            BrokenMask brokenMask;
+            com.jvn.epicaddon.api.PostRenderer.SpaceBroken spaceBroken;
+
+            EffectUtils.OBJ_JSON obj;
+
+            @Override
+            public void Init(){
+                if(blit == null || this.brokenMask == null){
+                    Minecraft mc = Minecraft.getInstance();
                     try{
-                        postEffect1 = new PostEffectBase(new EffectInstance(mc.getResourceManager(), "minecraft:blit"));
-                        postEffect2 = new PostEffectBase(new EffectInstance(mc.getResourceManager(), "minecraft:blit"));
-                        whiteFlush = new WhiteFlush(mc);
+                        this.blit = new PostEffectBase(new EffectInstance(mc.getResourceManager(), "minecraft:blit"));
+                        this.brokenMask = new BrokenMask(new EffectInstance(mc.getResourceManager(), "epicaddon:depthtex"));
+                        this.spaceBroken = new SpaceBroken(new EffectInstance(mc.getResourceManager(), "epicaddon:spacebroken"));
+                        obj = EffectUtils.LoadOBJ_JSON(new ResourceLocation(EpicAddon.MODID, "models/effect/spacebroken.json"));
+                        System.out.println("OBJ Inited");
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
+            }
 
-                postEffect1.process(main, temp2, 0);
-                whiteFlush.process(main, temp2, temp,remainTime);
-                postEffect2.process(temp,main, 0);
+            @Override
+            public void Process(float remainTime) {
+                Minecraft mc = Minecraft.getInstance();
+                RenderTarget org = mc.getMainRenderTarget();
+                RenderTarget temp = PostEffectBase.createTempTarget(org, org.width, org.height);
+                RenderTarget mask = PostEffectBase.createTempTarget(org, org.width, org.height);
+
+                this.blit.process(org,temp,0);
+                this.brokenMask.process(temp,mask,0,obj);
+                this.spaceBroken.process(temp,mask,org,0.04f);
+
                 temp.destroyBuffers();
-                temp2.destroyBuffers();
+                mask.destroyBuffers();
             }
         };
     }

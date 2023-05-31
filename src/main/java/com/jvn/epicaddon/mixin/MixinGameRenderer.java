@@ -20,8 +20,8 @@ public class MixinGameRenderer {
     private float ticker = 0f;
     @Inject(method = "render", at = @At("TAIL"))
     private void PostRender(float pt, long startTime, boolean tick, CallbackInfo cbi){
-        PostEffectEvent.effects_highest.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj.Process(pair.timer); return false; });
-        PostEffectEvent.effects_mid.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj.Process(pair.timer); return false; });
-        PostEffectEvent.effects_lowest.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj.Process(pair.timer); return false; });
+        PostEffectEvent.effects_highest.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj._Process(pair.timer); return false; });
+        PostEffectEvent.effects_mid.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj._Process(pair.timer); return false; });
+        PostEffectEvent.effects_lowest.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj._Process(pair.timer); return false; });
     }
 }

@@ -7,13 +7,12 @@ import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.events.CameraEvent;
 import com.jvn.epicaddon.events.PostEffectEvent;
 import com.jvn.epicaddon.register.RegParticle;
+import com.jvn.epicaddon.register.RegPostEffect;
 import com.jvn.epicaddon.register.WeaponCollider;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.skills.GenShin.YoimiyaSkillFunction;
 import com.jvn.epicaddon.utils.Trail;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -84,6 +83,8 @@ public class EpicAddonAnimations {
 
     public static StaticAnimation SR_BBB_IDLE;
     public static StaticAnimation SR_BBB_Auto1;
+    public static StaticAnimation SR_BBB_Auto2;
+    public static StaticAnimation SR_BBB_SA_CG;
     //public static StaticAnimation GS_BowFallAtk_Test2;
     public static CamAnim Yoimiya;
 
@@ -190,8 +191,10 @@ public class EpicAddonAnimations {
                                 LivingEntity entity = (LivingEntity)((PlayerPatch)ep).getOriginal();
                                 entity.setNoGravity(false);
                             }
+                        }, StaticAnimation.Event.Side.SERVER),
+                        StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
+                            PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 3f);
                         }, StaticAnimation.Event.Side.SERVER)
-
                 });
 
         //RAPIER
@@ -377,7 +380,25 @@ public class EpicAddonAnimations {
         SR_BBB_Auto1 = new BasicAttackAnimation(0.12F, 0.35F, 0.73F, 0.9F, WeaponCollider.SR_BBb_Normal, "Tool_R", "biped/sr_bbb_combo1", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(2.1F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
-                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.2f);
+
+        SR_BBB_Auto2 = new BasicAttackAnimation(0.08F, 0.33F, 0.73F, 0.85F, WeaponCollider.SR_BBb_Normal, "Tool_R", "biped/sr_bbb_combo2", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(2.1F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.2f);
+
+        SR_BBB_SA_CG = new BasicAttackAnimation(0.12F, 1.6666F, 2.43F, 2.6F, WeaponCollider.SR_BBb_Normal, "Tool_R", "biped/sr_bbb_sa_cg", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(2.1F))
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
+                .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS,new StaticAnimation.Event[] {
+                        StaticAnimation.Event.create(0.7083F, (ep) -> {
+
+                        }, StaticAnimation.Event.Side.CLIENT),
+                })
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.8f);
 
         ((GravityRestter) GS_Yoimiya_FallAtk_Start).setMode(false);
         ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);

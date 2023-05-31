@@ -17,6 +17,8 @@ import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.EpicFightSounds;
 import yesman.epicfight.gameasset.Skills;
+import yesman.epicfight.skill.KatanaPassive;
+import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -194,7 +196,11 @@ public class RegWeaponItemCap {
                 .styleProvider((playerpatch) -> CapabilityItem.Styles.ONE_HAND)
                 .collider(ColliderPreset.SWORD)
                 .hitSound(EpicFightSounds.BLADE_HIT)
-                .newStyleCombo(CapabilityItem.Styles.ONE_HAND, EpicAddonAnimations.SR_BBB_Auto1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.SWORD_AIR_SLASH)
+                .newStyleCombo(CapabilityItem.Styles.ONE_HAND,
+                        EpicAddonAnimations.SR_BBB_Auto1,
+                        EpicAddonAnimations.SR_BBB_Auto2,
+                        EpicAddonAnimations.SR_BBB_Auto2,
+                        Animations.SWORD_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK)
                 .specialAttack(CapabilityItem.Styles.ONE_HAND, Skills.SWEEPING_EDGE)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
@@ -203,6 +209,8 @@ public class RegWeaponItemCap {
 
         return builder;
     };
+
+
 
     //@SubscribeEvent
     public static void register(WeaponCapabilityPresetRegistryEvent event){

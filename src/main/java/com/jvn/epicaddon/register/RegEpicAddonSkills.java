@@ -20,9 +20,7 @@ import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.forgeevent.SkillRegistryEvent;
 import yesman.epicfight.api.utils.ExtendedDamageSource;
 import yesman.epicfight.api.utils.math.ValueCorrector;
-import yesman.epicfight.skill.SimpleSpecialAttackSkill;
-import yesman.epicfight.skill.Skill;
-import yesman.epicfight.skill.SkillCategories;
+import yesman.epicfight.skill.*;
 
 import java.util.Collection;
 import java.util.Map;

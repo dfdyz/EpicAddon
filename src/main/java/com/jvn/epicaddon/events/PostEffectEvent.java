@@ -3,6 +3,7 @@ package com.jvn.epicaddon.events;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.register.RegPostEffect;
 import com.jvn.epicaddon.renderer.PostRenderer.PostEffect;
 import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.pipeline.RenderTarget;
@@ -11,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,7 +26,7 @@ import java.util.function.Function;
 @Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT)
 public class PostEffectEvent {
     private static float ticker = 0f;
-
+    private static boolean Inited = false;
     public static LinkedList<PostEffectTimePair> effects_highest = Lists.newLinkedList();
     public static LinkedList<PostEffectTimePair> effects_mid = Lists.newLinkedList();
     public static LinkedList<PostEffectTimePair> effects_lowest = Lists.newLinkedList();
@@ -57,10 +59,14 @@ public class PostEffectEvent {
             return false;
         }
         public abstract void Process(float deltaTime);
+        public void _Process(float dt){
+            Init();
+            Process(dt);
+        }
+        public abstract void Init();
         public AbstractPostEffectObj(){
             id = counter++;
         }
-
         @Override
         public int hashCode() {
             return id;
