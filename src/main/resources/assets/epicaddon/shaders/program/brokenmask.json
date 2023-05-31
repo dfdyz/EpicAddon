@@ -4,19 +4,15 @@
         "srcrgb": "one",
         "dstrgb": "zero"
     },
-    "vertex": "epicaddon:spacebroken",
-    "fragment": "epicaddon:spacebroken",
+    "vertex": "epicaddon:brokenmask",
+    "fragment": "epicaddon:brokenmask",
     "attributes": [ "Position" ],
     "samplers": [
-        { "name": "DiffuseSampler" },
-        { "name": "DiffuseSampler2" }
     ],
     "uniforms": [
         { "name": "ProjMat",       "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
         { "name": "InSize",        "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
         { "name": "OutSize",       "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
-        { "name": "Crot",          "type": "float",     "count": 2,  "values": [ 0.0, 0.0 ] },
-        { "name": "cweight",       "type": "float",     "count": 1,  "values": [ 0.05 ] },
         { "name": "Time",          "type": "float",     "count": 1,  "values": [ 1.0 ] }
     ]
 }

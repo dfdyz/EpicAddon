@@ -26,7 +26,6 @@ import java.util.function.Function;
 @Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT)
 public class PostEffectEvent {
     private static float ticker = 0f;
-    private static boolean Inited = false;
     public static LinkedList<PostEffectTimePair> effects_highest = Lists.newLinkedList();
     public static LinkedList<PostEffectTimePair> effects_mid = Lists.newLinkedList();
     public static LinkedList<PostEffectTimePair> effects_lowest = Lists.newLinkedList();

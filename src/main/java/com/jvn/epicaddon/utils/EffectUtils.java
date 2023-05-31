@@ -2,6 +2,7 @@ package com.jvn.epicaddon.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.camera.CamAnim;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
@@ -19,8 +20,15 @@ public class EffectUtils {
         public int x,y,z;
     }
 
+    public static class vec3f {
+        public float x,y,z;
+        public Vector3f toBugJumpFormat(){
+            return new Vector3f(x,y,z);
+        }
+    }
+
     public static class OBJ_JSON{
-        public List<Vector3f> Positions = new ArrayList<>();
+        public List<vec3f> Positions = new ArrayList<>();
         public List<Triangle> Face = new ArrayList<>();
     }
 
@@ -39,7 +47,8 @@ public class EffectUtils {
 
             Gson gson = new Gson();
             obj = gson.fromJson(str,new TypeToken<OBJ_JSON>(){}.getType());
-            System.out.println("LLLLLLL");
+
+            EpicAddon.LOGGER.info(gson.toJson(obj));
 
         }catch(IOException e) {
             throw new RuntimeException(e);

@@ -4,6 +4,7 @@ import com.jvn.epicaddon.api.PostRenderer.PostEffectBase;
 import com.jvn.epicaddon.api.PostRenderer.WhiteFlush;
 import com.jvn.epicaddon.events.PostEffectEvent;
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.client.renderer.GameRenderer;
@@ -15,13 +16,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.IOException;
 
-@Mixin(value = GameRenderer.class)
+@Mixin(value = GameRenderer.class, priority = -1000)
 public class MixinGameRenderer {
     private float ticker = 0f;
-    @Inject(method = "render", at = @At("TAIL"))
+    @Inject(method = "render",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V",
+                    ordinal = 0
+            ))
     private void PostRender(float pt, long startTime, boolean tick, CallbackInfo cbi){
         PostEffectEvent.effects_highest.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj._Process(pair.timer); return false; });
         PostEffectEvent.effects_mid.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj._Process(pair.timer); return false; });
         PostEffectEvent.effects_lowest.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj._Process(pair.timer); return false; });
     }
+
 }

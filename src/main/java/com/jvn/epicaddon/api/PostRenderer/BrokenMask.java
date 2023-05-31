@@ -1,5 +1,6 @@
 package com.jvn.epicaddon.api.PostRenderer;
 
+import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.utils.EffectUtils;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,10 +11,13 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.server.packs.resources.ResourceManager;
+
+import java.io.IOException;
 
 public class BrokenMask extends PostEffectBase{
-    public BrokenMask(EffectInstance effect) {
-        super(effect);
+    public BrokenMask(ResourceManager resmgr) throws IOException {
+        super(new EffectInstance(resmgr, "epicaddon:brokenmask"));
     }
 
     public void process(RenderTarget inTarget, RenderTarget outTarget, float time, EffectUtils.OBJ_JSON obj){
@@ -28,10 +32,6 @@ public class BrokenMask extends PostEffectBase{
         this.effect.safeGetUniform("InSize").set((float) inTarget.width, (float) inTarget.height);
         this.effect.safeGetUniform("OutSize").set((float) outTarget.width, (float) outTarget.height);
 
-        float cx = ((float) Math.cos(camera.getXRot()/180*Math.PI)+1) * 0.5f;
-        float cy = ((float) Math.sin(camera.getYRot()/180*Math.PI)+1) * 0.5f;
-
-        this.effect.safeGetUniform("Crot").set(cx,cy);
         this.effect.safeGetUniform("Time").set(time);
 
         Minecraft minecraft = Minecraft.getInstance();
@@ -47,23 +47,24 @@ public class BrokenMask extends PostEffectBase{
 
         Quaternion quaternion = camera.rotation();
 
-        float sss = inTarget.height/2.8f;
+        float sss = Math.max(inTarget.height, inTarget.width)/4.7f;
 
-        for(int i = 0; i < obj.Face.size(); ++i) {
-            EffectUtils.Triangle triangle = obj.Face.get(i);
-            Vector3f v1 = obj.Positions.get(triangle.x-1).copy();
-            Vector3f v2 = obj.Positions.get(triangle.y-1).copy();
-            Vector3f v3 = obj.Positions.get(triangle.z-1).copy();
+        for(int index = 0; index < obj.Face.size(); ++index) {
+            EffectUtils.Triangle triangle = obj.Face.get(index);
+            Vector3f v1 = obj.Positions.get(triangle.x-1).toBugJumpFormat();
+            Vector3f v2 = obj.Positions.get(triangle.y-1).toBugJumpFormat();
+            Vector3f v3 = obj.Positions.get(triangle.z-1).toBugJumpFormat();
 
-            v1.mul(sss,sss,sss);
-            v2.mul(sss,sss,sss);
-            v3.mul(sss,sss,sss);
+            EpicAddon.LOGGER.info(v1.toString());
+            v1.mul(sss);
+            v2.mul(sss);
+            v3.mul(sss);
             v1.transform(quaternion);
             v2.transform(quaternion);
             v3.transform(quaternion);
-            v1.add(inTarget.width/2.0f, inTarget.height/2.0f,600);
-            v2.add(inTarget.width/2.0f, inTarget.height/2.0f,600);
-            v3.add(inTarget.width/2.0f, inTarget.height/2.0f,600);
+            v1.add(inTarget.width/2.0f, inTarget.height/2.0f,300);
+            v2.add(inTarget.width/2.0f, inTarget.height/2.0f,300);
+            v3.add(inTarget.width/2.0f, inTarget.height/2.0f,300);
 
             bufferbuilder.vertex(v1.x(), v1.y(), v1.z()).endVertex();
             bufferbuilder.vertex(v2.x(), v2.y(), v2.z()).endVertex();
@@ -76,6 +77,5 @@ public class BrokenMask extends PostEffectBase{
         this.effect.clear();
         outTarget.unbindWrite();
         inTarget.unbindRead();
-        RenderSystem.enableCull();
     }
 }

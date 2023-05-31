@@ -6,13 +6,14 @@
 	"client": [
 		"MixinAtkAnim",
 		"MixinGUI",
-		"MixinGameRenderer"
+		"MixinGameRenderer",
+		"MixinPlayerPatch"
 	],
 	"mixins": [
 		"MixinNBTCapabilities",
 		"MixinAtkAnimCommon",
 		"MixinLivingEntity",
-		"PhaseAccessor"
+		"PhaseAccessor",
 	],
 	"injector": {
 		"defaultRequire": 1

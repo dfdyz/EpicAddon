@@ -65,9 +65,9 @@ public class RegPostEffect {
                 if(blit == null || this.brokenMask == null){
                     Minecraft mc = Minecraft.getInstance();
                     try{
-                        this.blit = new PostEffectBase(new EffectInstance(mc.getResourceManager(), "minecraft:blit"));
-                        this.brokenMask = new BrokenMask(new EffectInstance(mc.getResourceManager(), "epicaddon:depthtex"));
-                        this.spaceBroken = new SpaceBroken(new EffectInstance(mc.getResourceManager(), "epicaddon:spacebroken"));
+                        this.blit = new PostEffectBase(new EffectInstance(mc.getResourceManager(), "epicaddon:blit"));
+                        this.brokenMask = new BrokenMask(mc.getResourceManager());
+                        this.spaceBroken = new SpaceBroken(mc.getResourceManager());
                         obj = EffectUtils.LoadOBJ_JSON(new ResourceLocation(EpicAddon.MODID, "models/effect/spacebroken.json"));
                         System.out.println("OBJ Inited");
                     } catch (IOException e) {
@@ -85,8 +85,7 @@ public class RegPostEffect {
 
                 this.blit.process(org,temp,0);
                 this.brokenMask.process(temp,mask,0,obj);
-                this.spaceBroken.process(temp,mask,org,0.04f);
-
+                this.spaceBroken.process(temp,mask,org,0.05f);
                 temp.destroyBuffers();
                 mask.destroyBuffers();
             }
