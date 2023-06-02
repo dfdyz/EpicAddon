@@ -1,21 +1,18 @@
 package com.jvn.epicaddon.register;
 
-import com.ibm.icu.impl.Row;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.PostRenderer.BrokenMask;
 import com.jvn.epicaddon.api.PostRenderer.PostEffectBase;
 import com.jvn.epicaddon.api.PostRenderer.SpaceBroken;
 import com.jvn.epicaddon.api.PostRenderer.WhiteFlush;
 import com.jvn.epicaddon.events.PostEffectEvent;
-import com.jvn.epicaddon.utils.EffectUtils;
+import com.jvn.epicaddon.utils.PostEffectUtils;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RegPostEffect {
     public static PostEffectEvent.AbstractPostEffectObj WhiteFlush;
@@ -58,7 +55,7 @@ public class RegPostEffect {
             BrokenMask brokenMask;
             com.jvn.epicaddon.api.PostRenderer.SpaceBroken spaceBroken;
 
-            EffectUtils.OBJ_JSON obj;
+            PostEffectUtils.OBJ_JSON obj;
 
             @Override
             public void Init(){
@@ -68,7 +65,7 @@ public class RegPostEffect {
                         this.blit = new PostEffectBase(new EffectInstance(mc.getResourceManager(), "epicaddon:blit"));
                         this.brokenMask = new BrokenMask(mc.getResourceManager());
                         this.spaceBroken = new SpaceBroken(mc.getResourceManager());
-                        obj = EffectUtils.LoadOBJ_JSON(new ResourceLocation(EpicAddon.MODID, "models/effect/spacebroken.json"));
+                        obj = PostEffectUtils.LoadOBJ_JSON(new ResourceLocation(EpicAddon.MODID, "models/effect/spacebroken.json"));
                         System.out.println("OBJ Inited");
                     } catch (IOException e) {
                         throw new RuntimeException(e);

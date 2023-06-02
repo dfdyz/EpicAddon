@@ -96,18 +96,20 @@ public class CamAnim {
         public final Vec3 pos;
         public final float rotY;
         public final float rotX;
-        public Pose(Vec3 pos, float rotX, float rotY){
+        public final float fov;
+        public Pose(Vec3 pos, float rotX, float rotY, float fov){
             this.pos = pos;
             this.rotY = rotY;
             this.rotX = rotX;
+            this.fov = fov;
         }
 
         public static Pose lerp(Pose p1, Pose p2, float t){
             Vec3 p = lerpVec3(p1.pos,p2.pos,t);
             float _rotY = p1.rotY*(1-t) + p2.rotY*t;
             float _rotX = p1.rotX*(1-t) + p2.rotX*t;
-
-            return new Pose(p, _rotX, _rotY);
+            float fov = p1.fov*(1-t) + p2.fov*t;
+            return new Pose(p, _rotX, _rotY, fov);
         }
 
         public static Vec3 lerpVec3(Vec3 v1, Vec3 v2, float t){
@@ -123,6 +125,7 @@ public class CamAnim {
                     "pos=" + pos +
                     ", rotY=" + rotY +
                     ", rotX=" + rotX +
+                    ", fov=" + fov +
                     '}';
         }
     }
@@ -131,8 +134,8 @@ public class CamAnim {
         public final Pose pose;
         public final float time;
 
-        public Key(Vec3 pos, float rotX, float rotY, float time){
-            this.pose = new Pose(pos,rotX,rotY);
+        public Key(Vec3 pos, float rotX, float rotY, float fov, float time){
+            this.pose = new Pose(pos,rotX,rotY,fov);
             this.time = time;
         }
 
@@ -146,11 +149,11 @@ public class CamAnim {
         public static Key ReadFromText(KeyFrameInfo kfi){
 
 
-            return new Key(new Vec3(kfi.x,kfi.y,kfi.z), kfi.rx, kfi.ry, kfi.t);
+            return new Key(new Vec3(kfi.x,kfi.y,kfi.z), kfi.rx, kfi.ry, kfi.fov, kfi.t);
         }
 
         public static class KeyFrameInfo{
-            public float x,y,z,rx,ry,t;
+            public float x,y,z,rx,ry,fov,t;
         }
     }
 }

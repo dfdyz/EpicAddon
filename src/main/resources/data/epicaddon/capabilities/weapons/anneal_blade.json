@@ -23,7 +23,7 @@
       "impact":3.0,
       "max_strikes":4,
       "speed_bonus":0.3,
-      "damage_bonus": 7.0
+      "damage_bonus": 1.0
     },
     "sao_rapier":
     {

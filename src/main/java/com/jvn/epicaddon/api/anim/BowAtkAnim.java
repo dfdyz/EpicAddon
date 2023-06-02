@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.entity.PartEntity;
 import yesman.epicfight.api.animation.AnimationPlayer;
+import yesman.epicfight.api.animation.JointTransform;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
@@ -16,6 +17,7 @@ import yesman.epicfight.api.animation.types.LinkAnimation;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.api.model.Model;
 import yesman.epicfight.api.utils.HitEntityList;
+import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -55,6 +57,22 @@ public class BowAtkAnim extends AttackAnimation {
     }
 
     @Override
+    protected void modifyPose(Pose pose, LivingEntityPatch<?> entitypatch, float time) {
+        JointTransform jt = pose.getOrDefaultTransform("Root");
+        Vec3f jointPosition = jt.translation();
+        OpenMatrix4f toRootTransformApplied = entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
+        OpenMatrix4f toOrigin = OpenMatrix4f.invert(toRootTransformApplied, (OpenMatrix4f)null);
+        Vec3f worldPosition = OpenMatrix4f.transform3v(toRootTransformApplied, jointPosition, (Vec3f)null);
+        worldPosition.x = 0.0F;
+        worldPosition.y = 0.0F;
+        worldPosition.z = 0.0F;
+        OpenMatrix4f.transform3v(toOrigin, worldPosition, worldPosition);
+        jointPosition.x = worldPosition.x;
+        jointPosition.y = worldPosition.y;
+        jointPosition.z = worldPosition.z;
+    }
+
+    @Override
     protected void onLoaded() {
         super.onLoaded();
 
@@ -68,7 +86,7 @@ public class BowAtkAnim extends AttackAnimation {
     @Override
     protected Vec3f getCoordVector(LivingEntityPatch<?> entitypatch, DynamicAnimation dynamicAnimation) {
         Vec3f vec3 = super.getCoordVector(entitypatch, dynamicAnimation);
-        return vec3;
+        return vec3.multiply(1,2,1);
     }
 
     @Override

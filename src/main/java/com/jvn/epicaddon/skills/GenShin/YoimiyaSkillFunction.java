@@ -12,9 +12,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.Animator;
@@ -41,6 +44,8 @@ public class YoimiyaSkillFunction {
                 Vec3 position = entitypatch.getOriginal().position();
                 Entity target = entitypatch.currentlyAttackedEntity.get(0);
 
+                float dmgboost = (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND)))*0.2f;
+
                 if(target.equals(entitypatch.getOriginal())){
                     float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
                     Vec3 shootVec = new Vec3(Math.cos(ang), 0 , Math.sin(ang));
@@ -49,7 +54,9 @@ public class YoimiyaSkillFunction {
                     GenShinArrow projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
                     projectile.setPos(shootPos);
                     projectile.pickup = AbstractArrow.Pickup.DISALLOWED;
-                    projectile.setDmg((float) entitypatch.getOriginal().getAttributeValue(Attributes.ATTACK_DAMAGE)*0.2333f);
+
+                    projectile.setDmg((float) entitypatch.getOriginal().getAttributeValue(Attributes.ATTACK_DAMAGE)*0.2333f*(dmgboost+1));
+
                     projectile.shoot(shootVec.x(), 0.1f, shootVec.z(), 4.2f, 1.0f);
                     worldIn.addFreshEntity(projectile);
 
@@ -65,7 +72,8 @@ public class YoimiyaSkillFunction {
                     GenShinArrow projectile = new GenShinArrow(worldIn, entitypatch.getOriginal());
                     projectile.setPos(shootPos);
                     projectile.pickup = AbstractArrow.Pickup.DISALLOWED;
-                    projectile.setDmg((float) entitypatch.getOriginal().getAttributeValue(Attributes.ATTACK_DAMAGE)*0.2333f);
+
+                    projectile.setDmg((float) entitypatch.getOriginal().getAttributeValue(Attributes.ATTACK_DAMAGE)*0.2333f*(dmgboost+1));
                     projectile.shoot(shootVec.x(), shootVec.y(), shootVec.z(), 4.2f, 1.0f);
                     worldIn.addFreshEntity(projectile);
 
@@ -164,9 +172,9 @@ public class YoimiyaSkillFunction {
 
         YoimiyaSAArrow projectile = new YoimiyaSAArrow(worldIn, shootPos, entitypatch.getOriginal());
         projectile.shoot(shootVec.x*2, shootVec.y*2, shootVec.z*2, 4.2f, 1.0f);
-
+        float dmgboost = (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND)))*0.2f;
         float dmg = (float) entitypatch.getOriginal().getAttributeValue(Attributes.ATTACK_DAMAGE);
-        projectile.setDmg(dmg);
+        projectile.setDmg(dmg*(dmgboost+1));
         projectile.setExpRadio(5.5F);
         worldIn.addFreshEntity(projectile);
     }

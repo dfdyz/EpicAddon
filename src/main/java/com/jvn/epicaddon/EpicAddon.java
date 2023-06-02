@@ -54,6 +54,7 @@ public class EpicAddon
         RegItems.ITEMS.register(bus);
         RegParticle.PARTICLES.register(bus);
         RegEntity.ENTITIES.register(bus);
+        RegMobEffect.EFFECTS.register(bus);
         //EpicFightMod.getInstance().animationManager.registerAnimations();
 
         //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CfgMgr.CLIENT_CONFIG);

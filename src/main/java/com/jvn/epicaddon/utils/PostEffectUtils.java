@@ -3,7 +3,6 @@ package com.jvn.epicaddon.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.api.camera.CamAnim;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EffectUtils {
+public class PostEffectUtils {
     public static class Triangle {
         public int x,y,z;
     }
@@ -48,7 +47,7 @@ public class EffectUtils {
             Gson gson = new Gson();
             obj = gson.fromJson(str,new TypeToken<OBJ_JSON>(){}.getType());
 
-            EpicAddon.LOGGER.info(gson.toJson(obj));
+            //EpicAddon.LOGGER.info(gson.toJson(obj));
 
         }catch(IOException e) {
             throw new RuntimeException(e);

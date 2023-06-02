@@ -166,7 +166,7 @@ public class EpicAddonAnimations {
 
         SAO_SINGLE_SWORD_GUARD = new StaticAnimation(0.25F, true, "biped/skill/sao_single_sword_guard", biped);
 
-        SAO_DOUBLE_CHOPPER = new DashAttackAnimation(0.06F, 0.0F, 0.02F, 0.254F, 0.25F, WeaponCollider.SAO_SWORD_DASH, "Root", "biped/sao_dual_sword_dash", biped)
+        SAO_DOUBLE_CHOPPER = new SpecailDashAtkAnimation(0.06F, 0.0F, 0.02F, 0.254F, 0.25F, WeaponCollider.SAO_SWORD_DASH, "Root", "biped/sao_dual_sword_dash", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.adder(14.7F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.KNOCKDOWN)
                 .addProperty(AnimationProperty.AttackPhaseProperty.ARMOR_NEGATION, ValueCorrector.adder(30.0F))
@@ -184,7 +184,6 @@ public class EpicAddonAnimations {
                                 entity.setNoGravity(true);
                                 //pp.getAnimator().playAnimation(EpicAddonAnimations.SAO_DUAL_SWORD_HOLD,0.0f);
                             }
-
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
                             if(ep instanceof PlayerPatch){
@@ -193,7 +192,7 @@ public class EpicAddonAnimations {
                             }
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
-                            PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 3f);
+                            //PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 3f);
                         }, StaticAnimation.Event.Side.SERVER)
                 });
 

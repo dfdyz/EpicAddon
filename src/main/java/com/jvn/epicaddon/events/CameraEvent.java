@@ -3,6 +3,7 @@ package com.jvn.epicaddon.events;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.camera.CamAnim;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +28,7 @@ public class CameraEvent {
     private static boolean linking = false;
     private static LivingEntity orginal;
     private static final Vec3 Vec3UP = new Vec3(0,1f,0);
-
+    private static float fovO = 0;
     private static boolean isLockPos = false;
 
     private static CamAnim.Pose pose_;
@@ -60,17 +61,20 @@ public class CameraEvent {
         CamAnim.Pose pose;
         if(linking){
             pose = pose_;
+            float t = (linkTick + (float) partialTicks)/maxLinkTick;
             Vec3 camPos = CamAnim.Pose.lerpVec3(
                     (pose.pos.yRot((float) Math.toRadians(-yawLock-90f)))
                             .add(isLockPos ? posLock : orginal.getPosition((float) partialTicks))
-                    , camera.getPosition(),
-                    (linkTick + (float) partialTicks)/maxLinkTick);
+                    , camera.getPosition(), t);
 
-            float _rot_y = MathUtils.lerpBetween(yawLock-pose.rotY, event.getYaw(), (linkTick + (float) partialTicks)/maxLinkTick);
-            float _rot_x = MathUtils.lerpBetween(pose.rotX, event.getPitch(), (linkTick + (float) partialTicks)/maxLinkTick);
+            float _rot_y = MathUtils.lerpBetween(yawLock-pose.rotY, event.getYaw(), t);
+            float _rot_x = MathUtils.lerpBetween(pose.rotX, event.getPitch(), t);
 
             camera.setRotation(_rot_y, _rot_x);
             camera.setPosition(camPos.x,camPos.y,camPos.z);
+            Minecraft.getInstance().options.fov = MathUtils.lerpBetween(pose.fov,fovO,t);
+
+            //camera.
             //event.move
             event.setYaw(_rot_y);
             event.setPitch(_rot_x);
@@ -91,7 +95,7 @@ public class CameraEvent {
             //cameraAccessor.invokeMove(p.x,p.y,p.z);
             camera.setRotation(yawLock-pose.rotY, pose.rotX);
             camera.setPosition(camPos.x,camPos.y,camPos.z);
-
+            Minecraft.getInstance().options.fov = pose.fov;
             event.setYaw(yawLock-pose.rotY);
             event.setPitch(pose.rotX);
             //event.move
@@ -119,6 +123,7 @@ public class CameraEvent {
             linking = false;
             linkTick = 0;
             tick = 0;
+            Minecraft.getInstance().options.fov = fovO;
         }
     }
     public static void SetAnim(CamAnim anim, LivingEntity org, boolean lockOrgPos){
@@ -138,5 +143,6 @@ public class CameraEvent {
         maxLinkTick = 5;
         currentAnim = anim;
         isLockPos = lockOrgPos;
+        fovO = (float) Minecraft.getInstance().options.fov;
     }
 }

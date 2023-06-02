@@ -1,7 +1,7 @@
 package com.jvn.epicaddon.api.PostRenderer;
 
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.utils.EffectUtils;
+import com.jvn.epicaddon.utils.PostEffectUtils;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -20,7 +20,7 @@ public class BrokenMask extends PostEffectBase{
         super(new EffectInstance(resmgr, "epicaddon:brokenmask"));
     }
 
-    public void process(RenderTarget inTarget, RenderTarget outTarget, float time, EffectUtils.OBJ_JSON obj){
+    public void process(RenderTarget inTarget, RenderTarget outTarget, float time, PostEffectUtils.OBJ_JSON obj){
         inTarget.unbindWrite();
         RenderSystem.viewport(0, 0, outTarget.width, outTarget.height);
         //this.effect.setSampler("DiffuseSampler", inTarget::getColorTextureId);
@@ -50,12 +50,11 @@ public class BrokenMask extends PostEffectBase{
         float sss = Math.max(inTarget.height, inTarget.width)/4.7f;
 
         for(int index = 0; index < obj.Face.size(); ++index) {
-            EffectUtils.Triangle triangle = obj.Face.get(index);
+            PostEffectUtils.Triangle triangle = obj.Face.get(index);
             Vector3f v1 = obj.Positions.get(triangle.x-1).toBugJumpFormat();
             Vector3f v2 = obj.Positions.get(triangle.y-1).toBugJumpFormat();
             Vector3f v3 = obj.Positions.get(triangle.z-1).toBugJumpFormat();
 
-            EpicAddon.LOGGER.info(v1.toString());
             v1.mul(sss);
             v2.mul(sss);
             v3.mul(sss);
