@@ -78,12 +78,22 @@ public class RegPostEffect {
                 Minecraft mc = Minecraft.getInstance();
                 RenderTarget org = mc.getMainRenderTarget();
                 RenderTarget temp = PostEffectBase.createTempTarget(org, org.width, org.height);
+                RenderTarget temp2 = PostEffectBase.createTempTarget(org, org.width, org.height);
                 RenderTarget mask = PostEffectBase.createTempTarget(org, org.width, org.height);
 
+                float t = Math.min(remainTime/0.06f, 1f);
+
+
                 this.blit.process(org,temp,0);
-                this.brokenMask.process(temp,mask,0,obj);
-                this.spaceBroken.process(temp,mask,org,0.05f);
+                this.brokenMask.process(temp,mask,0,obj,0, 60);
+                this.spaceBroken.process(temp,mask,temp2,0.03f*t);
+                this.brokenMask.process(temp,mask,0,obj,1, 90);
+                this.spaceBroken.process(temp2,mask,temp,0.02f*t);
+                this.brokenMask.process(temp,mask,0,obj,2, 120);
+                this.spaceBroken.process(temp,mask,org,0.03f*t);
+
                 temp.destroyBuffers();
+                temp2.destroyBuffers();
                 mask.destroyBuffers();
             }
         };

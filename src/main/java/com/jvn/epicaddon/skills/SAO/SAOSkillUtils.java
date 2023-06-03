@@ -61,7 +61,7 @@ public class SAOSkillUtils{
             });
         }
 
-        PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 0.65f, entityPatch.getOriginal().position());
+        PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 0.85f, entityPatch.getOriginal().position());
     }
 
 

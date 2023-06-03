@@ -20,7 +20,7 @@ public class BrokenMask extends PostEffectBase{
         super(new EffectInstance(resmgr, "epicaddon:brokenmask"));
     }
 
-    public void process(RenderTarget inTarget, RenderTarget outTarget, float time, PostEffectUtils.OBJ_JSON obj){
+    public void process(RenderTarget inTarget, RenderTarget outTarget, float time, PostEffectUtils.OBJ_JSON obj, int a, float ang){
         inTarget.unbindWrite();
         RenderSystem.viewport(0, 0, outTarget.width, outTarget.height);
         //this.effect.setSampler("DiffuseSampler", inTarget::getColorTextureId);
@@ -47,7 +47,23 @@ public class BrokenMask extends PostEffectBase{
 
         Quaternion quaternion = camera.rotation();
 
-        float sss = Math.max(inTarget.height, inTarget.width)/4.7f;
+        float x = 0;
+        float y = 0;
+        float z = 0;
+
+        if(a == 0){
+            x = ang;
+        }
+        else if (a == 1){
+            y = ang;
+        }
+        else {
+            z = ang;
+        }
+
+        quaternion.mul(Quaternion.fromXYZDegrees(new Vector3f(x,y,z)));
+
+        float sss = Math.max(inTarget.height, inTarget.width)/5.4f;
 
         for(int index = 0; index < obj.Face.size(); ++index) {
             PostEffectUtils.Triangle triangle = obj.Face.get(index);
