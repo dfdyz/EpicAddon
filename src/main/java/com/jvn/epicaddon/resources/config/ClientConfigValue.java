@@ -13,6 +13,7 @@ public class ClientConfigValue {
     public float RotSpeed = 0.15f;
 
     public float HealthBarRenderDistance = 48f;
+    public boolean EnableDeathParticle = true;
 
     public ClientConfigValue(){
 

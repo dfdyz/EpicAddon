@@ -19,7 +19,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '18.0.6.7'
+version = '18.0.6.71'
 group = 'com.dfdyz.epicaddon' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'epicaddon'
 

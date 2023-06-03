@@ -56,11 +56,10 @@ public class EpidAddonWorldEvent {
         GlobalVal.WZ = -(float) Math.sin(GlobalVal.WANG);
 
         DeathEntities.forEach((entity) -> {
-            if(entity.deathTime >= 18){
+            if(entity.deathTime >= 18 && ClientConfig.cfg.EnableDeathParticle){
                 ShootDeathParticle(entity);
             }
         });
-
 
         DeathEntities.removeIf((entity) -> {
             return entity.deathTime >= 18;
@@ -69,6 +68,8 @@ public class EpidAddonWorldEvent {
 
     private static void ShootDeathParticle(LivingEntity entity){
         //System.out.println("dddddd");
+
+
         Level level = entity.getLevel();
 
 

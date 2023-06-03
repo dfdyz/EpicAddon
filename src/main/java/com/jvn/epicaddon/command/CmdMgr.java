@@ -65,6 +65,25 @@ public class CmdMgr {
                                     MSGClient("[EpicAddon]Disabled Sword Trail Render.");
                                     return Command.SINGLE_SUCCESS;
                                 })))
+                .then(Commands.literal("DeathParticle")
+                        .executes(context -> {
+                            MSGClient("[EpicAddon]DeathParticle: " + ClientConfig.cfg.EnableSwordTrail);
+                            return Command.SINGLE_SUCCESS;
+                        })
+                        .then(Commands.literal("true")
+                                .executes(context -> {
+                                    ClientConfig.cfg.EnableDeathParticle = true;
+                                    ClientConfig.SaveCommon();
+                                    MSGClient("[EpicAddon]Enabled DeathParticle.");
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        .then(Commands.literal("false")
+                                .executes(context -> {
+                                    ClientConfig.cfg.EnableDeathParticle = false;
+                                    ClientConfig.SaveCommon();
+                                    MSGClient("[EpicAddon]Disabled DeathParticle.");
+                                    return Command.SINGLE_SUCCESS;
+                                })))
                 .then(Commands.literal("GenShinVoice")
                         .executes(context -> {
                             MSGClient("[EpicAddon]GenShinVoice: " + (ClientConfig.cfg.EnableGenShinVoice ? "Enable" : "Disable"));
