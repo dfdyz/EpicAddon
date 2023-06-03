@@ -1,6 +1,7 @@
 package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.mobeffects.MobEffectEx;
 import com.jvn.epicaddon.mobeffects.StopEffect;
 import com.jvn.epicaddon.mobeffects.WoundEffect;
 import net.minecraft.world.effect.MobEffect;

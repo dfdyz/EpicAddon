@@ -53,9 +53,9 @@ public class EpicAddonRenderType extends RenderType {
             p_107448_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
-        public void end(Tesselator p_107451_) {
-            p_107451_.getBuilder().setQuadSortOrigin(0.0F, 0.0F, 0.0F);
-            p_107451_.end();
+        public void end(Tesselator tesselator) {
+            tesselator.getBuilder().setQuadSortOrigin(0.0F, 0.0F, 0.0F);
+            tesselator.end();
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableCull();
@@ -82,13 +82,24 @@ public class EpicAddonRenderType extends RenderType {
         }
 
         public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
+            /*
             RenderSystem.enableBlend();
             RenderSystem.disableCull();
             //RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            //RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
+            RenderSystem.setShader(GameRenderer::getPositionColorTexLightmapShader);
+
+             */
+
+            RenderSystem.enableBlend();
+            RenderSystem.disableCull();
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
             RenderSystem.setShader(GameRenderer::getPositionColorTexLightmapShader);
+
 
             TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
             AbstractTexture abstracttexture = texturemanager.getTexture(Texture);
@@ -124,8 +135,7 @@ public class EpicAddonRenderType extends RenderType {
         public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
             RenderSystem.enableBlend();
             RenderSystem.disableCull();
-            //RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
             RenderSystem.setShader(GameRenderer::getPositionColorTexLightmapShader);
@@ -133,7 +143,6 @@ public class EpicAddonRenderType extends RenderType {
             TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
             AbstractTexture abstracttexture = texturemanager.getTexture(BladeTrailDefaultTexture);
             RenderSystem.bindTexture(abstracttexture.getId());
-            RenderSystem.setShaderTexture(0, abstracttexture.getId());
 
             RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
             RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);

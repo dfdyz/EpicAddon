@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,9 +27,25 @@ public class MixinGameRenderer {
                     ordinal = 0
             ))
     private void PostRender(float pt, long startTime, boolean tick, CallbackInfo cbi){
-        PostEffectEvent.effects_highest.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj._Process(pair.timer); return false; });
-        PostEffectEvent.effects_mid.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj._Process(pair.timer); return false; });
-        PostEffectEvent.effects_lowest.removeIf((pair) -> { if(pair.timer <= 0) return true; pair.obj._Process(pair.timer); return false; });
+        Vec3 pos = Minecraft.getInstance().player.getPosition(pt);
+        PostEffectEvent.effects_highest.removeIf((pair) -> {
+            if(pair.timer <= 0)
+                return true;
+            if(pair.isVisible(pos))
+                pair.obj._Process(pair.timer);
+            return false; });
+        PostEffectEvent.effects_mid.removeIf((pair) -> {
+            if(pair.timer <= 0)
+                return true;
+            if(pair.isVisible(pos))
+                pair.obj._Process(pair.timer);
+            return false; });
+        PostEffectEvent.effects_lowest.removeIf((pair) -> {
+            if(pair.timer <= 0)
+                return true;
+            if(pair.isVisible(pos))
+                pair.obj._Process(pair.timer);
+            return false; });
     }
 
 }

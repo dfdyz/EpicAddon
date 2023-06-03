@@ -9,6 +9,7 @@ import com.jvn.epicaddon.skills.GenShinInternal.GSBowInternal;
 import com.jvn.epicaddon.skills.GenShinInternal.GSFallAttack;
 import com.jvn.epicaddon.skills.GenShinInternal.GSSpecialAttack;
 import com.jvn.epicaddon.skills.SAO.DualBladeSkill;
+import com.jvn.epicaddon.skills.SAO.RapierSpicialAttackSkill;
 import com.jvn.epicaddon.skills.SAOInternal.SAOSingleSwordInternal;
 import com.jvn.epicaddon.skills.SAOInternal.SAOBasicAtkPatch;
 import com.jvn.epicaddon.skills.SAO.RapierSkill;
@@ -50,7 +51,10 @@ public class RegEpicAddonSkills {
         SAO_SINGLESWORDGUARD = event.registerSkill(new SingleSwordGuardSkill(SingleSwordGuardSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_single_sword_guard_skill"))),true);
         SAO_RAPIER = event.registerSkill(new RapierSkill(RapierSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_rapier_skill"))),false);
 
-        WEAPON_SKILL_RAPIER = event.registerSkill(new SimpleSpecialAttackSkill(SimpleSpecialAttackSkill.createBuilder(new ResourceLocation(EpicAddon.MODID, "weapon_skill_rapier")).setConsumption(30.0F).setAnimations(EpicAddonAnimations.SAO_RAPIER_SPECIAL_DASH)),false);
+        WEAPON_SKILL_RAPIER = event.registerSkill(new RapierSpicialAttackSkill(RapierSpicialAttackSkill.createBuilder(
+                new ResourceLocation(EpicAddon.MODID, "weapon_skill_rapier"))
+                .setConsumption(30.0F)
+                .setAnimation(EpicAddonAnimations.SAO_RAPIER_SA2).setAnimation2(EpicAddonAnimations.SAO_RAPIER_SPECIAL_DASH)),false);
 
         GS_YOIMIYA_SPECIALATK = event.registerSkill(new GSSpecialAttack(GSSpecialAttack.createBuilder(new ResourceLocation(EpicAddon.MODID, "gs_yoimiya_sa")).setConsumption(30.0F).setAnimations(EpicAddonAnimations.GS_Yoimiya_SA))
                 .newPropertyLine()

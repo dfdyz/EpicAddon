@@ -2,6 +2,7 @@ package com.jvn.epicaddon.events;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.camera.CamAnim;
+import com.jvn.epicaddon.utils.MyMathUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
@@ -62,12 +63,32 @@ public class CameraEvent {
         if(linking){
             pose = pose_;
             float t = (linkTick + (float) partialTicks)/maxLinkTick;
-            Vec3 camPos = CamAnim.Pose.lerpVec3(
-                    (pose.pos.yRot((float) Math.toRadians(-yawLock-90f)))
-                            .add(isLockPos ? posLock : orginal.getPosition((float) partialTicks))
-                    , camera.getPosition(), t);
+            Vec3 Coord = orginal.getPosition((float) partialTicks);
+            Vec3 targetPos = camera.getPosition();
+            Vec3 lastFramePos = (pose.pos.yRot((float) Math.toRadians(-yawLock-90f)))
+                    .add(isLockPos ? posLock : Coord);
 
-            float _rot_y = MathUtils.lerpBetween(yawLock-pose.rotY, event.getYaw(), t);
+            Vec3 targetRelate = targetPos.subtract(Coord);
+            Vec3 lastRelate = lastFramePos.subtract(Coord);
+
+            targetRelate = MyMathUtils.ToCylindricalCoordinate(targetRelate);
+            lastRelate = MyMathUtils.ToCylindricalCoordinate(lastRelate);
+
+            Vec3 camPos = MyMathUtils.LerpMinCylindrical(lastRelate,targetRelate,t);
+            camPos = MyMathUtils.ToCartesianCoordinates(camPos).add(Coord);
+
+
+            //camPos = CamAnim.Pose.lerpVec3(lastFramePos, targetPos, t);
+
+            float tmp = event.getYaw() - (yawLock-pose.rotY);
+            tmp = tmp%360f;
+
+            if(tmp > 0){
+                tmp -= 360;
+                tmp = Math.abs(tmp) > tmp+360f ? tmp+360 : tmp;
+            }
+
+            float _rot_y =  yawLock-pose.rotY + tmp*t;
             float _rot_x = MathUtils.lerpBetween(pose.rotX, event.getPitch(), t);
 
             camera.setRotation(_rot_y, _rot_x);
@@ -84,7 +105,6 @@ public class CameraEvent {
             pose_ = pose;
 
             //Vec3 curPos = camera.getPosition();
-
 
             Vec3 camPos = (pose.pos.yRot((float) Math.toRadians(-yawLock-90f))).add(isLockPos ? posLock : orginal.getPosition((float) partialTicks));
 
@@ -133,6 +153,10 @@ public class CameraEvent {
         else {
             return;
         }
+
+        if (!isEnd || linking)
+            Minecraft.getInstance().options.fov = fovO;
+
         orginal = org;
         CameraEvent.yawLock = org.getViewYRot(0);
         CameraEvent.posLock = org.position();
@@ -140,7 +164,7 @@ public class CameraEvent {
         isEnd = false;
         tick = 0;
         linkTick = 0;
-        maxLinkTick = 5;
+        maxLinkTick = 8;
         currentAnim = anim;
         isLockPos = lockOrgPos;
         fovO = (float) Minecraft.getInstance().options.fov;

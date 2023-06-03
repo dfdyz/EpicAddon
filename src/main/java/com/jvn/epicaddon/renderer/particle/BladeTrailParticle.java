@@ -3,6 +3,7 @@ package com.jvn.epicaddon.renderer.particle;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
+import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.resources.BladeTrailTextureLoader;

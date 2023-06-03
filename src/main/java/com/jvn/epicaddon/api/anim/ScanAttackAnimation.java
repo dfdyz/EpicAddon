@@ -1,6 +1,8 @@
 package com.jvn.epicaddon.api.anim;
 
+import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.mixin.PhaseAccessor;
+import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,19 +30,33 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-public class BowAtkAnim extends AttackAnimation {
+public class ScanAttackAnimation extends AttackAnimation {
     //private final int Aid;
     //public final String Hjoint;
-    public BowAtkAnim(float convertTime,float antic, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
+    protected final int maxStrikes;
+    protected final boolean moveRootY;
+    public ScanAttackAnimation(float convertTime, float antic, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
         super(convertTime, path, model,
                 new Phase(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider));
 
         //Hjoint = shoot;
         this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true);
+        maxStrikes = 1;
+        moveRootY = false;
         //this.Aid = aid;
     }
+    public ScanAttackAnimation(float convertTime, float antic, float recovery, InteractionHand hand, boolean MoveCancel, int maxStrikes, @Nullable Collider collider, String scanner, String path, Model model) {
+        super(convertTime, path, model,
+                new Phase(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider));
 
+        //Hjoint = shoot;
+        this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
+        this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, MoveCancel);
+        this.maxStrikes = maxStrikes;
+        moveRootY = true;
+        //this.Aid = aid;
+    }
 
     @Override
     public void setLinkAnimation(Pose pose1, float timeModifier, LivingEntityPatch<?> entitypatch, LinkAnimation dest) {
@@ -64,7 +80,7 @@ public class BowAtkAnim extends AttackAnimation {
         OpenMatrix4f toOrigin = OpenMatrix4f.invert(toRootTransformApplied, (OpenMatrix4f)null);
         Vec3f worldPosition = OpenMatrix4f.transform3v(toRootTransformApplied, jointPosition, (Vec3f)null);
         worldPosition.x = 0.0F;
-        worldPosition.y = 0.0F;
+        worldPosition.y = moveRootY ? worldPosition.y : 0.0F;
         worldPosition.z = 0.0F;
         OpenMatrix4f.transform3v(toOrigin, worldPosition, worldPosition);
         jointPosition.x = worldPosition.x;
@@ -117,6 +133,7 @@ public class BowAtkAnim extends AttackAnimation {
                     entitypatch.currentlyAttackedEntity.clear();
                 }
 
+                //EpicAddon.LOGGER.info(String.valueOf(prevElapsedTime));
                 this.ScanTarget(entitypatch, prevElapsedTime, elapsedTime, prevState, state, phase);
             }
         }
@@ -132,7 +149,7 @@ public class BowAtkAnim extends AttackAnimation {
 
         if (list.size() > 0) {
             HitEntityList hitEntities = new HitEntityList(entitypatch, list, HitEntityList.Priority.DISTANCE);
-            int maxStrikes = 1;
+            //int maxStrikes = 1;
             entitypatch.getOriginal().setLastHurtMob(list.get(0));
 
             while (entitypatch.currentlyAttackedEntity.size() < maxStrikes && hitEntities.next()) {
@@ -149,7 +166,7 @@ public class BowAtkAnim extends AttackAnimation {
                 }
             }
         }
-        entitypatch.currentlyAttackedEntity.add(entitypatch.getOriginal());
+        //entitypatch.currentlyAttackedEntity.add(entitypatch.getOriginal());
     }
 
     /*

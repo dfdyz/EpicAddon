@@ -1,6 +1,6 @@
 package com.jvn.epicaddon.renderer.efmItemRenderer;
 
-import com.jvn.epicaddon.api.anim.BowAtkAnim;
+import com.jvn.epicaddon.api.anim.ScanAttackAnimation;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -10,7 +10,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
-import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.client.model.ClientModel;
 import yesman.epicfight.api.client.model.ClientModels;
@@ -26,7 +25,7 @@ public class GSI_BowRenderer extends RenderItemBase {
         String joint = "Tool_L";
 
         DynamicAnimation anim = entitypatch.getClientAnimator().getCompositeLayer(Layer.Priority.HIGHEST).animationPlayer.getAnimation();
-        if(anim instanceof BowAtkAnim){
+        if(anim instanceof ScanAttackAnimation){
             //joint
         }
 
