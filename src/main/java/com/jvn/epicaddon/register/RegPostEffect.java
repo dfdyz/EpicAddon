@@ -1,5 +1,6 @@
 package com.jvn.epicaddon.register;
 
+import com.google.common.collect.Lists;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.PostRenderer.BrokenMask;
 import com.jvn.epicaddon.api.PostRenderer.PostEffectBase;
@@ -11,15 +12,22 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.fml.ModLoader;
+import net.minecraftforge.fml.event.IModBusEvent;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class RegPostEffect {
+    public static LinkedList<PostEffectEvent.AbstractPostEffectObj> Registries = Lists.newLinkedList();
     public static PostEffectEvent.AbstractPostEffectObj WhiteFlush;
     public static PostEffectEvent.AbstractPostEffectObj SpaceBroken;
+    private static boolean inited = false;
 
     public static void Reg(){
-        WhiteFlush = new PostEffectEvent.AbstractPostEffectObj() {
+        if (inited) return;
+        WhiteFlush = register(new PostEffectEvent.AbstractPostEffectObj() {
             PostEffectBase blit;
             WhiteFlush whiteFlush;
 
@@ -48,9 +56,9 @@ public class RegPostEffect {
                 temp.destroyBuffers();
                 temp2.destroyBuffers();
             }
-        };
+        });
 
-        SpaceBroken = new PostEffectEvent.AbstractPostEffectObj() {
+        SpaceBroken = register(new PostEffectEvent.AbstractPostEffectObj() {
             PostEffectBase blit;
             BrokenMask brokenMask;
             com.jvn.epicaddon.api.PostRenderer.SpaceBroken spaceBroken;
@@ -96,7 +104,27 @@ public class RegPostEffect {
                 temp2.destroyBuffers();
                 mask.destroyBuffers();
             }
-        };
+        });
+
+        ModLoader.get().postEvent(new RegPostEffectEvent());
+
+        inited = true;
+    }
+
+    protected static PostEffectEvent.AbstractPostEffectObj register(PostEffectEvent.AbstractPostEffectObj obj){
+        Registries.add(obj);
+        return obj;
+    }
+
+
+    public static class RegPostEffectEvent extends Event implements IModBusEvent {
+        public RegPostEffectEvent(){
+
+        }
+
+        public PostEffectEvent.AbstractPostEffectObj register(PostEffectEvent.AbstractPostEffectObj obj){
+            return RegPostEffect.register(obj);
+        }
     }
 
 }

@@ -32,7 +32,7 @@ public class SpaceBroken extends PostEffectBase{
         float cx = ((float) Math.cos(camera.getXRot()/180*Math.PI)+1) * 0.5f;
         float cy = ((float) Math.sin(camera.getYRot()/180*Math.PI)+1) * 0.5f;
         this.effect.safeGetUniform("Crot").set(cx,cy);
-        this.effect.safeGetUniform("cweight").set(0.05f);
+        this.effect.safeGetUniform("cweight").set(0.02f);
         this.effect.safeGetUniform("Time").set(time);
 
         Minecraft minecraft = Minecraft.getInstance();

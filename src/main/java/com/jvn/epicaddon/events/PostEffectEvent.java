@@ -75,7 +75,7 @@ public class PostEffectEvent {
         }
         public abstract void Process(float deltaTime);
         public void _Process(float dt){
-            Init();
+            //Init();
             Process(dt);
         }
         public abstract void Init();

@@ -1,13 +1,16 @@
 package com.jvn.epicaddon.mixin;
 
+import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.PostRenderer.PostEffectBase;
 import com.jvn.epicaddon.api.PostRenderer.WhiteFlush;
 import com.jvn.epicaddon.events.PostEffectEvent;
+import com.jvn.epicaddon.register.RegPostEffect;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.server.packs.resources.ResourceProvider;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

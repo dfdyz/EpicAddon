@@ -1,7 +1,6 @@
 package com.jvn.epicaddon;
 
 import com.jvn.epicaddon.api.camera.CamAnim;
-import com.jvn.epicaddon.network.EpicAddonNetworkManager;
 import com.jvn.epicaddon.register.*;
 import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
@@ -9,19 +8,15 @@ import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import com.jvn.epicaddon.resources.EpicAddonStyles;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.level.gameevent.GameEventListenerRegistrar;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
-import yesman.epicfight.network.EpicFightNetworkManager;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("epicaddon")
@@ -42,6 +37,7 @@ public class EpicAddon
 
         //bus.addListener(CmdMgr::registerClientCommand);
         bus.addListener(this::setupCommon);
+        bus.addListener(this::registerPostEffect);
         bus.addListener(EpicAddonAnimations::registerAnimations);
         bus.addListener(RegEpicAddonSkills::registerSkills);
         bus.addListener(RegWeaponItemCap::register);
@@ -69,10 +65,17 @@ public class EpicAddon
             for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
                 camAnim.load();
             }
-
-            RegPostEffect.Reg();
         }
         //event.enqueueWork(EpicAddonNetworkManager::registerPackets);
+    }
+
+    public void registerPostEffect(final RegisterShadersEvent event){
+        EpicAddon.LOGGER.info("Register PostEffect");
+        RegPostEffect.Reg();
+        RegPostEffect.Registries.forEach(obj -> {
+            obj.Init();
+            EpicAddon.LOGGER.info("Init PostEffect: "+obj.hashCode());
+        });
     }
 
 /*
