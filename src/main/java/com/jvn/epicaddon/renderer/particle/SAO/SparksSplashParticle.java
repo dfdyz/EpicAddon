@@ -1,19 +1,10 @@
-package com.jvn.epicaddon.renderer.particle;
+package com.jvn.epicaddon.renderer.particle.SAO;
 
-import com.jvn.epicaddon.renderer.EpicAddonRenderType;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3d;
-import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import yesman.epicfight.client.particle.EpicFightParticleRenderTypes;
-import yesman.epicfight.client.particle.HitBluntParticle;
-import yesman.epicfight.client.particle.HitParticle;
-import yesman.epicfight.main.EpicFightMod;
 
 import java.util.Random;
 

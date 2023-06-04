@@ -1,9 +1,8 @@
-package com.jvn.epicaddon.renderer.particle;
+package com.jvn.epicaddon.renderer.particle.GenshinImpact;
 
 import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;

@@ -25,6 +25,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     private boolean colorOverride = false;
     private boolean posOverride = false;
     private boolean lifetimeOverride = false;
+    private boolean enable = true;
     //private boolean resetGravity = true;
     //private static final StaticAnimation anim = null;
 /*
@@ -40,8 +41,14 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
 
  */
 
-
-
+    @Override
+    public boolean isEnable() {
+        return enable;
+    }
+    @Override
+    public void EnableST(boolean a) {
+        enable = a;
+    }
     @Override
     public boolean isColorOverride() {
         return colorOverride;
@@ -117,7 +124,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     public String prevJoint;
     @Inject(at = @At("HEAD"),method = "begin")
     private void MixinBegin(LivingEntityPatch<?> entitypatch,CallbackInfo cbi){
-        if(!ClientConfig.cfg.EnableSwordTrail) return;
+        if(!ClientConfig.cfg.EnableSwordTrail || !this.enable) return;
         if(entitypatch.getOriginal().getLevel().isClientSide()){
             if(entitypatch instanceof PlayerPatch || entitypatch instanceof HumanoidMobPatch){
                 StaticAnimation animation = getAtkAnim();
@@ -144,7 +151,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
 
     @Inject(at = @At("HEAD"),method = "tick")
     private void MixinTick(LivingEntityPatch<?> entitypatch, CallbackInfo cbi){
-        if(!ClientConfig.cfg.EnableSwordTrail) return;
+        if(!ClientConfig.cfg.EnableSwordTrail || !this.enable) return;
         if(entitypatch.getOriginal().getLevel().isClientSide()){
             if(entitypatch instanceof PlayerPatch || entitypatch instanceof HumanoidMobPatch){
                 StaticAnimation animation = getAtkAnim();

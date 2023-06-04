@@ -2,6 +2,16 @@ package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.renderer.particle.*;
+import com.jvn.epicaddon.renderer.particle.GenshinImpact.GenShinBowLandingParticle;
+import com.jvn.epicaddon.renderer.particle.GenshinImpact.GenShinBowLandingParticle2;
+import com.jvn.epicaddon.renderer.particle.GenshinImpact.GenShinBowLandingParticle3;
+import com.jvn.epicaddon.renderer.particle.GenshinImpact.GenShinBowShootParticle;
+import com.jvn.epicaddon.renderer.particle.JudgementCut.JCBladeTrail;
+import com.jvn.epicaddon.renderer.particle.JudgementCut.JudgementCutParticle;
+import com.jvn.epicaddon.renderer.particle.SAO.SAODeathParticle;
+import com.jvn.epicaddon.renderer.particle.SAO.SAODeathParticleInternal;
+import com.jvn.epicaddon.renderer.particle.SAO.SparksSplashHitParticle;
+import com.jvn.epicaddon.renderer.particle.SAO.SparksSplashParticle;
 import com.jvn.epicaddon.renderer.particle.YoimiyaSA.GsYoimiyaFirework;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
@@ -33,6 +43,10 @@ public class RegParticle {
     public static final RegistryObject<SimpleParticleType> SAO_DEATH = PARTICLES.register("sao_death", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SAO_DEATH_I = PARTICLES.register("sao_death_i", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<SimpleParticleType> JudgementCut = PARTICLES.register("judgement_cut", () -> new SimpleParticleType(true));
+
+    public static final RegistryObject<SimpleParticleType> JudgementCutTrail = PARTICLES.register("judgement_cut_trail", () -> new SimpleParticleType(true));
+
 
     public static final RegistryObject<SimpleParticleType> GS_YOIMIYA_SA = PARTICLES.register("gs_yoimiya_sa", () -> new SimpleParticleType(true));
 
@@ -53,6 +67,9 @@ public class RegParticle {
             PE.register(GENSHIN_BOW_LANDING3.get(), GenShinBowLandingParticle3.Provider::new);
             PE.register(SAO_DEATH.get(), SAODeathParticle.Provider::new);
             PE.register(SAO_DEATH_I.get(), SAODeathParticleInternal.Provider::new);
+
+            PE.register(JudgementCut.get(), JudgementCutParticle.Provider::new);
+            PE.register(JudgementCutTrail.get(), JCBladeTrail.Provider::new);
         }
     }
 }

@@ -3,27 +3,17 @@ package com.jvn.epicaddon.register;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.entity.projectile.GenShinArrow;
 import com.jvn.epicaddon.entity.projectile.YoimiyaSAArrow;
-import com.jvn.epicaddon.renderer.entity.prijectile.GSYoimiyaSAArrowRenderer;
-import com.jvn.epicaddon.renderer.particle.BladeTrailParticle;
-import com.jvn.epicaddon.renderer.particle.GenShinBowShootParticle;
-import com.jvn.epicaddon.renderer.particle.SparksSplashHitParticle;
-import com.jvn.epicaddon.renderer.particle.SparksSplashParticle;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.renderer.entity.TippableArrowRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import yesman.epicfight.world.entity.AreaEffectBreath;
 
 @Mod.EventBusSubscriber(modid = EpicAddon.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegEntity {

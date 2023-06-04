@@ -16,7 +16,7 @@ public class SpaceBroken extends PostEffectBase{
         super(new EffectInstance(resmgr, "epicaddon:spacebroken"));
     }
 
-    public void process(RenderTarget inTarget, RenderTarget depth, RenderTarget outTarget, float time){
+    public void process(RenderTarget inTarget, RenderTarget depth, RenderTarget outTarget, float time, float rot){
         inTarget.unbindWrite();
         depth.unbindWrite();
         RenderSystem.viewport(0, 0, outTarget.width, outTarget.height);
@@ -29,8 +29,8 @@ public class SpaceBroken extends PostEffectBase{
         this.effect.safeGetUniform("OutSize").set((float) outTarget.width, (float) outTarget.height);
 
         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
-        float cx = ((float) Math.cos(camera.getXRot()/180*Math.PI)+1) * 0.5f;
-        float cy = ((float) Math.sin(camera.getYRot()/180*Math.PI)+1) * 0.5f;
+        float cx = ((float) Math.cos((camera.getXRot()+rot)/180*Math.PI)+1) * 0.5f;
+        float cy = ((float) Math.sin((camera.getYRot()+rot)/180*Math.PI)+1) * 0.5f;
         this.effect.safeGetUniform("Crot").set(cx,cy);
         this.effect.safeGetUniform("cweight").set(0.02f);
         this.effect.safeGetUniform("Time").set(time);

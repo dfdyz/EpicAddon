@@ -1,4 +1,4 @@
-package com.jvn.epicaddon.renderer.particle;
+package com.jvn.epicaddon.renderer.particle.SAO;
 
 import com.jvn.epicaddon.register.RegParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -6,9 +6,6 @@ import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class SparksSplashHitParticle extends NoRenderParticle {

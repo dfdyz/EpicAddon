@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
@@ -194,8 +195,10 @@ public class EpicAddonAnimations {
                             }
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
-                            //PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 3f);
-                        }, StaticAnimation.Event.Side.SERVER)
+                            //PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 3f);\
+                            Vec3 pos = ep.getOriginal().position();
+                            ep.getOriginal().level.addParticle(RegParticle.JudgementCutTrail.get(),pos.x,pos.y+2.3,pos.z,5,0,5);
+                        }, StaticAnimation.Event.Side.CLIENT)
                 });
 
         //RAPIER
@@ -425,6 +428,12 @@ public class EpicAddonAnimations {
         ((GravityRestter) GS_Yoimiya_FallAtk_Start).setMode(false);
         ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);
         ((GravityRestter) GS_Yoimiya_SA).setMode(false);
+
+        ((IAnimSTOverride) GS_Yoimiya_Auto1).EnableST(false);
+        ((IAnimSTOverride) GS_Yoimiya_Auto2).EnableST(false);
+        ((IAnimSTOverride) GS_Yoimiya_Auto3).EnableST(false);
+        ((IAnimSTOverride) GS_Yoimiya_Auto4).EnableST(false);
+        ((IAnimSTOverride) GS_Yoimiya_Auto5).EnableST(false);
 
         if(FMLEnvironment.dist == Dist.CLIENT){
             ((IAnimSTOverride)SAO_RAPIER_SPECIAL_DASH).setLifeTimeOverride(10).setPosOverride(

@@ -1,11 +1,7 @@
-package com.jvn.epicaddon.renderer.particle;
+package com.jvn.epicaddon.renderer.particle.SAO;
 
 import com.jvn.epicaddon.events.DeathParticleHandler;
 import com.jvn.epicaddon.register.RegParticle;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
-import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;

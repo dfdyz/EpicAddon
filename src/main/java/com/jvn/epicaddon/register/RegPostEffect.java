@@ -94,11 +94,11 @@ public class RegPostEffect {
 
                 this.blit.process(org,temp,0);
                 this.brokenMask.process(temp,mask,0,obj,0, 60);
-                this.spaceBroken.process(temp,mask,temp2,0.03f*t);
+                this.spaceBroken.process(temp,mask,temp2,0.03f*t, 0);
                 this.brokenMask.process(temp,mask,0,obj,1, 90);
-                this.spaceBroken.process(temp2,mask,temp,0.02f*t);
+                this.spaceBroken.process(temp2,mask,temp,0.02f*t, 120);
                 this.brokenMask.process(temp,mask,0,obj,2, 120);
-                this.spaceBroken.process(temp,mask,org,0.03f*t);
+                this.spaceBroken.process(temp,mask,org,0.03f*t, 240);
 
                 temp.destroyBuffers();
                 temp2.destroyBuffers();

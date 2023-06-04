@@ -1,8 +1,7 @@
-package com.jvn.epicaddon.renderer.particle;
+package com.jvn.epicaddon.renderer.particle.GenshinImpact;
 
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -12,84 +11,82 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class GenShinBowLandingParticle2 extends TextureSheetParticle {
+public class GenShinBowLandingParticle3 extends TextureSheetParticle {
     //protected final int lifeTick;
-    protected final Quaternion rot;
-    protected GenShinBowLandingParticle2(ClientLevel level, double x, double y, double z, double xd, double yd, double zd, int lifeTick) {
+
+    protected final int TimeWaitToPlay;
+
+    protected GenShinBowLandingParticle3(ClientLevel level, double x, double y, double z, double xd, double yd, double zd, int lifeTick) {
         super(level, x, y, z, xd, yd, zd);
         this.x = x;
         this.y = y+0.05f;
         this.z = z;
-        this.xd = xd;
-        this.yd = yd;
-        this.zd = zd;
+        this.TimeWaitToPlay = (int) xd;
         this.gravity = 0;
         this.lifetime = lifeTick;
         this.rCol = 1f;
         this.gCol = 1f;
         this.bCol = 0.9019607f;
-        Quaternion rot_ = Quaternion.fromXYZDegrees(new Vector3f(0,(float) yd,0));
-        rot_.mul(Quaternion.fromXYZDegrees(new Vector3f((float) xd,0,0)));
-        this.rot = rot_;
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return EpicAddonRenderType.GENSHIN_BOW_LANDING_PARTICLE;
+        return EpicAddonRenderType.GENSHIN_BOW_LANDING_PARTICLE3;
     }
 
     private Vector3f[] avector3f = new Vector3f[]{new Vector3f(-3.0F, -3.0F, 0.0F), new Vector3f(-3.0F, 3.0F, 0.0F), new Vector3f(3.0F, 3.0F, 0.0F), new Vector3f(3.0F, -3.0F, 0.0F)};
 
     @Override
     public void tick() {
-        if (this.age++ >= this.lifetime) {
+        if (age++ >= lifetime + TimeWaitToPlay) {
             this.remove();
         }
     }
 
     @Override
     public void render(VertexConsumer vertexConsumer, Camera camera, float tick) {
+        if(age < TimeWaitToPlay) return;
         Vec3 vec3 = camera.getPosition();
         //Quaternion quaternion = camera.rotation();
 
-        float f = (float)(this.x - vec3.x());
-        float f1 = (float)(this.y - vec3.y());
-        float f2 = (float)(this.z - vec3.z());
+        float f = (float)(x - vec3.x());
+        float f1 = (float)(y - vec3.y());
+        float f2 = (float)(z - vec3.z());
 
         //Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
         //vector3f1.transform(quaternion);
 
         Vector3f[] avector3f = new Vector3f[]{
-                new Vector3f(-0.5f, 0, 0),
-                new Vector3f(-0.5f, 2, 0),
-                new Vector3f(0.5f, 2, 0),
-                new Vector3f(0.5f, 0, 0),
-                new Vector3f(0, 0, -0.5f),
-                new Vector3f(0, 2, -0.5f),
-                new Vector3f(0, 2, 0.5f),
-                new Vector3f(0, 0, 0.5f)
+                new Vector3f(-0.3f, 0, 0),
+                new Vector3f(-0.3f, 4, 0),
+                new Vector3f(0.3f, 4, 0),
+                new Vector3f(0.3f, 0, 0),
+                new Vector3f(0, 0, -0.3f),
+                new Vector3f(0, 4, -0.3f),
+                new Vector3f(0, 4, 0.3f),
+                new Vector3f(0, 0, 0.3f)
         };
 
         for(int i = 0; i < 8; ++i) {
             Vector3f vector3f = avector3f[i];
             //vector3f.add(f, f1, f2);
-            vector3f.transform(rot);
 
-            vector3f.mul(1.3f);
+            vector3f.mul(1f);
             vector3f.add(f, f1, f2);
             //vector3f.mul(0f);
             //vector3f.add(f, f1, f2);
         }
 
-        int t = Math.min(7,(int) Math.floor((age + tick) /lifetime * 8));
+        int t = Math.min(21,(int) Math.floor((age-TimeWaitToPlay + tick) /lifetime * 22));
 
-        float u0 = t * 0.125f;
-        float u1 = (t+1) * 0.125f;
+        float u0 = t / 24.0f;
+        float u1 = (t+1) / 24.0f;
 
-        float v0 = 0.75f;
+        float v0 = 0;
         float v1 = 1;
 
         int light = this.getLightColor(tick);
+        //System.out.println(light);
 
         vertexConsumer.vertex(avector3f[0].x(), avector3f[0].y(), avector3f[0].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u1, v1).uv2(light).endVertex();
         vertexConsumer.vertex(avector3f[1].x(), avector3f[1].y(), avector3f[1].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u1, v0).uv2(light).endVertex();
@@ -110,7 +107,7 @@ public class GenShinBowLandingParticle2 extends TextureSheetParticle {
         }
         @Override
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new GenShinBowLandingParticle2(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,2);
+            return new GenShinBowLandingParticle3(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,5);
         }
     }
 }
