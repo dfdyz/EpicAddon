@@ -77,9 +77,9 @@ public class BrokenMask extends PostEffectBase{
             v1.transform(quaternion);
             v2.transform(quaternion);
             v3.transform(quaternion);
-            v1.add(inTarget.width/2.0f, inTarget.height/2.0f,300);
-            v2.add(inTarget.width/2.0f, inTarget.height/2.0f,300);
-            v3.add(inTarget.width/2.0f, inTarget.height/2.0f,300);
+            v1.add(inTarget.width/2.0f, inTarget.height/2.0f,500);
+            v2.add(inTarget.width/2.0f, inTarget.height/2.0f,500);
+            v3.add(inTarget.width/2.0f, inTarget.height/2.0f,500);
 
             bufferbuilder.vertex(v1.x(), v1.y(), v1.z()).endVertex();
             bufferbuilder.vertex(v2.x(), v2.y(), v2.z()).endVertex();

@@ -167,6 +167,8 @@ public class EpicAddonRenderType extends RenderType {
         }
     };
 
+    public static final EpicAddonQuadParticleRenderType JCBladeTrail = new EpicAddonQuadParticleRenderType("textures/particle/trail", "JCTRAIL");
+
     /*
     public static final RenderType SwordTrail = create(EpicAddon.MODID + ":sword_trail_def", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, false,
             RenderType.CompositeState.builder()

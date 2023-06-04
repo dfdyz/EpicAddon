@@ -37,7 +37,7 @@ public class EpicAddon
 
         //bus.addListener(CmdMgr::registerClientCommand);
         bus.addListener(this::setupCommon);
-        bus.addListener(this::registerPostEffect);
+        bus.addListener(this::initPostEffect);
         bus.addListener(EpicAddonAnimations::registerAnimations);
         bus.addListener(RegEpicAddonSkills::registerSkills);
         bus.addListener(RegWeaponItemCap::register);
@@ -65,13 +65,13 @@ public class EpicAddon
             for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
                 camAnim.load();
             }
+            RegPostEffect.Reg();
         }
         //event.enqueueWork(EpicAddonNetworkManager::registerPackets);
     }
 
-    public void registerPostEffect(final RegisterShadersEvent event){
+    public void initPostEffect(final RegisterShadersEvent event){
         EpicAddon.LOGGER.info("Register PostEffect");
-        RegPostEffect.Reg();
         RegPostEffect.Registries.forEach(obj -> {
             obj.Init();
             EpicAddon.LOGGER.info("Init PostEffect: "+obj.hashCode());

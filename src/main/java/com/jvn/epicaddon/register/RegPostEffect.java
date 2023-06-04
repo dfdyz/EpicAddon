@@ -20,13 +20,11 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public class RegPostEffect {
-    public static LinkedList<PostEffectEvent.AbstractPostEffectObj> Registries = Lists.newLinkedList();
+    public static final LinkedList<PostEffectEvent.AbstractPostEffectObj> Registries = Lists.newLinkedList();
     public static PostEffectEvent.AbstractPostEffectObj WhiteFlush;
     public static PostEffectEvent.AbstractPostEffectObj SpaceBroken;
-    private static boolean inited = false;
 
     public static void Reg(){
-        if (inited) return;
         WhiteFlush = register(new PostEffectEvent.AbstractPostEffectObj() {
             PostEffectBase blit;
             WhiteFlush whiteFlush;
@@ -91,13 +89,12 @@ public class RegPostEffect {
 
                 float t = Math.min(remainTime/0.06f, 1f);
 
-
                 this.blit.process(org,temp,0);
                 this.brokenMask.process(temp,mask,0,obj,0, 60);
                 this.spaceBroken.process(temp,mask,temp2,0.03f*t, 0);
                 this.brokenMask.process(temp,mask,0,obj,1, 90);
                 this.spaceBroken.process(temp2,mask,temp,0.02f*t, 120);
-                this.brokenMask.process(temp,mask,0,obj,2, 120);
+                this.brokenMask.process(temp,mask,0,obj,2, 110);
                 this.spaceBroken.process(temp,mask,org,0.03f*t, 240);
 
                 temp.destroyBuffers();
@@ -105,26 +102,11 @@ public class RegPostEffect {
                 mask.destroyBuffers();
             }
         });
-
-        ModLoader.get().postEvent(new RegPostEffectEvent());
-
-        inited = true;
     }
 
     protected static PostEffectEvent.AbstractPostEffectObj register(PostEffectEvent.AbstractPostEffectObj obj){
         Registries.add(obj);
         return obj;
-    }
-
-
-    public static class RegPostEffectEvent extends Event implements IModBusEvent {
-        public RegPostEffectEvent(){
-
-        }
-
-        public PostEffectEvent.AbstractPostEffectObj register(PostEffectEvent.AbstractPostEffectObj obj){
-            return RegPostEffect.register(obj);
-        }
     }
 
 }

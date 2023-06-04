@@ -12,12 +12,40 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class JCBladeTrail extends SingleQuadParticle {
+    protected float timeOffset = 0f;
+    protected final double X,Y,Z;
+
     public JCBladeTrail(ClientLevel level, double x, double y, double z, double rx, double ry, double rz) {
         super(level, x, y, z, rx, ry, rz);
-        this.lifetime = 60;
+        this.lifetime = 11;
+        timeOffset = this.random.nextFloat(0,1);
+        X = x;
+        Y = y;
+        Z = z;
         this.xd = rx;
         this.yd = ry;
         this.zd = rz;
+    }
+
+    protected static class Trail{
+        public final float x,y,z,dx,dy,dz;
+        protected float lifetime;
+        public Trail(float x, float y, float z, float dx, float dy, float dz, float lifetime) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.dx = dx;
+            this.dy = dy;
+            this.dz = dz;
+            this.lifetime = lifetime;
+        }
+
+        public boolean isAlive(){
+            return lifetime-- > 0;
+        }
+
+        
+
     }
 
     @Override
@@ -49,33 +77,63 @@ public class JCBladeTrail extends SingleQuadParticle {
 
     @Override
     public void render(VertexConsumer buffer, Camera camera, float pt) {
-        Vec3 camPos = camera.getPosition();
+        float at = age+pt;
+        if(at < timeOffset || at > lifetime-1f+timeOffset){
+            return;
+        }
+
+        float t = Math.min(1, at / (lifetime-1)*3);
+        Vec3 vec3 = camera.getPosition();
         //Quaternion quaternion = camera.rotation();
-        //float t = Math.min((age+pt)/lifetime*2,1f);
 
-        Vec3 Start = (new Vec3(this.x, this.y, this.z)).subtract(camPos);
-        Vec3 DirOrEnd = (new Vec3(this.xd, this.yd, this.zd));  //Dir
+        float f = (float)(this.x - vec3.x());
+        float f1 = (float)(this.y - vec3.y());
+        float f2 = (float)(this.z - vec3.z());
 
-        //System.out.println(111);
+        Vector3f right = new Vector3f(f,f1,f2);
+        Vector3f dir = new Vector3f((float) this.xd, (float) this.yd, (float) this.zd);
 
-        //Vec3 Cam2Start = Start.subtract(camPos);
+        dir.mul(t);
+        right.cross(dir);
+        right.normalize();
+        right.mul(0.02f);
 
-        float w = 0.3f;
-        Vec3 Right = Start.cross(DirOrEnd).normalize().multiply(w,w,w);
+        Vector3f left = right.copy();
+        left.mul(-1);
+
+        //Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
+        //vector3f1.transform(quaternion);
+
+        Vector3f[] points = new Vector3f[]{
+                right.copy(),
+                left.copy(),
+                left.copy(),
+                right.copy(),
+        };
+
+        points[2].add(dir);
+        points[3].add(dir);
+        for(int i = 0; i < 4; ++i) {
+            Vector3f vector3f = points[i];
+            vector3f.add(f, f1, f2);
+            //vector3f.mul(0f);
+            //vector3f.add(f, f1, f2);
+        }
+
+        float u0 = 0;
+        float u1 = 1;
+
+        float v0 = 0;
+        float v1 = 1;
 
         //System.out.println(t);
 
-        DirOrEnd = Start.add(DirOrEnd);
-        Vec3 p1 = Start.add(1,0,1);
-        Vec3 p2 = Start.subtract(1,0,1);
-        Vec3 p3 = DirOrEnd.subtract(1,0,1);
-        Vec3 p4 = DirOrEnd.add(1,0,1);
+        int light = this.getLightColor(pt);
 
-        int j = this.getLightColor(pt);
-        buffer.vertex(p1.x, p1.y, p1.z).color(1,1,1,1).uv(1, 1).uv2(j).endVertex();
-        buffer.vertex(p2.x, p2.y, p2.z).color(1,1,1,1).uv(1, 0).uv2(j).endVertex();
-        buffer.vertex(p3.x, p3.y, p3.z).color(1,1,1,1).uv(0, 0).uv2(j).endVertex();
-        buffer.vertex(p4.x, p4.y, p4.z).color(1,1,1,1).uv(0, 1).uv2(j).endVertex();
+        buffer.vertex(points[0].x(), points[0].y(), points[0].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u1, v1).uv2(light).endVertex();
+        buffer.vertex(points[1].x(), points[1].y(), points[1].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u1, v0).uv2(light).endVertex();
+        buffer.vertex(points[2].x(), points[2].y(), points[2].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u0, v0).uv2(light).endVertex();
+        buffer.vertex(points[3].x(), points[3].y(), points[3].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u0, v1).uv2(light).endVertex();
     }
 
     @Override

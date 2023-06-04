@@ -77,6 +77,7 @@ public class GenShinBowLandingParticle extends TextureSheetParticle {
             //vector3f.add(f, f1, f2);
         }
 
+
         int t = Math.min(9,(int) Math.floor((age + tick) /lifetime * 10));
 
         float u0 = (t%4) * 0.25f;

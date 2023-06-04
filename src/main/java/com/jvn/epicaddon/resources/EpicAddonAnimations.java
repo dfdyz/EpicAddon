@@ -197,7 +197,7 @@ public class EpicAddonAnimations {
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
                             //PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 3f);\
                             Vec3 pos = ep.getOriginal().position();
-                            ep.getOriginal().level.addParticle(RegParticle.JudgementCutTrail.get(),pos.x,pos.y+2.3,pos.z,5,0,5);
+                            ep.getOriginal().level.addParticle(RegParticle.JudgementCut.get(), pos.x,pos.y,pos.z,ep.getOriginal().yBodyRot,0,5);
                         }, StaticAnimation.Event.Side.CLIENT)
                 });
 
