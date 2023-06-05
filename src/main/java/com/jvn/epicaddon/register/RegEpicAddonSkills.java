@@ -4,12 +4,14 @@ package com.jvn.epicaddon.register;
 import com.google.common.collect.Maps;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
+import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import com.jvn.epicaddon.skills.GenShinInternal.GSBasicAtkPatch;
 import com.jvn.epicaddon.skills.GenShinInternal.GSBowInternal;
 import com.jvn.epicaddon.skills.GenShinInternal.GSFallAttack;
 import com.jvn.epicaddon.skills.GenShinInternal.GSSpecialAttack;
 import com.jvn.epicaddon.skills.SAO.DualBladeSkill;
 import com.jvn.epicaddon.skills.SAO.RapierSpicialAttackSkill;
+import com.jvn.epicaddon.skills.SAOInternal.MutiSpecialSkill;
 import com.jvn.epicaddon.skills.SAOInternal.SAOSingleSwordInternal;
 import com.jvn.epicaddon.skills.SAOInternal.SAOBasicAtkPatch;
 import com.jvn.epicaddon.skills.SAO.RapierSkill;
@@ -41,7 +43,7 @@ public class RegEpicAddonSkills {
     public static Skill GS_Bow_FallAttackPatch;
     public static Skill GS_Bow_BasicAttackPatch;
     public static Skill GS_Bow_Internal;
-
+    public static Skill MUTI_SPECIAL_ATTACK;
     private static final Map<ResourceLocation, Skill> LEARNABLE_SKILLS = Maps.newHashMap();
 
     public static void registerSkills(SkillRegistryEvent event) {
@@ -55,6 +57,10 @@ public class RegEpicAddonSkills {
                 new ResourceLocation(EpicAddon.MODID, "weapon_skill_rapier"))
                 .setConsumption(30.0F)
                 .setAnimation(EpicAddonAnimations.SAO_RAPIER_SA2).setAnimation2(EpicAddonAnimations.SAO_RAPIER_SPECIAL_DASH)),false);
+
+        MUTI_SPECIAL_ATTACK = event.registerSkill(new MutiSpecialSkill(Skill.createBuilder(
+                        new ResourceLocation(EpicAddon.MODID, "muti_sa")).setCategory(EpicAddonSkillCategories.MutiSpecialAttack)),false);
+
 
         GS_YOIMIYA_SPECIALATK = event.registerSkill(new GSSpecialAttack(GSSpecialAttack.createBuilder(new ResourceLocation(EpicAddon.MODID, "gs_yoimiya_sa")).setConsumption(30.0F).setAnimations(EpicAddonAnimations.GS_Yoimiya_SA))
                 .newPropertyLine()

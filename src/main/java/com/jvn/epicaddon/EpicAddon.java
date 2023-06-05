@@ -1,6 +1,8 @@
 package com.jvn.epicaddon;
 
 import com.jvn.epicaddon.api.camera.CamAnim;
+import com.jvn.epicaddon.events.ControllerEvent;
+import com.jvn.epicaddon.network.EpicaddonNetMgr;
 import com.jvn.epicaddon.register.*;
 import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
@@ -57,6 +59,8 @@ public class EpicAddon
         MinecraftForge.EVENT_BUS.register(this);
     }
     public void setupCommon(final FMLCommonSetupEvent event){
+        event.enqueueWork(EpicaddonNetMgr::register);
+
         if(FMLEnvironment.dist == Dist.CLIENT){
             BladeTrailTextureLoader.Load();
             ClientConfig.Load();
@@ -66,9 +70,12 @@ public class EpicAddon
                 camAnim.load();
             }
             RegPostEffect.Reg();
+            ControllerEvent.EpicAddonKeyMapping.Reg();
         }
         //event.enqueueWork(EpicAddonNetworkManager::registerPackets);
     }
+
+
 
     public void initPostEffect(final RegisterShadersEvent event){
         EpicAddon.LOGGER.info("Register PostEffect");

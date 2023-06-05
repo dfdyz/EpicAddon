@@ -132,6 +132,7 @@ public class EpicAddonRenderType extends RenderType {
     //public static final ParticleRenderType EPICADDON_PARTICLE = ;
 
     public static final ResourceLocation BladeTrailDefaultTexture = GetTextures("particle/trail");
+    public static final ResourceLocation ChildSkillSelected = GetTextures("gui/selected");
     public static final ParticleRenderType BladeTrail = new ParticleRenderType() {
         public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
             RenderSystem.enableBlend();

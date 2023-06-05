@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class SAOBasicAtkPatch extends BasicAttack {
     public static final SkillDataKey<Integer> COMBO_COUNTER = SkillDataKey.createDataKey(SkillDataManager.ValueType.INTEGER);;
-    private static final UUID EVENT_UUID = UUID.fromString("f34b839d-ab91-ac46-b61d-1c681c904319");;
+    private static final UUID EVENT_UUID = UUID.fromString("f34b839d-ab91-ac46-b61d-1c681c904319");
 
     public SAOBasicAtkPatch(Skill.Builder<? extends Skill> builder) {
         super(builder);
