@@ -1,8 +1,9 @@
 package com.jvn.epicaddon.api.anim;
 
-import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.api.anim.fuckAPI.IPatchedState;
+import com.jvn.epicaddon.api.anim.fuckAPI.PatchedStateSpectrum;
 import com.jvn.epicaddon.mixin.PhaseAccessor;
-import com.jvn.epicaddon.resources.EpicAddonAnimations;
+import nameless.yamatomoveset.api.animation.types.StateSpectrumUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,8 +34,11 @@ import java.util.Locale;
 public class ScanAttackAnimation extends AttackAnimation {
     //private final int Aid;
     //public final String Hjoint;
+    protected final PatchedStateSpectrum.Blueprint patchedStateBlueprint = new PatchedStateSpectrum.Blueprint();
+    private final PatchedStateSpectrum patchedState = new PatchedStateSpectrum();
     protected final int maxStrikes;
     protected final boolean moveRootY;
+
     public ScanAttackAnimation(float convertTime, float antic, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
         super(convertTime, path, model,
                 new Phase(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider));
@@ -46,6 +50,7 @@ public class ScanAttackAnimation extends AttackAnimation {
         moveRootY = false;
         //this.Aid = aid;
     }
+
     public ScanAttackAnimation(float convertTime, float antic, float recovery, InteractionHand hand, boolean MoveCancel, int maxStrikes, @Nullable Collider collider, String scanner, String path, Model model) {
         super(convertTime, path, model,
                 new Phase(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider));
@@ -80,7 +85,7 @@ public class ScanAttackAnimation extends AttackAnimation {
         OpenMatrix4f toOrigin = OpenMatrix4f.invert(toRootTransformApplied, (OpenMatrix4f)null);
         Vec3f worldPosition = OpenMatrix4f.transform3v(toRootTransformApplied, jointPosition, (Vec3f)null);
         worldPosition.x = 0.0F;
-        worldPosition.y = moveRootY ? worldPosition.y : 0.0F;
+//        worldPosition.y = moveRootY ? worldPosition.y : 0.0F;
         worldPosition.z = 0.0F;
         OpenMatrix4f.transform3v(toOrigin, worldPosition, worldPosition);
         jointPosition.x = worldPosition.x;
@@ -101,8 +106,10 @@ public class ScanAttackAnimation extends AttackAnimation {
 
     @Override
     protected Vec3f getCoordVector(LivingEntityPatch<?> entitypatch, DynamicAnimation dynamicAnimation) {
-        Vec3f vec3 = super.getCoordVector(entitypatch, dynamicAnimation);
-        return vec3.multiply(1,2,1);
+        entitypatch.getOriginal().setDeltaMovement(0,0,0);
+        Vec3f vec3f = super.getCoordVector(entitypatch, dynamicAnimation);
+        vec3f.y=0;
+        return vec3f;
     }
 
     @Override
@@ -166,7 +173,7 @@ public class ScanAttackAnimation extends AttackAnimation {
                 }
             }
         }
-        //entitypatch.currentlyAttackedEntity.add(entitypatch.getOriginal());
+        entitypatch.currentlyAttackedEntity.add(entitypatch.getOriginal());
     }
 
     /*

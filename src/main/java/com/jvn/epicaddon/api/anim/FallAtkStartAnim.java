@@ -1,10 +1,8 @@
 package com.jvn.epicaddon.api.anim;
 
-import com.jvn.epicaddon.api.anim.fuckAPI.StateSpectrumUtils;
 import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.skills.GenShinInternal.GSFallAttack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import yesman.epicfight.api.animation.JointTransform;
@@ -22,8 +20,6 @@ import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
-
-import java.util.Locale;
 
 public class FallAtkStartAnim extends ActionAnimation {
     public StaticAnimation Loop;

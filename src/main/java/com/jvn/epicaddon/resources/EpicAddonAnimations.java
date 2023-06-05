@@ -184,20 +184,14 @@ public class EpicAddonAnimations {
                                 tmp = (tmp>=0) ? tmp : 0;
                                 pp.setStamina(tmp);
                                 LivingEntity entity = (LivingEntity)pp.getOriginal();
-                                entity.setNoGravity(true);
+                                //.setNoGravity(true);
                                 //pp.getAnimator().playAnimation(EpicAddonAnimations.SAO_DUAL_SWORD_HOLD,0.0f);
                             }
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
-                            if(ep instanceof PlayerPatch){
-                                LivingEntity entity = (LivingEntity)((PlayerPatch)ep).getOriginal();
-                                entity.setNoGravity(false);
-                            }
-                        }, StaticAnimation.Event.Side.SERVER),
-                        StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
                             //PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 3f);\
-                            Vec3 pos = ep.getOriginal().position();
-                            ep.getOriginal().level.addParticle(RegParticle.JudgementCut.get(), pos.x,pos.y,pos.z,ep.getOriginal().yBodyRot,0,5);
+                            //Vec3 pos = ep.getOriginal().position();
+                            //ep.getOriginal().level.addParticle(RegParticle.JudgementCut.get(), pos.x,pos.y,pos.z,0,0,0);
                         }, StaticAnimation.Event.Side.CLIENT)
                 });
 
@@ -207,13 +201,13 @@ public class EpicAddonAnimations {
         SAO_RAPIER_AUTO1 = new BasicAttackAnimation(0.12F, 0.067F, 0.167F, 0.2F, null, "Tool_R", "biped/sao_rapier_auto1", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
         SAO_RAPIER_AUTO2 = new BasicAttackAnimation(0.12F, 0.033F, 0.133F, 0.2F, null, "Tool_R", "biped/sao_rapier_auto2", biped)
-                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);;
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
         SAO_RAPIER_AUTO3 = new BasicAttackAnimation(0.12F, 0.2F, 0.3F, 0.3F, null, "Tool_R", "biped/sao_rapier_auto3", biped)
-                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);;
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
         SAO_RAPIER_AUTO4 = new BasicAttackAnimation(0.12F, 0.033F, 0.2F, 0.2F, null, "Tool_R", "biped/sao_rapier_auto4", biped)
-                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);;
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
         SAO_RAPIER_AUTO5 = new BasicAttackAnimation(0.12F, 0.2F, 0.3F, 0.4F, null, "Tool_R", "biped/sao_rapier_auto5", biped)
-                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);;
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
 
         SAO_RAPIER_DASH  = new DashAttackAnimation(0.12F, 0.2F, 0.1F, 0.3F, 0.4F, WeaponCollider.SAO_RAPIER_DASH_SHORT, "Root", "biped/sao_rapier_dash", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.adder(14.7F))
@@ -234,7 +228,7 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.AttackAnimationProperty.FIXED_MOVE_DISTANCE,true)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
 
-        SAO_RAPIER_SPECIAL_DASH  = new DashAttackAnimation(0.1F, 0.3F, 0.05F, 4.8333F, 4.1F, WeaponCollider.SAO_RAPIER_DASH, "Root", "biped/sao_rapier_dash_long", biped)
+        SAO_RAPIER_SPECIAL_DASH  = new SpecailDashAtkAnimation(0.1F, 0.3F, 0.05F, 4.8333F, 4.1F, WeaponCollider.SAO_RAPIER_DASH, "Root", "biped/sao_rapier_dash_long", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.adder(14.7F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.MAX_STRIKES, ValueCorrector.adder(114514))
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.21F)
@@ -247,16 +241,12 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
                             if(ep instanceof PlayerPatch){
-                                Entity entity = ((PlayerPatch)ep).getOriginal();
-                                entity.setNoGravity(true);
                                 ep.setMaxStunShield(114514.0f);
                                 ep.setStunShield(ep.getMaxStunShield());
                             }
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
                             if(ep instanceof PlayerPatch){
-                                LivingEntity entity = (LivingEntity)((PlayerPatch)ep).getOriginal();
-                                entity.setNoGravity(false);
                                 ep.setMaxStunShield(0f);
                                 ep.setStunShield(ep.getMaxStunShield());
                             }
@@ -340,7 +330,7 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.BOTH),
                 });
 
-        GS_Yoimiya_SA = new ScanAttackAnimation(0.02F, 0.5F, 4.56F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_sa", biped)
+        GS_Yoimiya_SA = new YoimiyaSAAnimation(0.02F, 0.5F, 4.56F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_sa", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3f)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
@@ -354,19 +344,12 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
                             if(ep instanceof PlayerPatch){
-                                Player player = (Player) ((PlayerPatch)ep).getOriginal();
-                                player.setDeltaMovement(0,0,0);
-                                player.setPos(player.position());
-                                player.setSpeed(0);
-                                player.setNoGravity(true);
                                 ep.setMaxStunShield(114514.0f);
                                 ep.setStunShield(ep.getMaxStunShield());
                             }
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
                             if(ep instanceof PlayerPatch){
-                                LivingEntity entity = (LivingEntity)((PlayerPatch)ep).getOriginal();
-                                entity.setNoGravity(false);
                                 ep.setMaxStunShield(0f);
                                 ep.setStunShield(ep.getMaxStunShield());
                             }
@@ -424,10 +407,6 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.CLIENT),
                 })
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.8f);
-
-        ((GravityRestter) GS_Yoimiya_FallAtk_Start).setMode(false);
-        ((GravityRestter) SAO_RAPIER_SPECIAL_DASH).setMode(false);
-        ((GravityRestter) GS_Yoimiya_SA).setMode(false);
 
         ((IAnimSTOverride) GS_Yoimiya_Auto1).EnableST(false);
         ((IAnimSTOverride) GS_Yoimiya_Auto2).EnableST(false);

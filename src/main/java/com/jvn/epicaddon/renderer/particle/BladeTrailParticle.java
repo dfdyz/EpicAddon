@@ -129,7 +129,6 @@ public class BladeTrailParticle extends TextureSheetParticle {
             this.yo = entityPos.y;
             this.z = entityPos.z;
             this.zo = entityPos.z;
-
             //this.move(entityPos.x, entityPos.y + entitypatch.getOriginal().getEyeHeight(), entityPos.z);
         }
 
@@ -286,6 +285,11 @@ public class BladeTrailParticle extends TextureSheetParticle {
         boolean isAlive() {
             return --this.lifetime > 0;
         }
+    }
+
+    @Override
+    public boolean shouldCull() {
+        return false;
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -1,15 +1,22 @@
 package com.jvn.epicaddon.renderer.particle.JudgementCut;
 
+import com.jvn.epicaddon.EpicAddon;
+import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+
+import javax.swing.text.html.parser.Entity;
+import java.util.LinkedList;
 
 public class JCBladeTrail extends SingleQuadParticle {
     protected float timeOffset = 0f;
@@ -17,7 +24,7 @@ public class JCBladeTrail extends SingleQuadParticle {
 
     public JCBladeTrail(ClientLevel level, double x, double y, double z, double rx, double ry, double rz) {
         super(level, x, y, z, rx, ry, rz);
-        this.lifetime = 11;
+        this.lifetime = 9;
         timeOffset = this.random.nextFloat(0,1);
         X = x;
         Y = y;
@@ -27,27 +34,10 @@ public class JCBladeTrail extends SingleQuadParticle {
         this.zd = rz;
     }
 
-    protected static class Trail{
-        public final float x,y,z,dx,dy,dz;
-        protected float lifetime;
-        public Trail(float x, float y, float z, float dx, float dy, float dz, float lifetime) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.dx = dx;
-            this.dy = dy;
-            this.dz = dz;
-            this.lifetime = lifetime;
-        }
-
-        public boolean isAlive(){
-            return lifetime-- > 0;
-        }
-
-        
-
+    @Override
+    public boolean shouldCull() {
+        return false;
     }
-
     @Override
     protected float getU0() {
         return 0;
@@ -70,25 +60,23 @@ public class JCBladeTrail extends SingleQuadParticle {
 
     @Override
     public void tick() {
-        if (this.age++ >= this.lifetime) {
+        if (this.age++ > this.lifetime) {
             this.remove();
         }
+
     }
 
     @Override
     public void render(VertexConsumer buffer, Camera camera, float pt) {
-        float at = age+pt;
-        if(at < timeOffset || at > lifetime-1f+timeOffset){
-            return;
-        }
+        float at = this.age+pt;
+        if(at < timeOffset || at > lifetime+timeOffset) return;
+        float t = Math.min(1, at / this.lifetime * 2.5f);
 
-        float t = Math.min(1, at / (lifetime-1)*3);
         Vec3 vec3 = camera.getPosition();
-        //Quaternion quaternion = camera.rotation();
 
-        float f = (float)(this.x - vec3.x());
-        float f1 = (float)(this.y - vec3.y());
-        float f2 = (float)(this.z - vec3.z());
+        float f = (float)(this.X - vec3.x());
+        float f1 = (float)(this.Y - vec3.y());
+        float f2 = (float)(this.Z - vec3.z());
 
         Vector3f right = new Vector3f(f,f1,f2);
         Vector3f dir = new Vector3f((float) this.xd, (float) this.yd, (float) this.zd);
@@ -96,7 +84,8 @@ public class JCBladeTrail extends SingleQuadParticle {
         dir.mul(t);
         right.cross(dir);
         right.normalize();
-        right.mul(0.02f);
+        float _t = (float) Math.sqrt(Math.min(1, (lifetime - at) / lifetime * 2.5f));
+        right.mul(0.012f*_t);
 
         Vector3f left = right.copy();
         left.mul(-1);
@@ -127,14 +116,14 @@ public class JCBladeTrail extends SingleQuadParticle {
         float v1 = 1;
 
         //System.out.println(t);
-
         int light = this.getLightColor(pt);
 
-        buffer.vertex(points[0].x(), points[0].y(), points[0].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u1, v1).uv2(light).endVertex();
-        buffer.vertex(points[1].x(), points[1].y(), points[1].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u1, v0).uv2(light).endVertex();
-        buffer.vertex(points[2].x(), points[2].y(), points[2].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u0, v0).uv2(light).endVertex();
-        buffer.vertex(points[3].x(), points[3].y(), points[3].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(u0, v1).uv2(light).endVertex();
+        buffer.vertex(points[0].x(), points[0].y(), points[0].z()).color(this.rCol,this.gCol,this.bCol,this.alpha).uv(u1, v1).uv2(light).endVertex();
+        buffer.vertex(points[1].x(), points[1].y(), points[1].z()).color(this.rCol,this.gCol,this.bCol,this.alpha).uv(u1, v0).uv2(light).endVertex();
+        buffer.vertex(points[2].x(), points[2].y(), points[2].z()).color(this.rCol,this.gCol,this.bCol,this.alpha).uv(u0, v0).uv2(light).endVertex();
+        buffer.vertex(points[3].x(), points[3].y(), points[3].z()).color(this.rCol,this.gCol,this.bCol,this.alpha).uv(u0, v1).uv2(light).endVertex();
     }
+
 
     @Override
     public ParticleRenderType getRenderType() {

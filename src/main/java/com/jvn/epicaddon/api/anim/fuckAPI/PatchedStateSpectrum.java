@@ -12,13 +12,13 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.function.Function;
 
-public class StateSpectrumUtils {
-    private final Set<StateSpectrumUtils.StatesInTime> timePairs = Sets.newHashSet();
+public class PatchedStateSpectrum {
+    private final Set<PatchedStateSpectrum.StatesInTime> timePairs = Sets.newHashSet();
 
-    public StateSpectrumUtils() {
+    public PatchedStateSpectrum() {
     }
 
-    public void readFrom(StateSpectrumUtils.Blueprint blueprint) {
+    public void readFrom(PatchedStateSpectrum.Blueprint blueprint) {
         this.timePairs.clear();
         this.timePairs.addAll(blueprint.timePairs);
     }
@@ -35,7 +35,7 @@ public class StateSpectrumUtils {
         boolean knockdown = stateMap.getOrDefault(EntityState.KNOCKDOWN, EntityState.KNOCKDOWN.getDefaultVal());
         boolean counterAttackable = stateMap.getOrDefault(EntityState.COUNTER_ATTACKABLE, EntityState.COUNTER_ATTACKABLE.getDefaultVal());
         int phaseLevel = stateMap.getOrDefault(EntityState.PHASE_LEVEL, EntityState.PHASE_LEVEL.getDefaultVal());
-        Function<DamageSource, Boolean> invulnerabilityPredicate = (Function)stateMap.getOrDefault(EntityState.INVULNERABILITY_PREDICATE, (Function)EntityState.INVULNERABILITY_PREDICATE.getDefaultVal());
+        Function<DamageSource, Boolean> invulnerabilityPredicate = stateMap.getOrDefault(EntityState.INVULNERABILITY_PREDICATE, EntityState.INVULNERABILITY_PREDICATE.getDefaultVal());
         return createEntityState(turningLocked, movementLocked, attacking, canBasicAttack, canSkillExecution, inaction, hurt, knockdown, counterAttackable, phaseLevel, invulnerabilityPredicate);
     }
 
@@ -44,14 +44,14 @@ public class StateSpectrumUtils {
         Iterator var3 = this.timePairs.iterator();
 
         while(true) {
-            StateSpectrumUtils.StatesInTime state;
+            PatchedStateSpectrum.StatesInTime state;
             do {
                 do {
                     if (!var3.hasNext()) {
                         return stateMap;
                     }
 
-                    state = (StateSpectrumUtils.StatesInTime)var3.next();
+                    state = (PatchedStateSpectrum.StatesInTime)var3.next();
                 } while(!(state.start <= time));
             } while(!(state.end > time));
 
@@ -77,38 +77,34 @@ public class StateSpectrumUtils {
         try {
             EntityState entityState = (EntityState)entitystate.newInstance(turningLocked, movementLocked, attacking, basicAttackPossible, skillExecutionPossible, inaction, hurt, knockDown, counterAttackable, phaseLevel, invulnerabilityChecker);
             return entityState;
-        } catch (InstantiationException var14) {
-            throw new RuntimeException(var14);
-        } catch (IllegalAccessException var15) {
-            throw new RuntimeException(var15);
-        } catch (InvocationTargetException var16) {
-            throw new RuntimeException(var16);
+        } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public static class Blueprint {
-        public StateSpectrumUtils.StatesInTime currentState;
-        public Set<StateSpectrumUtils.StatesInTime> timePairs = Sets.newHashSet();
+        public PatchedStateSpectrum.StatesInTime currentState;
+        public Set<PatchedStateSpectrum.StatesInTime> timePairs = Sets.newHashSet();
 
         public Blueprint() {
         }
 
-        public StateSpectrumUtils.Blueprint newTimePair(float start, float end) {
-            this.currentState = new StateSpectrumUtils.StatesInTime(start, end);
+        public PatchedStateSpectrum.Blueprint newTimePair(float start, float end) {
+            this.currentState = new PatchedStateSpectrum.StatesInTime(start, end);
             this.timePairs.add(this.currentState);
             return this;
         }
 
-        public <T> StateSpectrumUtils.Blueprint addState(EntityState.StateFactor<T> factor, T val) {
+        public <T> PatchedStateSpectrum.Blueprint addState(EntityState.StateFactor<T> factor, T val) {
             this.currentState.states.add(Pair.of(factor, val));
             return this;
         }
 
-        public <T> StateSpectrumUtils.Blueprint addStateRemoveOld(EntityState.StateFactor<T> factor, T val) {
+        public <T> PatchedStateSpectrum.Blueprint addStateRemoveOld(EntityState.StateFactor<T> factor, T val) {
             Iterator var3 = this.timePairs.iterator();
 
             while(var3.hasNext()) {
-                StateSpectrumUtils.StatesInTime timePair = (StateSpectrumUtils.StatesInTime)var3.next();
+                PatchedStateSpectrum.StatesInTime timePair = (PatchedStateSpectrum.StatesInTime)var3.next();
                 timePair.states.removeIf((pair) -> {
                     return ((EntityState.StateFactor)pair.getFirst()).equals(factor);
                 });
@@ -117,7 +113,7 @@ public class StateSpectrumUtils {
             return this.addState(factor, val);
         }
 
-        public StateSpectrumUtils.Blueprint clear() {
+        public PatchedStateSpectrum.Blueprint clear() {
             this.currentState = null;
             this.timePairs.clear();
             return this;
@@ -135,7 +131,7 @@ public class StateSpectrumUtils {
             this.states = Sets.newHashSet();
         }
 
-        public <T> StateSpectrumUtils.StatesInTime addState(EntityState.StateFactor<T> factor, T val) {
+        public <T> PatchedStateSpectrum.StatesInTime addState(EntityState.StateFactor<T> factor, T val) {
             this.states.add(Pair.of(factor, val));
             return this;
         }

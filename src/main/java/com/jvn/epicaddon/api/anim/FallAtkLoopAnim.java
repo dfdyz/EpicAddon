@@ -1,6 +1,5 @@
 package com.jvn.epicaddon.api.anim;
 
-import com.jvn.epicaddon.api.anim.fuckAPI.StateSpectrumUtils;
 import com.jvn.epicaddon.utils.JointMasks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.MoverType;
@@ -15,7 +14,6 @@ import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.ActionAnimation;
-import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.LinkAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.ClientAnimationProperties;
@@ -23,7 +21,6 @@ import yesman.epicfight.api.client.animation.JointMaskEntry;
 import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.model.Model;
 import yesman.epicfight.client.ClientEngine;
-import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class FallAtkLoopAnim extends ActionAnimation {

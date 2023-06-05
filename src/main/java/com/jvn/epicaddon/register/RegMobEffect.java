@@ -1,7 +1,7 @@
 package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.mobeffects.MobEffectEx;
+import com.jvn.epicaddon.mobeffects.NoGravity;
 import com.jvn.epicaddon.mobeffects.StopEffect;
 import com.jvn.epicaddon.mobeffects.WoundEffect;
 import net.minecraft.world.effect.MobEffect;
@@ -14,6 +14,6 @@ public class RegMobEffect {
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, EpicAddon.MODID);
     public static final RegistryObject<MobEffect> WOUND = EFFECTS.register("wound", () -> new WoundEffect(MobEffectCategory.BENEFICIAL, 16735744));
     public static final RegistryObject<MobEffect> STOP = EFFECTS.register("stop", () -> new StopEffect(MobEffectCategory.BENEFICIAL, 16735744));
-
+    public static final RegistryObject<MobEffect> NO_GRAVITY = EFFECTS.register("no_gravity", () -> new NoGravity(MobEffectCategory.BENEFICIAL, 16735744));
 
 }

@@ -28,29 +28,36 @@ public class JudgementCutParticle extends NoRenderParticle {
         for (int i = 0; i<3; i++){
             float r = random.nextFloat(5,8);
             float theta = random.nextFloat(0,360);
-            float beta = random.nextFloat(60,90);
+            float beta = random.nextFloat(45,80);
 
-            float r2 = 13f - r;
+            float r2 = 13-5;
             float theta2 = random.nextFloat(180+theta-45,180+theta+45);
-            float beta2 = random.nextFloat(180+beta-45,180+beta-15);
+            float beta2 = random.nextFloat(180+beta-20,180+beta+20);
 
             theta = (float) (theta/180*Math.PI);
             beta = (float) (beta/180*Math.PI);
             theta2 = (float) (theta2/180*Math.PI);
             beta2 = (float) (beta2/180*Math.PI);
 
-            double dr = r*Math.sin(beta);
-            double dx = dr*Math.cos(theta);
-            double dy = r*Math.cos(beta);
-            double dz = dr*Math.cos(theta);
+            float scale = 1.35f;
+            double sr = r*Math.sin(beta);
+            double sx = sr*Math.sin(theta)*scale;
+            double sy = r*Math.cos(beta)*scale;
+            double sz = sr*Math.cos(theta)*scale;
+
+            double er = r2*Math.sin(beta2);
+            double ex = er*Math.sin(theta2)*scale;
+            double ey = r2*Math.cos(beta2)*scale;
+            double ez = er*Math.cos(theta2)*scale;
+
 
             level.addParticle(RegParticle.JudgementCutTrail.get(),
-                    dx + x,
-                    dy + y + 5,
-                    dz + z,
-                    r2*Math.sin(beta2)*Math.cos(theta2) - dx,
-                    r2*Math.cos(beta2) - dy,
-                    r2*Math.sin(beta2)*Math.sin(theta2) - dz);
+                    sx + x,
+                    sy + y + 1.2,
+                    sz + z,
+                    (-ex - sx),
+                    ey-sy,
+                    (-ez-sz));
         }
 
     }

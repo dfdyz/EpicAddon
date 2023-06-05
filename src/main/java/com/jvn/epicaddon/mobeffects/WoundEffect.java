@@ -6,7 +6,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import yesman.epicfight.api.utils.math.MathUtils;
 
-public class WoundEffect extends MobEffectEx {
+public class WoundEffect extends MobEffect {
     public WoundEffect(MobEffectCategory category, int color) {
         super(category, color);
     }
@@ -18,14 +18,7 @@ public class WoundEffect extends MobEffectEx {
 
     @Override
     public void applyEffectTick(LivingEntity owner, int lv) {
-        float dmg = Math.max(owner.getMaxHealth()*lv/100f, lv);
-        dmg += 0.4f*(owner.getMaxHealth()-owner.getHealth());
-        owner.hurt(DamageSource.MAGIC, dmg);
-    }
-
-    @Override
-    public void applyEffectTickEX(LivingEntity owner, int lv, float[] data) {
-        float dmg = Math.max(owner.getMaxHealth()*lv/100f, data[0]);
+        float dmg = Math.max(owner.getMaxHealth()*0.05f, lv/10f);
         dmg += 0.4f*(owner.getMaxHealth()-owner.getHealth());
         owner.hurt(DamageSource.MAGIC, dmg);
     }
