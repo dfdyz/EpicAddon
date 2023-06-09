@@ -107,7 +107,7 @@ public class RegWeaponItemCap {
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO16,
                         EpicAddonAnimations.SAO_DOUBLE_CHOPPER, Animations.SPEAR_DASH,
                         Animations.GREATSWORD_AIR_SLASH)
-                .specialAttack(EpicAddonStyles.SAO_SINGLE_SWORD, Skills.SWEEPING_EDGE)
+                .specialAttack(EpicAddonStyles.SAO_SINGLE_SWORD, RegEpicAddonSkills.SAO_SINGLESWORD_SA)
                 .specialAttack(EpicAddonStyles.SAO_DUAL_SWORD, Skills.DANCING_EDGE)
                 .specialAttack(EpicAddonStyles.SAO_RAPIER, RegEpicAddonSkills.WEAPON_SKILL_RAPIER)
                 .livingMotionModifier(EpicAddonStyles.SAO_SINGLE_SWORD, LivingMotions.IDLE, Animations.BIPED_IDLE)

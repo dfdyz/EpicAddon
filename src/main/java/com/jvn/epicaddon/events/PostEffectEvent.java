@@ -67,17 +67,57 @@ public class PostEffectEvent {
         effects_highest.add(effect);
     }
 
+    public static void PushPostEffectMiddle(AbstractPostEffectObj effect, float time, float x, float y, float z){
+        if(!effect.IsMultiAble()){
+            effects_mid.forEach((p) -> { if(p.obj == effect) p.timer = 0; });
+        }
+        effects_mid.add(new PostEffectTimePair(effect, time, new Vec3(x,y,z)));
+    }
+
+    public static void PushPostEffectMiddle(AbstractPostEffectObj effect, float time, Vec3 pos){
+        if(!effect.IsMultiAble()){
+            effects_mid.forEach((p) -> { if(p.obj == effect) p.timer = 0; });
+        }
+        effects_mid.add(new PostEffectTimePair(effect, time, pos));
+    }
+
+    public static void PushPostEffectMiddle(PostEffectTimePair effect){
+        if(!effect.obj.IsMultiAble()){
+            effects_mid.forEach((p) -> { if(p.obj == effect.obj) p.timer = 0; });
+        }
+        effects_mid.add(effect);
+    }
+
+
+    public static void PushPostEffectLowest(AbstractPostEffectObj effect, float time, float x, float y, float z){
+        if(!effect.IsMultiAble()){
+            effects_lowest.forEach((p) -> { if(p.obj == effect) p.timer = 0; });
+        }
+        effects_lowest.add(new PostEffectTimePair(effect, time, new Vec3(x,y,z)));
+    }
+
+    public static void PushPostEffectLowest(AbstractPostEffectObj effect, float time, Vec3 pos){
+        if(!effect.IsMultiAble()){
+            effects_lowest.forEach((p) -> { if(p.obj == effect) p.timer = 0; });
+        }
+        effects_lowest.add(new PostEffectTimePair(effect, time, pos));
+    }
+
+    public static void PushPostEffectLowest(PostEffectTimePair effect){
+        if(!effect.obj.IsMultiAble()){
+            effects_lowest.forEach((p) -> { if(p.obj == effect.obj) p.timer = 0; });
+        }
+        effects_lowest.add(effect);
+    }
+
     public static abstract class AbstractPostEffectObj{
         private static int counter = 0;
         private int id;
         public boolean IsMultiAble(){
             return false;
         }
-        public abstract void Process(float deltaTime);
-        public void _Process(float dt){
-            //Init();
-            Process(dt);
-        }
+        public abstract void Process(float deltaTime, float[] datas);
+
         public abstract void Init();
         public AbstractPostEffectObj(){
             id = counter++;
@@ -92,6 +132,7 @@ public class PostEffectEvent {
         public AbstractPostEffectObj obj;
         public Vec3 position;
         public float distance = 32f;
+        public Function<Float,float[]> getDatas = (t) -> { return new float[0]; };
         public float timer;
         public PostEffectTimePair(AbstractPostEffectObj obj, float time, Vec3 pos){
             this.obj = obj;

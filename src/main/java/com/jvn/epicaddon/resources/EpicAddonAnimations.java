@@ -5,18 +5,17 @@ import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.anim.*;
 import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.events.CameraEvent;
+import com.jvn.epicaddon.events.PostEffectEvent;
 import com.jvn.epicaddon.register.RegParticle;
+import com.jvn.epicaddon.register.RegPostEffect;
 import com.jvn.epicaddon.register.WeaponCollider;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.skills.GenShin.YoimiyaSkillFunction;
-import com.jvn.epicaddon.skills.SAO.SAOSkillUtils;
+import com.jvn.epicaddon.skills.SAO.SAOSkillAnimUtils;
 import com.jvn.epicaddon.utils.Trail;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
@@ -28,6 +27,7 @@ import yesman.epicfight.api.model.Model;
 import yesman.epicfight.api.utils.ExtendedDamageSource;
 import yesman.epicfight.api.utils.math.ValueCorrector;
 import yesman.epicfight.gameasset.Animations;
+import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
@@ -67,6 +67,18 @@ public class EpicAddonAnimations {
     public static StaticAnimation SAO_RAPIER_AIR;
     public static StaticAnimation SAO_RAPIER_SPECIAL_DASH;
     public static StaticAnimation SAO_RAPIER_SA2;
+
+    public static StaticAnimation SAO_SCYTHE_AUTO1;
+    public static StaticAnimation SAO_SCYTHE_AUTO2;
+    public static StaticAnimation SAO_SCYTHE_AUTO3;
+    public static StaticAnimation SAO_SCYTHE_AUTO4;
+    public static StaticAnimation SAO_SCYTHE_AUTO5;
+
+    public static StaticAnimation SAO_SCYTHE_DASH;
+    public static StaticAnimation SAO_SCYTHE_DODGE_ATK;
+    public static StaticAnimation SAO_SHIELD_AUTO;
+
+    public static StaticAnimation DMC5_V_JC;
     public static StaticAnimation SAO_RAPIER_DASH;
     public static StaticAnimation DESTINY_AIM;
     public static StaticAnimation DESTINY_SHOT;
@@ -103,6 +115,44 @@ public class EpicAddonAnimations {
         Logger LOGGER = LogUtils.getLogger();
         LOGGER.info("EpicAddon AnimLoading");
         //Test = new BasicAttackAnimation(0.2F, 0.4F, 0.6F, 0.8F, null, "Tool_R", "biped/test_anim", biped);
+
+        //Scythe
+
+        SAO_SCYTHE_AUTO1 = new BasicAttackAnimation(0.1F, 0.2333F, 0.3333F, 0.65F, ColliderPreset.LONGSWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto1", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
+
+        SAO_SCYTHE_AUTO2 = new BasicAttackAnimation(0.1F, 0.2F, 0.3F, 0.65F, ColliderPreset.LONGSWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto2", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
+
+        SAO_SCYTHE_AUTO3 = new BasicAttackAnimation(0.1F, 0.3F, 0.4F, 0.65F, ColliderPreset.LONGSWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto3", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
+
+        SAO_SCYTHE_AUTO4 = new MultiPhaseBasicAttackAnimation(0.05F,  "biped/sao_scythe/sao_scythe_auto4", biped,
+                new AttackAnimation.Phase(0.0F, 0.1F, 0.4F, 0.5F, 0.5F, InteractionHand.OFF_HAND, "Tool_R", ColliderPreset.LONGSWORD),
+                new AttackAnimation.Phase(0.5F, 0.5F, 0.7F, 0.7F, Float.MAX_VALUE, "Tool_R", ColliderPreset.LONGSWORD)
+        );
+
+        SAO_SCYTHE_AUTO5 = new BasicAttackAnimation(0.1F, 0.26F, 0.3333F, 0.65F, ColliderPreset.LONGSWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto5", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //DUAL SWORD
         SAO_DUAL_SWORD_HOLD = new StaticAnimation(true, "biped/living/sao_dual_sword_hold", biped);
@@ -189,7 +239,7 @@ public class EpicAddonAnimations {
                             }
                         }, StaticAnimation.Event.Side.SERVER),
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_END, (ep) -> {
-                            //PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 3f);\
+                            PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 3f, ep.getOriginal().position());
                             //Vec3 pos = ep.getOriginal().position();
                             //ep.getOriginal().level.addParticle(RegParticle.JudgementCut.get(), pos.x,pos.y,pos.z,0,0,0);
                         }, StaticAnimation.Event.Side.CLIENT)
@@ -253,26 +303,48 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.SERVER)
                 });
 
-        SAO_RAPIER_SA2  = new ScanAttackAnimation(0.0F, 0.5f, 1.48F, InteractionHand.MAIN_HAND, false,1000, WeaponCollider.SAO_RAPIER_SCAN, "Root", "biped/sao_rapier_sa2", biped)
+        SAO_RAPIER_SA2  = new ScanAttackAnimation(0.0F, 0.3f,0.5f, 1.48F, InteractionHand.MAIN_HAND, false,1000, WeaponCollider.SAO_RAPIER_SCAN, "Root", "biped/sao_rapier_sa2", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.multiplier(0))
-                //.addProperty(AnimationProperty.AttackPhaseProperty.ARMOR_NEGATION, ValueCorrector.adder(30.0F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.LONG)
                 .addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true)
-                //.addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(2.5F))
                 .addProperty(AnimationProperty.AttackAnimationProperty.FIXED_MOVE_DISTANCE,true)
-                //.addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
-                            SAOSkillUtils.prevRapierSA2(ep);
+                            SAOSkillAnimUtils.RapierSA.prev(ep);
                         }, StaticAnimation.Event.Side.CLIENT),
                         StaticAnimation.Event.create(0.65f, (ep) -> {
-                            SAOSkillUtils.RapierSA2(ep);
+                            SAOSkillAnimUtils.RapierSA.HandleAtk(ep);
                         }, StaticAnimation.Event.Side.BOTH),
                         StaticAnimation.Event.create(1.15f, (ep) -> {
-                            SAOSkillUtils.postRapierSA2(ep);
+                            SAOSkillAnimUtils.RapierSA.post(ep);
                         }, StaticAnimation.Event.Side.CLIENT)
                 })
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.2f);
+
+
+        DMC5_V_JC  = new ScanAttackAnimation(0.1F, 0.334f, 0.43f, 4.633F, InteractionHand.MAIN_HAND, 1000, WeaponCollider.SAO_RAPIER_SCAN, "Root", "biped/dmc5_v_jc", biped)
+                .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.multiplier(0))
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.LONG)
+                .addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true)
+                .addProperty(AnimationProperty.AttackAnimationProperty.FIXED_MOVE_DISTANCE,true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
+                        StaticAnimation.Event.create(StaticAnimation.Event.ON_BEGIN, (ep) -> {
+                            SAOSkillAnimUtils.DMC5_V_JC.prev(ep);
+                        }, StaticAnimation.Event.Side.CLIENT),
+                        StaticAnimation.Event.create(0.65f, (ep) -> {
+                            SAOSkillAnimUtils.DMC5_V_JC.prev2(ep);
+                        }, StaticAnimation.Event.Side.CLIENT),
+                        StaticAnimation.Event.create(0.85f, (ep) -> {
+                            SAOSkillAnimUtils.DMC5_V_JC.HandleAtk(ep);
+                        }, StaticAnimation.Event.Side.BOTH),
+                        StaticAnimation.Event.create(2.75f, (ep) -> {
+                            SAOSkillAnimUtils.DMC5_V_JC.post(ep);
+                        }, StaticAnimation.Event.Side.CLIENT)
+                })
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.05f);
+
+
+
 
         DESTINY_AIM = new AimAnimation(false, "biped/destiny_aim_mid", "biped/destiny_aim_up", "biped/destiny_aim_down", "biped/destiny_aim_lying", biped);
         DESTINY_SHOT = new ReboundAnimation(false, "biped/destiny_shoot_mid", "biped/destiny_shoot_up", "biped/destiny_shoot_down", "biped/destiny_shoot_lying", biped);
@@ -282,7 +354,7 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 4.5f);
 
-        GS_Yoimiya_Auto1 = new ScanAttackAnimation(0.1F, 0.62F, 0.8333F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto1", biped)
+        GS_Yoimiya_Auto1 = new ScanAttackAnimation(0.1F, 0,0.62F, 0.8333F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto1", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.4F, (ep) -> {
                             YoimiyaSkillFunction.BowShoot(ep,"Tool_L");
@@ -293,14 +365,14 @@ public class EpicAddonAnimations {
                 })
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.75f);
 
-        GS_Yoimiya_Auto2 = new ScanAttackAnimation(0.1F, 0.7F, 0.98F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto2", biped)
+        GS_Yoimiya_Auto2 = new ScanAttackAnimation(0.1F, 0,0.7F, 0.98F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto2", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.6F, (ep) -> {
                             YoimiyaSkillFunction.BowShoot(ep,"Tool_R");
                         }, StaticAnimation.Event.Side.BOTH),
                 });
 
-        GS_Yoimiya_Auto3 = new ScanAttackAnimation(0.1F, 0.88F, 1.03F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto3", biped)
+        GS_Yoimiya_Auto3 = new ScanAttackAnimation(0.1F, 0,0.88F, 1.03F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto3", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.95f)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.84F, (ep) -> {
@@ -308,7 +380,7 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.BOTH),
                 });
 
-        GS_Yoimiya_Auto4 = new ScanAttackAnimation(0.05F, 2.12F, 2.733F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto4", biped)
+        GS_Yoimiya_Auto4 = new ScanAttackAnimation(0.05F, 0,2.12F, 2.733F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto4", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(1.2083F, (ep) -> {
                             YoimiyaSkillFunction.BowShoot(ep,"Tool_L");
@@ -322,7 +394,7 @@ public class EpicAddonAnimations {
                 })
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3.1f);
 
-        GS_Yoimiya_Auto5 = new ScanAttackAnimation(0.02F, 0.2F, 1.51F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto5", biped)
+        GS_Yoimiya_Auto5 = new ScanAttackAnimation(0.02F, 0,0.2F, 1.51F, InteractionHand.MAIN_HAND, WeaponCollider.GenShin_Bow_scan,"Root", "biped/gs_yoimiya_auto5", biped)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 3.1f)
                 .addProperty(AnimationProperty.StaticAnimationProperty.EVENTS, new StaticAnimation.Event[] {
                         StaticAnimation.Event.create(0.7083F, (ep) -> {
@@ -374,8 +446,7 @@ public class EpicAddonAnimations {
                                     ep.getOriginal().position()
                             );
                         }, StaticAnimation.Event.Side.SERVER)
-                })
-        ;
+                });
 
         GS_Yoimiya_FallAtk_Loop = new FallAtkLoopAnim(0.1f,"biped/gs_yoimiya_fall_atk_loop", biped, GS_Yoimiya_FallAtk_Last);
 
@@ -413,6 +484,10 @@ public class EpicAddonAnimations {
         ((IAnimSTOverride) GS_Yoimiya_Auto3).EnableST(false);
         ((IAnimSTOverride) GS_Yoimiya_Auto4).EnableST(false);
         ((IAnimSTOverride) GS_Yoimiya_Auto5).EnableST(false);
+        ((IAnimSTOverride) GS_Yoimiya_SA).EnableST(false);
+        ((IAnimSTOverride) GS_Yoimiya_FallAtk_Last).EnableST(false);
+        ((IAnimSTOverride) GS_Yoimiya_FallAtk_Start).EnableST(false);
+        ((IAnimSTOverride) GS_Yoimiya_FallAtk_Loop).EnableST(false);
 
         if(FMLEnvironment.dist == Dist.CLIENT){
             ((IAnimSTOverride)SAO_RAPIER_SPECIAL_DASH).setLifeTimeOverride(10).setPosOverride(

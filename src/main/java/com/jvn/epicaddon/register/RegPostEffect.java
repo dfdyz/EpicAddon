@@ -42,7 +42,7 @@ public class RegPostEffect {
                 }
             }
             @Override
-            public void Process(float remainTime) {
+            public void Process(float remainTime, float[] datas) {
                 Minecraft mc = Minecraft.getInstance();
                 RenderTarget main = mc.getMainRenderTarget();
                 RenderTarget temp = PostEffectBase.createTempTarget(main, main.width, main.height);
@@ -80,7 +80,7 @@ public class RegPostEffect {
             }
 
             @Override
-            public void Process(float remainTime) {
+            public void Process(float remainTime, float[] datas) {
                 Minecraft mc = Minecraft.getInstance();
                 RenderTarget org = mc.getMainRenderTarget();
                 RenderTarget temp = PostEffectBase.createTempTarget(org, org.width, org.height);

@@ -34,7 +34,7 @@ public class DualBladeSkill extends PassiveSkill {
     public void onInitiate(SkillContainer container) {
         PlayerPatch pp = container.getExecuter();
         OrgStunShield = pp.getMaxStunShield();
-
+        pp.getSkillCapability().addLearnedSkill(RegEpicAddonSkills.SAO_SINGLESWORD);
         //container.getExecuter().getSkillCapability().skillContainers[SkillCategories.BASIC_ATTACK.universalOrdinal()].setSkill(RegEpicAddonSkills.BasicAtkPatch);
 
         pp.setMaxStunShield(180.0f);

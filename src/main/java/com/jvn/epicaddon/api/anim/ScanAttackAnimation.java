@@ -39,26 +39,43 @@ public class ScanAttackAnimation extends AttackAnimation {
     protected final int maxStrikes;
     protected final boolean moveRootY;
 
-    public ScanAttackAnimation(float convertTime, float antic, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
+    protected final boolean shouldMove;
+
+    public ScanAttackAnimation(float convertTime, float antic, float contact, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
         super(convertTime, path, model,
-                new Phase(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider));
+                new Phase(0.0F, antic, contact, recovery, Float.MAX_VALUE, hand, scanner, collider));
 
         //Hjoint = shoot;
         this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true);
         maxStrikes = 1;
         moveRootY = false;
+        shouldMove = true;
         //this.Aid = aid;
     }
 
-    public ScanAttackAnimation(float convertTime, float antic, float recovery, InteractionHand hand, boolean MoveCancel, int maxStrikes, @Nullable Collider collider, String scanner, String path, Model model) {
+    public ScanAttackAnimation(float convertTime, float antic, float contact, float recovery, InteractionHand hand, boolean MoveCancel, int maxStrikes, @Nullable Collider collider, String scanner, String path, Model model) {
         super(convertTime, path, model,
-                new Phase(0.0F, 0f, antic, recovery, Float.MAX_VALUE, hand, scanner, collider));
+                new Phase(0.0F, antic, contact, recovery, Float.MAX_VALUE, hand, scanner, collider));
 
         //Hjoint = shoot;
         this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, MoveCancel);
         this.maxStrikes = maxStrikes;
+        moveRootY = true;
+        shouldMove = true;
+        //this.Aid = aid;
+    }
+
+    public ScanAttackAnimation(float convertTime, float antic,float contact, float recovery, InteractionHand hand, int maxStrikes, @Nullable Collider collider, String scanner, String path, Model model) {
+        super(convertTime, path, model,
+                new Phase(0.0F, antic, contact, recovery, Float.MAX_VALUE, hand, scanner, collider));
+
+        //Hjoint = shoot;
+        this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
+        this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true);
+        this.maxStrikes = maxStrikes;
+        this.shouldMove = false;
         moveRootY = true;
         //this.Aid = aid;
     }
@@ -84,9 +101,11 @@ public class ScanAttackAnimation extends AttackAnimation {
         OpenMatrix4f toRootTransformApplied = entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
         OpenMatrix4f toOrigin = OpenMatrix4f.invert(toRootTransformApplied, (OpenMatrix4f)null);
         Vec3f worldPosition = OpenMatrix4f.transform3v(toRootTransformApplied, jointPosition, (Vec3f)null);
-        worldPosition.x = 0.0F;
+        if(shouldMove){
+            worldPosition.x = 0.0F;
 //        worldPosition.y = moveRootY ? worldPosition.y : 0.0F;
-        worldPosition.z = 0.0F;
+            worldPosition.z = 0.0F;
+        }
         OpenMatrix4f.transform3v(toOrigin, worldPosition, worldPosition);
         jointPosition.x = worldPosition.x;
         jointPosition.y = worldPosition.y;
@@ -107,6 +126,9 @@ public class ScanAttackAnimation extends AttackAnimation {
     @Override
     protected Vec3f getCoordVector(LivingEntityPatch<?> entitypatch, DynamicAnimation dynamicAnimation) {
         entitypatch.getOriginal().setDeltaMovement(0,0,0);
+        if (!shouldMove){
+            return new Vec3f();
+        }
         Vec3f vec3f = super.getCoordVector(entitypatch, dynamicAnimation);
         vec3f.y=0;
         return vec3f;

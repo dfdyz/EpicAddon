@@ -35,19 +35,19 @@ public class MixinGameRenderer {
             if(pair.timer <= 0)
                 return true;
             if(pair.isVisible(pos))
-                pair.obj._Process(pair.timer);
+                pair.obj.Process(pair.timer, pair.getDatas.apply(pair.timer));
             return false; });
         PostEffectEvent.effects_mid.removeIf((pair) -> {
             if(pair.timer <= 0)
                 return true;
             if(pair.isVisible(pos))
-                pair.obj._Process(pair.timer);
+                pair.obj.Process(pair.timer, pair.getDatas.apply(pair.timer));
             return false; });
         PostEffectEvent.effects_lowest.removeIf((pair) -> {
             if(pair.timer <= 0)
                 return true;
             if(pair.isVisible(pos))
-                pair.obj._Process(pair.timer);
+                pair.obj.Process(pair.timer, pair.getDatas.apply(pair.timer));
             return false; });
     }
 
