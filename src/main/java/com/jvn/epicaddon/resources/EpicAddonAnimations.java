@@ -132,8 +132,9 @@ public class EpicAddonAnimations {
 
         SAO_SCYTHE_AUTO4 = new MultiPhaseBasicAttackAnimation(0.05F,  "biped/sao_scythe/sao_scythe_auto4", biped,
                 new AttackAnimation.Phase(0.0F, 0.1F, 0.4F, 0.5F, 0.5F, InteractionHand.OFF_HAND, "Tool_R", ColliderPreset.LONGSWORD),
-                new AttackAnimation.Phase(0.5F, 0.5F, 0.7F, 0.7F, Float.MAX_VALUE, "Tool_R", ColliderPreset.LONGSWORD)
-        );
+                new AttackAnimation.Phase(0.5F, 0.5F, 0.7F, 0.7F, Float.MAX_VALUE, "Tool_R", ColliderPreset.LONGSWORD))
+                .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
+                .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT);
 
         SAO_SCYTHE_AUTO5 = new BasicAttackAnimation(0.1F, 0.26F, 0.3333F, 0.65F, ColliderPreset.LONGSWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto5", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
