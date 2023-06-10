@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
@@ -73,6 +74,14 @@ public class EpicAddonRenderType extends RenderType {
     public static final ParticleRenderType GENSHIN_BOW_LANDING_PARTICLE = new EpicAddonQuadParticleRenderType("textures/particle/genshin_bow_landing", "GENSHIN_BOW");
     public static final ParticleRenderType GENSHIN_BOW_LANDING_PARTICLE3 = new EpicAddonQuadParticleRenderType("textures/particle/genshin_bow_landing3", "GENSHIN_BOW");
 
+
+    public static final ParticleRenderType BLACK_KNIGHT_PARTICLE = new EpicAddonQuadParticleRenderType("textures/particle/blackknight_hit", "BLACKKNIGHT_HIT");
+    public static final ParticleRenderType BLOOD_THIRSTY_PARTICLE = new EpicAddonQuadParticleRenderType("textures/particle/blackknight_hit", "BLACKKNIGHT_HIT");
+
+    public static final ParticleRenderType[] AtkParticle = new ParticleRenderType[]{
+            BLACK_KNIGHT_PARTICLE, BLOOD_THIRSTY_PARTICLE
+    };
+
     public static final ParticleRenderType SAO_DEATH_PARTICLE = new EpicAddonQuadParticleRenderType("textures/particle/sao_death", "SAO_DEATH");
 
     public static class BladeTrailRenderType implements ParticleRenderType {
@@ -80,6 +89,13 @@ public class EpicAddonRenderType extends RenderType {
 
         public BladeTrailRenderType(String path){
             this.Texture = new ResourceLocation(EpicAddon.MODID, "bladetrail/" + path + ".png");
+        }
+
+        public void Release(){
+            Minecraft.getInstance().getTextureManager().release(Texture);
+        }
+        public BladeTrailRenderType(ResourceLocation rl){
+            this.Texture = rl;
         }
 
         public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {

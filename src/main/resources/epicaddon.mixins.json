@@ -14,6 +14,7 @@
 		"MixinAtkAnimCommon",
 		"MixinLivingEntity",
 		"PhaseAccessor",
+		"ActionTimeAccessor"
 	],
 	"injector": {
 		"defaultRequire": 1

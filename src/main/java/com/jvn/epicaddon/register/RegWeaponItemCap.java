@@ -25,6 +25,7 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.RangedWeaponCapability;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
+import yesman.epicfight.world.capabilities.item.WeaponCategory;
 import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 
 import java.util.Arrays;
@@ -210,6 +211,41 @@ public class RegWeaponItemCap {
         return builder;
     };
 
+    public static final Function<Item, CapabilityItem.Builder> SAO_SCYTHE = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(EpicAddonWeaponCategories.SCYTHE)
+                .styleProvider((playerpatch) -> CapabilityItem.Styles.TWO_HAND)
+                .collider(ColliderPreset.LONGSWORD)
+                .hitSound(EpicFightSounds.BLADE_HIT)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO1,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO2,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO3,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO4,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO5,
+                        EpicAddonAnimations.SAO_SCYTHE_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
+                .specialAttack(CapabilityItem.Styles.TWO_HAND, Skills.SLAUGHTER_STANCE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, Animations.BIPED_IDLE)
+                .weaponCombinationPredicator((entitypatch) -> false);
+
+        return builder;
+    };
+
+
+    public enum EpicAddonWeaponCategories implements WeaponCategory {
+        SCYTHE;
+        final int id;
+
+        private EpicAddonWeaponCategories() {
+            this.id = WeaponCategory.ENUM_MANAGER.assign(this);
+        }
+
+        public int universalOrdinal() {
+            return this.id;
+        }
+    }
+
 
 
     //@SubscribeEvent
@@ -220,6 +256,8 @@ public class RegWeaponItemCap {
         event.getTypeEntry().put("destiny", DESTINY);
         event.getTypeEntry().put("genshin_bow", GenShin_Bow);
         event.getTypeEntry().put("sr_baseball_bat", SR_BaseBallBat);
+        event.getTypeEntry().put("sao_scythe", SAO_SCYTHE);
+
         LOGGER.info("WeaponCapability Loaded");
     }
 

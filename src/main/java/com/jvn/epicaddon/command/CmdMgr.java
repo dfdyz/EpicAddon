@@ -39,6 +39,7 @@ public class CmdMgr {
                 .then(Commands.literal("Reload")
                         .executes(context -> {
                             ClientConfig.Load();
+                            BladeTrailTextureLoader.ReleaseAll();
                             BladeTrailTextureLoader.Load();
                             for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
                                 camAnim.load();

@@ -8,10 +8,7 @@ import com.jvn.epicaddon.renderer.particle.GenshinImpact.GenShinBowLandingPartic
 import com.jvn.epicaddon.renderer.particle.GenshinImpact.GenShinBowShootParticle;
 import com.jvn.epicaddon.renderer.particle.JudgementCut.JCBladeTrail;
 import com.jvn.epicaddon.renderer.particle.JudgementCut.JudgementCutParticle;
-import com.jvn.epicaddon.renderer.particle.SAO.SAODeathParticle;
-import com.jvn.epicaddon.renderer.particle.SAO.SAODeathParticleInternal;
-import com.jvn.epicaddon.renderer.particle.SAO.SparksSplashHitParticle;
-import com.jvn.epicaddon.renderer.particle.SAO.SparksSplashParticle;
+import com.jvn.epicaddon.renderer.particle.SAO.*;
 import com.jvn.epicaddon.renderer.particle.YoimiyaSA.GsYoimiyaFirework;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
@@ -50,6 +47,9 @@ public class RegParticle {
 
     public static final RegistryObject<SimpleParticleType> GS_YOIMIYA_SA = PARTICLES.register("gs_yoimiya_sa", () -> new SimpleParticleType(true));
 
+    public static final RegistryObject<HitParticleType> BLOOD_THIRSTY = PARTICLES.register("bloodthirsty_hit",() -> new HitParticleType(true, HitParticleType.CENTER_OF_TARGET, HitParticleType.ZERO));
+    public static final RegistryObject<HitParticleType> BLACK_KNIGHT = PARTICLES.register("blackknight_hit",() -> new HitParticleType(true, HitParticleType.CENTER_OF_TARGET, HitParticleType.ZERO));
+
 
     @Mod.EventBusSubscriber(modid = EpicAddon.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public class ParticleRegister{
@@ -70,6 +70,9 @@ public class RegParticle {
 
             PE.register(JudgementCut.get(), JudgementCutParticle.Provider::new);
             PE.register(JudgementCutTrail.get(), JCBladeTrail.Provider::new);
+
+            PE.register(BLACK_KNIGHT.get(), new MyTextureSheetParticle.BlackKnightProvider());
+            PE.register(BLOOD_THIRSTY.get(), new MyTextureSheetParticle.BloodThirstyProvider());
         }
     }
 }
