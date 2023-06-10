@@ -200,7 +200,6 @@ public class MultiPhaseBasicAttackAnimation extends AttackAnimation {
         if (extraCalculator != null) {
             totalDamage += extraCalculator.get(entitypatch.getOriginal(), target);
         }
-
         return totalDamage;
     }
 

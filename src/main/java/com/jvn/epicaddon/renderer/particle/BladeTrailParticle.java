@@ -87,19 +87,22 @@ public class BladeTrailParticle extends TextureSheetParticle {
         int interpolateCount1 = (int)Math.ceil(middleEndPos.distanceTo(prevEndPos)*interpolateCount);
         int interpolateCount2 = (int)Math.ceil(middleEndPos.distanceTo(currentEndPos)*interpolateCount);
 
+
+        float pt = 0.5f/interpolateCount1;
         this.Nodes.add(new TrailEdge(prevStartPos, prevEndPos, this.trail.lifetime));
         for(int i=1;i<interpolateCount1;i++){
-            Vec3 interStart = getPosByTick(animator,armature,start,0.5f/interpolateCount1*i);
-            Vec3 interEnd = getPosByTick(animator,armature,end,0.5f/interpolateCount1*i);
-            this.Nodes.add(new TrailEdge(interStart, interEnd, this.trail.lifetime));
+            Vec3 interStart = getPosByTick(animator,armature,start,pt*i);
+            Vec3 interEnd = getPosByTick(animator,armature,end,pt*i);
+            this.Nodes.add(new TrailEdge(interStart, interEnd, this.trail.lifetime - 1f + pt*i));
         }
 
-        this.Nodes.add(new TrailEdge(middleStartPos, middleEndPos, this.trail.lifetime));
+        this.Nodes.add(new TrailEdge(middleStartPos, middleEndPos, this.trail.lifetime - 0.5f));
 
+        pt = 0.5f/interpolateCount2;
         for(int i=1;i<interpolateCount2;i++){
-            Vec3 interStart = getPosByTick(animator,armature,start,0.5f+0.5f/interpolateCount2*i);
-            Vec3 interEnd = getPosByTick(animator,armature,end,0.5f+0.5f/interpolateCount2*i);
-            this.Nodes.add(new TrailEdge(interStart, interEnd, this.trail.lifetime));
+            Vec3 interStart = getPosByTick(animator,armature,start,0.5f+pt*i);
+            Vec3 interEnd = getPosByTick(animator,armature,end,0.5f+pt*i);
+            this.Nodes.add(new TrailEdge(interStart, interEnd, this.trail.lifetime - 0.5f + pt*i));
         }
 
         this.Nodes.add(new TrailEdge(currentStartPos, currentEndPos, this.trail.lifetime));
@@ -144,6 +147,7 @@ public class BladeTrailParticle extends TextureSheetParticle {
             if (this.anim != animPlayer.getAnimation().getRealAnimation() || animPlayer.getElapsedTime() > anim.getTotalTime()*0.85f) {
                 this.animationEnd = true;
                 this.lifetime = this.trail.lifetime;
+                return;
             }
         }
         boolean needCorrection = this.Nodes.size() == 0;
@@ -152,6 +156,7 @@ public class BladeTrailParticle extends TextureSheetParticle {
             float startCorrection = (0 - animPlayer.getPrevElapsedTime()) / (animPlayer.getElapsedTime() - animPlayer.getPrevElapsedTime());
             this.startEdgeCorrection = interpolateCount * startCorrection;
         }
+
 
         ClientAnimator animator = this.entitypatch.getClientAnimator();
         Armature armature = this.entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature();
@@ -167,18 +172,21 @@ public class BladeTrailParticle extends TextureSheetParticle {
         int interpolateCount1 = (int)Math.ceil(middleEndPos.distanceTo(prevEndPos)*interpolateCount);
         int interpolateCount2 = (int)Math.ceil(middleEndPos.distanceTo(currentEndPos)*interpolateCount);
 
+        float pt = 0.5f/interpolateCount1;
+
         for(int i=1;i<interpolateCount1;i++){
-            Vec3 interStart = getPosByTick(animator,armature,start,0.5f/interpolateCount1*i);
-            Vec3 interEnd = getPosByTick(animator,armature,end,0.5f/interpolateCount1*i);
-            this.Nodes.add(new TrailEdge(interStart, interEnd, this.trail.lifetime));
+            Vec3 interStart = getPosByTick(animator,armature,start,pt*i);
+            Vec3 interEnd = getPosByTick(animator,armature,end,pt*i);
+            this.Nodes.add(new TrailEdge(interStart, interEnd, this.trail.lifetime - 1f + pt*i));
         }
 
-        this.Nodes.add(new TrailEdge(middleStartPos, middleEndPos, this.trail.lifetime));
+        this.Nodes.add(new TrailEdge(middleStartPos, middleEndPos, this.trail.lifetime - 0.5f));
 
+        pt = 0.5f/interpolateCount2;
         for(int i=1;i<interpolateCount2;i++){
-            Vec3 interStart = getPosByTick(animator,armature,start,0.5f+0.5f/interpolateCount2*i);
-            Vec3 interEnd = getPosByTick(animator,armature,end,0.5f+0.5f/interpolateCount2*i);
-            this.Nodes.add(new TrailEdge(interStart, interEnd, this.trail.lifetime));
+            Vec3 interStart = getPosByTick(animator,armature,start,0.5f+pt*i);
+            Vec3 interEnd = getPosByTick(animator,armature,end,0.5f+pt*i);
+            this.Nodes.add(new TrailEdge(interStart, interEnd, this.trail.lifetime - 0.5f + pt*i));
         }
 
         this.Nodes.add(new TrailEdge(currentStartPos, currentEndPos, this.trail.lifetime));
@@ -215,6 +223,7 @@ public class BladeTrailParticle extends TextureSheetParticle {
         for (int i = start; i < end; i++) {
             TrailEdge e1 = this.Nodes.get(i);
             TrailEdge e2 = this.Nodes.get(i + 1);
+
             Vector4f pos1 = new Vector4f((float)e1.start.x, (float)e1.start.y, (float)e1.start.z, 1.0F);
             Vector4f pos2 = new Vector4f((float)e1.end.x, (float)e1.end.y, (float)e1.end.z, 1.0F);
             Vector4f pos3 = new Vector4f((float)e2.end.x, (float)e2.end.y, (float)e2.end.z, 1.0F);
@@ -226,8 +235,10 @@ public class BladeTrailParticle extends TextureSheetParticle {
             pos4.transform(matrix4f);
 
 
-            float a1 = Mth.clamp((e1.lifetime-partialTick)/trail.lifetime, 0f, 1f);
-            float a2 = Mth.clamp((e2.lifetime-partialTick)/trail.lifetime, 0f, 1f);
+            float a1 = Math.max(0f,Mth.clamp((e1.lifetime-partialTick)/trail.lifetime, 0f, 1f));
+            float a2 = Math.max(0f,Mth.clamp((e2.lifetime-partialTick)/trail.lifetime, 0f, 1f));
+
+
 
             float r = this.trail.r / 256.0f;
             float g = this.trail.g / 256.0f;
@@ -275,8 +286,8 @@ public class BladeTrailParticle extends TextureSheetParticle {
     private static class TrailEdge {
         final Vec3 start;
         final Vec3 end;
-        int lifetime;
-        public TrailEdge(Vec3 start, Vec3 end, int lifetime) {
+        float lifetime;
+        public TrailEdge(Vec3 start, Vec3 end, float lifetime) {
             this.start = start;
             this.end = end;
             this.lifetime = lifetime;

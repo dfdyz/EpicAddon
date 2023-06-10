@@ -67,7 +67,7 @@ public class MyTextureSheetParticle extends SingleQuadParticle {
         Quaternion quaternion = camera.rotation();
         
         Vector3f[] vertexes = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
-        float f4 = 1;
+        float f4 = 0.8f;
 
         //System.out.println(rt);
 
@@ -80,8 +80,8 @@ public class MyTextureSheetParticle extends SingleQuadParticle {
 
         int t = Math.min(maxframe-1, (int) Math.floor(rt * maxframe));
         float per = 1.0f/maxframe;
-        float u0 = (t%4) * per;
-        float u1 = ((t%4)+1) * per;
+        float u0 = t * per;
+        float u1 = (t+1) * per;
 
         float v0 = 0;
         float v1 = 1;
@@ -103,7 +103,7 @@ public class MyTextureSheetParticle extends SingleQuadParticle {
         public BloodThirstyProvider(){}
         @Override
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new MyTextureSheetParticle(worldIn, x, y, z, 1, 6, 10);
+            return new MyTextureSheetParticle(worldIn, x, y+0.5, z, 1, 6, 10);
         }
     }
 
@@ -112,7 +112,7 @@ public class MyTextureSheetParticle extends SingleQuadParticle {
         public BlackKnightProvider(){}
         @Override
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new MyTextureSheetParticle(worldIn, x, y, z, 0, 7, 10);
+            return new MyTextureSheetParticle(worldIn, x, y+0.5, z, 0, 7, 10);
         }
     }
 

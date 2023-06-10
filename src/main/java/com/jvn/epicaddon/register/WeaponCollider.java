@@ -6,9 +6,9 @@ import yesman.epicfight.api.collider.MultiOBBCollider;
 import yesman.epicfight.api.collider.OBBCollider;
 
 public class WeaponCollider {
-    public static final Collider SAO_SWORD = new MultiOBBCollider(3, 0.6, 1.0, 1.4, 0.0, 0.0, -0.8D);
+    public static final Collider SAO_SWORD = new MultiOBBCollider(6, 0.6, 1.0, 1.4, 0.0, 0.0, -0.8D);
     public static final Collider SAO_SWORD_HUGE_L = new MultiOBBCollider(3, 1.0D, 1.0D, 1.8D, 0.7D, 0.0D, -0.2D);//
-    public static final Collider SAO_SWORD_HUGE_R = new MultiOBBCollider(3, 1.0D, 1.0D, 1.8D, -0.7D, 0.0D, -0.2D);
+    public static final Collider SAO_SWORD_HUGE_R = new MultiOBBCollider(6, 1.0D, 1.0D, 1.8D, -0.7D, 0.0D, -0.2D);
     public static final Collider SAO_SWORD_DASH = new MultiOBBCollider(3, 1.56D, 1.1D, 1.8D, 0.0D, 0.8D, -0.732D);
     public static final Collider SAO_RAPIER_DASH = new MultiOBBCollider(8, 1.56D, 1.1D, 2.5D, 0.0D, 0.7D, -1.2D);
     public static final Collider SAO_RAPIER_SCAN = new MultiOBBCollider(2,2.5, 1.65, 10, 0.0, 0.9, -8.5D);

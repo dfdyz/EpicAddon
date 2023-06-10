@@ -226,7 +226,9 @@ public class RegWeaponItemCap {
                         EpicAddonAnimations.SAO_SCYTHE_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
                 .specialAttack(CapabilityItem.Styles.TWO_HAND, Skills.SLAUGHTER_STANCE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
-                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, Animations.BIPED_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, EpicAddonAnimations.SAO_SCYTHE_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, EpicAddonAnimations.SAO_SCYTHE_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, EpicAddonAnimations.SAO_SCYTHE_RUN)
                 .weaponCombinationPredicator((entitypatch) -> false);
 
         return builder;

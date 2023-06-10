@@ -50,6 +50,7 @@ public class ModEvents {
             return;
         }
 
+
         HealthBarStyle healthBarStyle = RenderConfig.HealthBarEntity.get(livingentity.getType().getRegistryName().toString());
 
         if (healthBarStyle == null) {
@@ -58,6 +59,7 @@ public class ModEvents {
         if (livingentity instanceof LocalPlayer && !ClientConfig.cfg.RenderHealthBarSelf) {
             return;
         }
+
 
         if (!Minecraft.getInstance().options.hideGui) {
             HealthBarRenderer.draw(livingentity, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick(),healthBarStyle);

@@ -36,15 +36,16 @@ public class SAODeathParticle extends NoRenderParticle {
                             transform.minV.x + rect3d.x/cx*i,
                             transform.minV.y + rect3d.y/cy*j,
                             transform.minV.z + rect3d.z/cz*k);
-                    Vec3 spd = vec3.subtract(center).normalize();
+                    Vec3 spd = vec3.subtract(center);
+                    double l = spd.length();
+                    spd = spd.normalize();
                     vec3 = vec3.subtract(spd.scale(0.4f))
                             .yRot((float) (transform.rot.z/180*Math.PI))
                             .xRot((float) (transform.rot.x/180*Math.PI))
                             .yRot((float) (transform.rot.y/180*Math.PI))
                             .add(transform.offset).add(x,y,z);
 
-                    float spdr = 0.8f * random.nextFloat(0.4f);
-
+                    double spdr = random.nextDouble(0.8f,1.2f)/Math.exp(l*0.5f);
                     spd = spd.scale(spdr)
                             .yRot((float) (transform.rot.z/180*Math.PI))
                             .xRot((float) (transform.rot.x/180*Math.PI))
