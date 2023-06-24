@@ -23,9 +23,9 @@ void main(){
     a = a >= b ? 1:0;
 
     color1 = vec3(a,a,a);
-    float t = max(1 - (0.5 - Time)/0.5, 1);
-    t = sin(_PI_*t);
-    vec3 color0 = org.rgb * (1-t) + color1 * t;
+    //float t = max(1 - (0.5 - Time)/0.5, 1);
+    //t = sin(_PI_*t/2);
+    vec3 color0 = org.rgb * 0.22 + color1 * 0.78;
 
     fragColor = vec4(color0, org.w);
 }

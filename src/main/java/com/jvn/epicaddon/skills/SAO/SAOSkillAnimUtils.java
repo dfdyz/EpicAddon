@@ -3,11 +3,14 @@ package com.jvn.epicaddon.skills.SAO;
 import com.jvn.epicaddon.events.CameraEvent;
 import com.jvn.epicaddon.events.PostEffectEvent;
 import com.jvn.epicaddon.register.RegMobEffect;
+import com.jvn.epicaddon.register.RegParticle;
 import com.jvn.epicaddon.register.RegPostEffect;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.utils.ExtendedDamageSource;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
@@ -57,8 +60,11 @@ public class SAOSkillAnimUtils {
         }
         //public static OpenMatrix4f matrix4f = new OpenMatrix4f();
         public static void HandleAtk(LivingEntityPatch entityPatch){
-
-            PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 0.85f, entityPatch.getOriginal().position());
+            Level worldIn = entityPatch.getOriginal().getLevel();
+            Vec3 pos = entityPatch.getOriginal().position();
+            worldIn.addParticle(RegParticle.JudgementCut.get() ,pos.x,pos.y,pos.z,0,0,0);
+            PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 1.58f, entityPatch.getOriginal().position());
+            PostEffectEvent.PushPostEffectMiddle(RegPostEffect.WhiteFlush, 0.25f, entityPatch.getOriginal().position());
         }
 
 

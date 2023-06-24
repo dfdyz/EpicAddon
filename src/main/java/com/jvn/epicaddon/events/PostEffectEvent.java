@@ -13,15 +13,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Function;
 
@@ -142,5 +140,11 @@ public class PostEffectEvent {
         public boolean isVisible(Vec3 pos){
             return pos.distanceTo(position) <= distance;
         }
+    }
+
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onEntityRender(RenderLivingEvent event){
+
     }
 }

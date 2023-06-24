@@ -47,7 +47,6 @@ public class RegPostEffect {
                 RenderTarget main = mc.getMainRenderTarget();
                 RenderTarget temp = PostEffectBase.createTempTarget(main, main.width, main.height);
                 RenderTarget temp2 = PostEffectBase.createTempTarget(main, 1, 1);
-
                 blit.process(main, temp2, 0);
                 whiteFlush.process(main, temp2, temp,remainTime);
                 blit.process(temp,main, 0);

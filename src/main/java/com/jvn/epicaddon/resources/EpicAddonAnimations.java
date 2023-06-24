@@ -335,7 +335,7 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.2f);
 
 
-        DMC5_V_JC  = new ScanAttackAnimation(0.1F, 0.334f, 0.43f, 4.633F, InteractionHand.MAIN_HAND, 1000, WeaponCollider.SAO_RAPIER_SCAN, "Root", "biped/dmc5_v_jc", biped)
+        DMC5_V_JC  = new ScanAttackAnimation(0.02F, 0.334f, 0.43f, 4.48F, InteractionHand.MAIN_HAND, 1000, WeaponCollider.SAO_RAPIER_SCAN, "Root", "biped/dmc5_v_jc", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.multiplier(0))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.LONG)
                 .addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true)
@@ -354,7 +354,7 @@ public class EpicAddonAnimations {
                             SAOSkillAnimUtils.DMC5_V_JC.post(ep);
                         }, StaticAnimation.Event.Side.CLIENT)
                 })
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.05f);
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.0f);
 
 
 
