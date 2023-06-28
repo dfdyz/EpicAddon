@@ -9,6 +9,7 @@ import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,6 +19,8 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -144,7 +147,21 @@ public class PostEffectEvent {
 
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onEntityRender(RenderLivingEvent event){
+    public static void onEntityRender(RenderLivingEvent event){ //dmc animation invisible
+        LivingEntity le = event.getEntity();
+
+        LivingEntityPatch ep = (LivingEntityPatch) le.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY, null).orElse(null);
+
+        //if(ep)
 
     }
+
+
+
+
+
+
+
+
+
 }

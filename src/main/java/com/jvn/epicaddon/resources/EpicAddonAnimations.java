@@ -359,7 +359,8 @@ public class EpicAddonAnimations {
 
 
 
-        DESTINY_AIM = new AimAnimation(false, "biped/destiny_aim_mid", "biped/destiny_aim_up", "biped/destiny_aim_down", "biped/destiny_aim_lying", biped);
+        DESTINY_AIM = new AimAnimation(
+                false, "biped/destiny_aim_mid", "biped/destiny_aim_up", "biped/destiny_aim_down", "biped/destiny_aim_lying", biped);
         DESTINY_SHOT = new ReboundAnimation(false, "biped/destiny_shoot_mid", "biped/destiny_shoot_up", "biped/destiny_shoot_down", "biped/destiny_shoot_lying", biped);
         DESTINY_RELOAD = new StaticAnimation(false, "biped/destiny_reload", biped);
 
