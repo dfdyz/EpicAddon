@@ -55,7 +55,6 @@ public class ControllerEvent {
     @OnlyIn(Dist.CLIENT)
     public static class EpicAddonKeyMapping{
         public static final KeyMapping SwitchSkill = new KeyMapping("key." + EpicAddon.MODID + ".switch_skill", InputConstants.KEY_B, "key." + EpicAddon.MODID + ".gui");
-
         public static void Reg(){
             ClientRegistry.registerKeyBinding(SwitchSkill);
         }

@@ -27,7 +27,6 @@ import yesman.epicfight.api.model.Model;
 import yesman.epicfight.api.utils.ExtendedDamageSource;
 import yesman.epicfight.api.utils.math.ValueCorrector;
 import yesman.epicfight.gameasset.Animations;
-import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
@@ -316,7 +315,7 @@ public class EpicAddonAnimations {
                         }, StaticAnimation.Event.Side.SERVER)
                 });
 
-        SAO_RAPIER_SA2  = new ScanAttackAnimation(0.0F, 0.3f,0.5f, 1.48F, InteractionHand.MAIN_HAND, false,1000, WeaponCollider.SAO_RAPIER_SCAN, "Root", "biped/sao_rapier_sa2", biped)
+        SAO_RAPIER_SA2  = new ScanAttackAnimation(0.0F, 0.3f,0.72f, 1.48F, InteractionHand.MAIN_HAND, false,1000, WeaponCollider.SAO_RAPIER_SCAN, "Root", "biped/sao_rapier_sa2", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT, ValueCorrector.multiplier(0))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.LONG)
                 .addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true)

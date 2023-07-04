@@ -22,6 +22,8 @@
   "skill.epicaddon.sao_single_sword_guard_skill.tooltip": "Use Single-hand to guard.",
   "skill.epicaddon.sao_single_sword_guard_skill": "Single-hand Sword Guard\nAvailable Weapon Types : %s",
 
+  "skill.epicfight.sao_single_sword.category": "SINGLE SWORD",
 
-  "skill.epicfight.sao_single_sword.category": "SINGLE SWORD"
+  "key.epicaddon.gui": "EFM ACG AddonPack",
+  "key.epicaddon.switch_skill": "SkillSwitching(Hold and Rolling the mid button)"
 }

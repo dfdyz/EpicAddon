@@ -22,5 +22,8 @@
   "skill.epicaddon.sao_single_sword_guard_skill.tooltip": "用剑格挡",
   "skill.epicaddon.sao_single_sword_guard_skill": "单手剑-格挡 %s",
 
-  "skill.epicfight.sao_single_sword.category": "单手用直剑"
+  "skill.epicfight.sao_single_sword.category": "单手用直剑",
+
+  "key.epicaddon.gui": "史诗战斗ACG附属包",
+  "key.epicaddon.switch_skill": "技能选择(按住并滚动滚轮)"
 }

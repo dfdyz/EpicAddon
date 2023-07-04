@@ -30,6 +30,7 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
 
 public class ScanAttackAnimation extends AttackAnimation {
     //private final int Aid;
@@ -79,6 +80,7 @@ public class ScanAttackAnimation extends AttackAnimation {
         moveRootY = true;
         //this.Aid = aid;
     }
+
 
     @Override
     public void setLinkAnimation(Pose pose1, float timeModifier, LivingEntityPatch<?> entitypatch, LinkAnimation dest) {
@@ -195,7 +197,9 @@ public class ScanAttackAnimation extends AttackAnimation {
                 }
             }
         }
-        entitypatch.currentlyAttackedEntity.add(entitypatch.getOriginal());
+        if(!entitypatch.currentlyAttackedEntity.contains(entitypatch.getOriginal())){
+            entitypatch.currentlyAttackedEntity.add(entitypatch.getOriginal());
+        }
     }
 
     /*

@@ -26,12 +26,13 @@ public class SAOSkillAnimUtils {
         //public static OpenMatrix4f matrix4f = new OpenMatrix4f();
         public static void HandleAtk(LivingEntityPatch entityPatch){
             //float yaw = entityPatch.getOriginal().getYRot();
-
+            //System.out.println("????");
             if(entityPatch.currentlyAttackedEntity.size() > 0){
+                //System.out.println("????");
                 entityPatch.currentlyAttackedEntity.forEach((entity)->{
                     if(entity instanceof LivingEntity) {
                         LivingEntity le = (LivingEntity)entity;
-                        if(le.equals(entity)) return;
+                        if(le.equals(entityPatch.getOriginal())) return;
                         float dmg = entityPatch.getDamageTo(le,
                                 entityPatch.getDamageSource(ExtendedDamageSource.StunType.LONG, EpicAddonAnimations.SAO_RAPIER_SA2, InteractionHand.MAIN_HAND),
                                 InteractionHand.MAIN_HAND);
@@ -40,8 +41,9 @@ public class SAOSkillAnimUtils {
                     }
                 });
             }
-
-            PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 0.85f, entityPatch.getOriginal().position());
+            if(entityPatch.isLogicalClient()){
+                PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 0.75f, entityPatch.getOriginal().position());
+            }
         }
 
         public static void post(LivingEntityPatch entityPatch){
@@ -62,9 +64,12 @@ public class SAOSkillAnimUtils {
         public static void HandleAtk(LivingEntityPatch entityPatch){
             Level worldIn = entityPatch.getOriginal().getLevel();
             Vec3 pos = entityPatch.getOriginal().position();
-            worldIn.addParticle(RegParticle.JudgementCut.get() ,pos.x,pos.y,pos.z,0,0,0);
-            PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 1.58f, entityPatch.getOriginal().position());
-            PostEffectEvent.PushPostEffectMiddle(RegPostEffect.WhiteFlush, 0.25f, entityPatch.getOriginal().position());
+
+            if(entityPatch.isLogicalClient()){
+                worldIn.addParticle(RegParticle.JudgementCut.get() ,pos.x,pos.y,pos.z,0,0,0);
+                PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 1.58f, entityPatch.getOriginal().position());
+                PostEffectEvent.PushPostEffectMiddle(RegPostEffect.WhiteFlush, 0.25f, entityPatch.getOriginal().position());
+            }
         }
 
 
