@@ -125,31 +125,37 @@ public class EpicAddonAnimations {
         SAO_SCYTHE_RUN = new MovementAnimation(true, "biped/sao_scythe/living/sao_scythe_run", biped);
         SAO_SCYTHE_WALK = new MovementAnimation(true, "biped/sao_scythe/living/sao_scythe_walk", biped);
 
-        SAO_SCYTHE_AUTO1 = new BasicAttackAnimation(0.1F, 0.2333F, 0.3333F, 0.65F, WeaponCollider.SAO_SWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto1", biped)
+        SAO_SCYTHE_AUTO1 = new BasicAttackAnimationEx(0.1F, 0.2333F, 0.3333F, 0.5F, WeaponCollider.SAO_SWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto1", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT);
 
-        SAO_SCYTHE_AUTO2 = new BasicAttackAnimation(0.1F, 0.2F, 0.3F, 0.65F, WeaponCollider.SAO_SWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto2", biped)
+        SAO_SCYTHE_AUTO2 = new BasicAttackAnimationEx(0.1F, 0.2F, 0.3F, 0.5F, WeaponCollider.SAO_SWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto2", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT);
 
-        SAO_SCYTHE_AUTO3 = new BasicAttackAnimation(0.1F, 0.3F, 0.4F, 0.65F, WeaponCollider.SAO_SWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto3", biped)
+        SAO_SCYTHE_AUTO3 = new BasicAttackAnimationEx(0.1F, 0.3F, 0.4F, 0.5F, WeaponCollider.SAO_SWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto3", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT);
 
         SAO_SCYTHE_AUTO4 = new MultiPhaseBasicAttackAnimation(0.05F,  "biped/sao_scythe/sao_scythe_auto4", biped,
-                new AttackAnimation.Phase(0.0F, 0.2F, 0.7F, 0.8F, 0.8F, InteractionHand.MAIN_HAND, "Tool_R", WeaponCollider.SAO_SWORD)
+                new AttackAnimation.Phase(0.0F, 0.2F, 0.3F, 0.3F, 0.3F, InteractionHand.MAIN_HAND, "Tool_R", WeaponCollider.SAO_SWORD)
                         .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(0.7F))
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT),
-                new AttackAnimation.Phase(0.7F, 0.8F, 1F, 1F, Float.MAX_VALUE, InteractionHand.MAIN_HAND, "Tool_R", WeaponCollider.SAO_SWORD)
+                new AttackAnimation.Phase(0.3F, 0.4F, 0.5F, 0.5F, 0.5F, InteractionHand.MAIN_HAND, "Tool_R", WeaponCollider.SAO_SWORD)
+                        .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(0.8F))
+                        .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT),
+                new AttackAnimation.Phase(0.5F, 0.6F, 0.7F, 0.7F, 0.7F, InteractionHand.MAIN_HAND, "Tool_R", WeaponCollider.SAO_SWORD)
+                        .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(0.8F))
+                        .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT),
+                new AttackAnimation.Phase(0.7F, 0.8F, 1F, 1.1F, Float.MAX_VALUE, InteractionHand.MAIN_HAND, "Tool_R", WeaponCollider.SAO_SWORD)
                         .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE, ValueCorrector.multiplier(0.8F))
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT)
-                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 2.5f)
+                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 0.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 1.2F);
 
-        SAO_SCYTHE_AUTO5 = new BasicAttackAnimation(0.1F, 0.26F, 0.3333F, 0.65F, WeaponCollider.SAO_SWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto5", biped)
+        SAO_SCYTHE_AUTO5 = new BasicAttackAnimationEx(0.1F, 0.26F, 0.3333F, 0.7F, WeaponCollider.SAO_SWORD, "Tool_R", "biped/sao_scythe/sao_scythe_auto5", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT);
 
@@ -163,7 +169,7 @@ public class EpicAddonAnimations {
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, ExtendedDamageSource.StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT)
-                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 2.8f);
+                .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 0.7f);
 
 
         //DUAL SWORD

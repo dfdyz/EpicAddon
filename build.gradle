@@ -173,7 +173,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:epicfightmod-405076:4018756")
 
-    implementation fg.deobf("curse.maven:Yamato-833891:4433619")
+    implementation fg.deobf("curse.maven:Yamato-833891:4490893")
 
     //implementation fg.deobf("curse.maven:DualGreatSword-654098:3972299")
 
