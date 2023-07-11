@@ -18,8 +18,6 @@ import net.minecraftforge.registries.RegistryObject;
 @Mod.EventBusSubscriber(modid = EpicAddon.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegEntity {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, EpicAddon.MODID);
-
-
     public static final RegistryObject<EntityType<GenShinArrow>> GENSHIN_ARROW = ENTITIES.register("genshin_arrow", () ->
             EntityType.Builder.<GenShinArrow>of(GenShinArrow::new, MobCategory.MISC)
                 .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build("genshin_arrow")
@@ -29,6 +27,7 @@ public class RegEntity {
             EntityType.Builder.<YoimiyaSAArrow>of(YoimiyaSAArrow::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build("gs_yoimiya_sa_arrow")
     );
+
 
     @Mod.EventBusSubscriber(modid = EpicAddon.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class EntityRendererRegister{

@@ -11,7 +11,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 
 import java.io.IOException;
 
-public class SpaceBroken extends PostEffectBase{
+public class  SpaceBroken extends PostEffectBase{
     public SpaceBroken(ResourceManager resmgr) throws IOException {
         super(new EffectInstance(resmgr, "epicaddon:spacebroken"));
     }
