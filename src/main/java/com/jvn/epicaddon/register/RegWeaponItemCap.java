@@ -236,9 +236,77 @@ public class RegWeaponItemCap {
         return builder;
     };
 
+    public static final Function<Item, CapabilityItem.Builder> SAO_GREATSWORD = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(EpicAddonWeaponCategories.GREAT_SWORD)
+                .styleProvider((playerpatch) -> CapabilityItem.Styles.TWO_HAND)
+                .collider(ColliderPreset.LONGSWORD)
+                .hitSound(EpicFightSounds.BLADE_HIT)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO1,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO2,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO3,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO4,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO5,
+                        EpicAddonAnimations.SAO_SCYTHE_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
+                .specialAttack(CapabilityItem.Styles.TWO_HAND, Skills.SLAUGHTER_STANCE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, EpicAddonAnimations.SAO_SCYTHE_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, EpicAddonAnimations.SAO_SCYTHE_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, EpicAddonAnimations.SAO_SCYTHE_RUN)
+                .weaponCombinationPredicator((entitypatch) -> false);
+
+        return builder;
+    };
+
+    public static final Function<Item, CapabilityItem.Builder> SAO_PALADIN = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(EpicAddonWeaponCategories.SAO_PALADIN)
+                .styleProvider((playerpatch) -> CapabilityItem.Styles.TWO_HAND)
+                .collider(ColliderPreset.LONGSWORD)
+                .hitSound(EpicFightSounds.BLADE_HIT)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO1,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO2,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO3,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO4,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO5,
+                        EpicAddonAnimations.SAO_SCYTHE_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
+                .specialAttack(CapabilityItem.Styles.TWO_HAND, Skills.SLAUGHTER_STANCE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, EpicAddonAnimations.SAO_SCYTHE_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, EpicAddonAnimations.SAO_SCYTHE_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, EpicAddonAnimations.SAO_SCYTHE_RUN)
+                .weaponCombinationPredicator((entitypatch) -> false);
+
+        return builder;
+    };
+
+    public static final Function<Item, CapabilityItem.Builder> ES_WIND_SNEAKER = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(EpicAddonWeaponCategories.ES_WIND_SNEAKER)
+                .styleProvider((playerpatch) -> CapabilityItem.Styles.TWO_HAND)
+                .collider(ColliderPreset.LONGSWORD)
+                .hitSound(EpicFightSounds.BLADE_HIT)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO1,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO2,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO3,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO4,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO5,
+                        EpicAddonAnimations.SAO_SCYTHE_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
+                .specialAttack(CapabilityItem.Styles.TWO_HAND, Skills.SLAUGHTER_STANCE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, EpicAddonAnimations.SAO_SCYTHE_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, EpicAddonAnimations.SAO_SCYTHE_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, EpicAddonAnimations.SAO_SCYTHE_RUN)
+                .weaponCombinationPredicator((entitypatch) -> false);
+        return builder;
+    };
+
 
     public enum EpicAddonWeaponCategories implements WeaponCategory {
-        SCYTHE;
+        SCYTHE,GREAT_SWORD,ES_WIND_SNEAKER,SAO_PALADIN;
         final int id;
 
         private EpicAddonWeaponCategories() {
@@ -261,6 +329,12 @@ public class RegWeaponItemCap {
         event.getTypeEntry().put("genshin_bow", GenShin_Bow);
         event.getTypeEntry().put("sr_baseball_bat", SR_BaseBallBat);
         event.getTypeEntry().put("sao_scythe", SAO_SCYTHE);
+
+        event.getTypeEntry().put("sao_greatsword", SAO_GREATSWORD);
+        event.getTypeEntry().put("es_wind_sneaker", ES_WIND_SNEAKER);
+        event.getTypeEntry().put("sao_paladin", SAO_PALADIN);
+
+
 
         LOGGER.info("WeaponCapability Loaded");
     }

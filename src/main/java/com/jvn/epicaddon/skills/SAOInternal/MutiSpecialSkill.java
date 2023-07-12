@@ -111,11 +111,9 @@ public class MutiSpecialSkill extends PassiveSkill {
 
             //System.out.println(FastColor.ARGB32.color(200,255,255,255));
 
-            if(actived){
-                RenderSystem.setShaderTexture(0, EpicAddonRenderType.ChildSkillSelected);
-                drawTexturedModalRectFixCoord(gui, matStackIn.last().pose(), (float)(width - x + ox) * scaleMultiply, (float)(height - y + oy) * scaleMultiply, 0, 0, 255, 255
-                        , FastColor.ARGB32.color(200,200,200,200));
-            }
+            RenderSystem.setShaderTexture(0, actived ? EpicAddonRenderType.ChildSkillSelected : EpicAddonRenderType.ChildSkillnoSelected);
+            drawTexturedModalRectFixCoord(gui, matStackIn.last().pose(), (float)(width - x + ox) * scaleMultiply, (float)(height - y + oy) * scaleMultiply, 0, 0, 255, 255
+                    , FastColor.ARGB32.color(200,200,200,200));
 
             boolean canExe = saInstance.isSkillActive(container.getExecuter(), i);
 

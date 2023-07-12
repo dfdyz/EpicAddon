@@ -27,22 +27,24 @@ public class SAOSkillAnimUtils {
         public static void HandleAtk(LivingEntityPatch entityPatch){
             //float yaw = entityPatch.getOriginal().getYRot();
             //System.out.println("????");
-            if(entityPatch.currentlyAttackedEntity.size() > 0){
-                //System.out.println("????");
-                entityPatch.currentlyAttackedEntity.forEach((entity)->{
-                    if(entity instanceof LivingEntity) {
-                        LivingEntity le = (LivingEntity)entity;
-                        if(le.equals(entityPatch.getOriginal())) return;
-                        float dmg = entityPatch.getDamageTo(le,
-                                entityPatch.getDamageSource(ExtendedDamageSource.StunType.LONG, EpicAddonAnimations.SAO_RAPIER_SA2, InteractionHand.MAIN_HAND),
-                                InteractionHand.MAIN_HAND);
-                        le.addEffect(new MobEffectInstance(RegMobEffect.WOUND.get(), 13, (int) (dmg*10)));
-                        le.addEffect(new MobEffectInstance(RegMobEffect.STOP.get(), 13, 1));
-                    }
-                });
-            }
             if(entityPatch.isLogicalClient()){
                 PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 0.75f, entityPatch.getOriginal().position());
+            }
+            else {
+                if(entityPatch.currentlyAttackedEntity.size() > 0){
+                    //System.out.println("????");
+                    entityPatch.currentlyAttackedEntity.forEach((entity)->{
+                        if(entity instanceof LivingEntity) {
+                            LivingEntity le = (LivingEntity)entity;
+                            if(le.equals(entityPatch.getOriginal())) return;
+                            float dmg = entityPatch.getDamageTo(le,
+                                    entityPatch.getDamageSource(ExtendedDamageSource.StunType.LONG, EpicAddonAnimations.SAO_RAPIER_SA2, InteractionHand.MAIN_HAND),
+                                    InteractionHand.MAIN_HAND);
+                            le.addEffect(new MobEffectInstance(RegMobEffect.WOUND.get(), 13, (int) (dmg*10)));
+                            le.addEffect(new MobEffectInstance(RegMobEffect.STOP.get(), 13, 1));
+                        }
+                    });
+                }
             }
         }
 
@@ -59,6 +61,26 @@ public class SAOSkillAnimUtils {
 
         public static void prev2(LivingEntityPatch entityPatch){
             //CameraEvent.SetAnim(SAO_RAPIER_SA2_CAM, (LivingEntity) entityPatch.getOriginal(), true);
+
+            if(entityPatch.isLogicalClient()){
+
+            }
+            else {
+                if(entityPatch.currentlyAttackedEntity.size() > 0){
+                    //System.out.println("????");
+                    entityPatch.currentlyAttackedEntity.forEach((entity)->{
+                        if(entity instanceof LivingEntity) {
+                            LivingEntity le = (LivingEntity)entity;
+                            if(le.equals(entityPatch.getOriginal())) return;
+                            float dmg = entityPatch.getDamageTo(le,
+                                    entityPatch.getDamageSource(ExtendedDamageSource.StunType.LONG, EpicAddonAnimations.SAO_RAPIER_SA2, InteractionHand.MAIN_HAND),
+                                    InteractionHand.MAIN_HAND);
+                            le.addEffect(new MobEffectInstance(RegMobEffect.WOUND.get(), 35, (int) (dmg*10)));
+                            le.addEffect(new MobEffectInstance(RegMobEffect.STOP.get(), 35, 1));
+                        }
+                    });
+                }
+            }
         }
         //public static OpenMatrix4f matrix4f = new OpenMatrix4f();
         public static void HandleAtk(LivingEntityPatch entityPatch){
