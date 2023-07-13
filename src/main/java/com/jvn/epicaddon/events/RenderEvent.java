@@ -1,5 +1,7 @@
 package com.jvn.epicaddon.events;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.command.CmdMgr;
 import com.jvn.epicaddon.renderer.HealthBarRenderer;
@@ -11,17 +13,27 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
+import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.client.forgeevent.RenderEnderDragonEvent;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
+import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
+
+import java.util.HashSet;
+import java.util.LinkedList;
 
 @Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT)
-public class ModEvents {
+public class RenderEvent {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     /*
@@ -95,11 +107,24 @@ public class ModEvents {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void renderWorldLast(RenderLevelStageEvent event) {
-        float partialTick = event.getPartialTick();
-        GlobalVal.ANG = GlobalVal.ANGInternal+partialTick * 0.05f * ClientConfig.cfg.RotSpeed;
-        while (GlobalVal.ANG >= 360.0f){
-            GlobalVal.ANG-=360.0f;
+        if(event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY){
+            float partialTick = event.getPartialTick();
+            GlobalVal.ANG = GlobalVal.ANGInternal+partialTick * 0.05f * ClientConfig.cfg.RotSpeed;
+            while (GlobalVal.ANG >= 360.0f){
+                GlobalVal.ANG -= 360.0f;
+            }
+            SkipToRender.removeIf(Entity::isRemoved);
         }
     }
 
+    public static HashSet<LivingEntity> SkipToRender = Sets.newHashSet();
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void renderLivingEntity(RenderLivingEvent.Pre event) {
+        LivingEntity entity = event.getEntity();
+
+        if(SkipToRender.contains(entity)){
+            event.setCanceled(true);
+        }
+    }
 }

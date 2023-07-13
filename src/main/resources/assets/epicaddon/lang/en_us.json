@@ -19,6 +19,11 @@
   "skill.epicaddon.sao_rapier_skill": "Rapier",
   "tab.skill.epicaddon.sao_rapier_skill": "SKILL - Rapier",
 
+
+  "skill.epicaddon.sao_single_sword.tooltip": "Single sword, Basic skill",
+  "skill.epicaddon.sao_single_sword": "Single Sword",
+  "tab.skill.epicaddon.sao_single_sword": "SKILL - Single Sword",
+
   "skill.epicaddon.sao_single_sword_guard_skill.tooltip": "Use Single-hand to guard.",
   "skill.epicaddon.sao_single_sword_guard_skill": "Single-hand Sword Guard\nAvailable Weapon Types : %s",
 

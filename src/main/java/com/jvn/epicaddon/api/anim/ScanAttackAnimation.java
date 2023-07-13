@@ -32,15 +32,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-public class ScanAttackAnimation extends AttackAnimation {
+public class ScanAttackAnimation extends AttackAnimation{
     //private final int Aid;
     //public final String Hjoint;
-    protected final PatchedStateSpectrum.Blueprint patchedStateBlueprint = new PatchedStateSpectrum.Blueprint();
-    private final PatchedStateSpectrum patchedState = new PatchedStateSpectrum();
     protected final int maxStrikes;
     protected final boolean moveRootY;
 
     protected final boolean shouldMove;
+
+    private boolean patchState = false;
 
     public ScanAttackAnimation(float convertTime, float antic, float contact, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
         super(convertTime, path, model,
@@ -65,6 +65,7 @@ public class ScanAttackAnimation extends AttackAnimation {
         this.maxStrikes = maxStrikes;
         moveRootY = true;
         shouldMove = true;
+
         //this.Aid = aid;
     }
 
@@ -253,4 +254,5 @@ public class ScanAttackAnimation extends AttackAnimation {
     public boolean isBasicAttackAnimation() {
         return true;
     }
+
 }

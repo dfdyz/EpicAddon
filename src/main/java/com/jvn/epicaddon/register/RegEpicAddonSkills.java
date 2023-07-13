@@ -33,7 +33,8 @@ public class RegEpicAddonSkills {
     public static Skill SAO_SINGLESWORD_INTERNAL;
     public static Skill SAO_SINGLESWORD_SA;
     public static Skill SAO_SINGLESWORDGUARD;
-    public static Skill SAO_RAPIER;
+    public static Skill SAO_RAPIER_A;
+    public static Skill SAO_RAPIER_B;
     public static Skill GS_YOIMIYA_SPECIALATK;
 
     public static Skill SAOBasicAtkPatched;
@@ -49,7 +50,9 @@ public class RegEpicAddonSkills {
         SAO_SINGLESWORD = event.registerSkill(new TagSkill(TagSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_single_sword"), EpicAddonSkillCategories.SAO_SINGLE_SWORD)), false);
         SAO_DUALSWORD = event.registerSkill(new DualBladeSkill(DualBladeSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_dual_sword_skill"))), false);
         SAO_SINGLESWORDGUARD = event.registerSkill(new SingleSwordGuardSkill(SingleSwordGuardSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_single_sword_guard_skill"))),true);
-        SAO_RAPIER = event.registerSkill(new RapierSkill(RapierSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_rapier_skill"))),false);
+        SAO_RAPIER_A = event.registerSkill(new RapierSkill(RapierSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_rapier_skill"))),false);
+        //SAO_RAPIER_B = event.registerSkill(new RapierSkill(RapierSkill.createBuilder(new ResourceLocation(EpicAddon.MODID,"sao_rapier_skill_b"))),false);
+
 
         WEAPON_SKILL_RAPIER = event.registerSkill(new RapierSpicialAttackSkill(RapierSpicialAttackSkill.createBuilder(
                 new ResourceLocation(EpicAddon.MODID, "weapon_skill_rapier"))

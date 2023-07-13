@@ -7,7 +7,8 @@
 		"MixinAtkAnim",
 		"MixinGUI",
 		"MixinGameRenderer",
-		"MixinPlayerPatch"
+		"MixinPlayerPatch",
+		"MixinMob"
 	],
 	"mixins": [
 		"MixinNBTCapabilities",
@@ -16,7 +17,7 @@
 		"PhaseAccessor",
 		"ActionTimeAccessor"
 	],
-	"injector": {
+	"injectors": {
 		"defaultRequire": 1
 	},
 	"refmap": "epicaddon.mixins.refmap.json"

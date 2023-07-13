@@ -9,19 +9,22 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.utils.AttackResult;
 import yesman.epicfight.gameasset.Animations;
-import yesman.epicfight.skill.Skill;
-import yesman.epicfight.skill.SkillCategories;
-import yesman.epicfight.skill.SkillContainer;
-import yesman.epicfight.skill.SpecialAttackSkill;
+import yesman.epicfight.skill.*;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
+import yesman.epicfight.world.entity.eventlistener.PlayerEventListener;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class SingleSwordSASkills extends SpecialAttackSkill implements IMutiSpecialSkill {
     private final ArrayList<ResourceLocation> noPower = new ArrayList<>();
     private final ArrayList<ResourceLocation> morePower = new ArrayList<>();
+    public static final SkillDataManager.SkillDataKey<Boolean> Invincible = SkillDataManager.SkillDataKey.createDataKey(SkillDataManager.ValueType.BOOLEAN);;
+
+    private final UUID EventUUID = UUID.fromString("eb69decf-48a1-5333-dacc-884fd345c02a");
 
     private final StaticAnimation noPowerAnimation1;
     private final StaticAnimation morePowerAnimation1;
@@ -46,6 +49,28 @@ public class SingleSwordSASkills extends SpecialAttackSkill implements IMutiSpec
         container.getExecuter().getSkillCapability()
                 .skillContainers[EpicAddonSkillCategories.MutiSpecialAttack.universalOrdinal()]
                 .setSkill(RegEpicAddonSkills.MUTI_SPECIAL_ATTACK);
+
+        container.getDataManager().registerData(Invincible);
+        container.getDataManager().setData(Invincible, false);
+
+        container.getExecuter().getEventListener().addEventListener(PlayerEventListener.EventType.HURT_EVENT_PRE,EventUUID, (e)->{
+            PlayerPatch playerPatch = e.getPlayerPatch();
+            SkillContainer sc = playerPatch.getSkill(SkillCategories.WEAPON_SPECIAL_ATTACK);
+            if(sc != null){
+                boolean inv = sc.getDataManager().getDataValue(Invincible);
+                if(inv){
+                    e.setResult(AttackResult.ResultType.BLOCKED);
+                    e.setCanceled(true);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRemoved(SkillContainer container) {
+        super.onRemoved(container);
+        container.getDataManager().setData(Invincible, false);
+        container.getExecuter().getEventListener().removeListener(PlayerEventListener.EventType.HURT_EVENT_PRE,EventUUID);
     }
 
     @Override

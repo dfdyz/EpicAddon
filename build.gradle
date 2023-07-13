@@ -166,6 +166,9 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    flatDir {
+      dir 'libs'
+    }
 }
 
 dependencies {

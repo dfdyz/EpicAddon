@@ -37,10 +37,10 @@ public class RegWeaponItemCap {
     //private static final Map<String, Function<Item, CapabilityItem.Builder>> PRESETS = Maps.newHashMap();
     public static final Function<Item, CapabilityItem.Builder> SAO_SINGLE_SWORD = (item) -> {
         WeaponCapability.Builder builder = WeaponCapability.builder()
-                .category(CapabilityItem.WeaponCategories.SWORD)
+                .category(EpicAddonWeaponCategories.SINGLE_SWORD)
                 .styleProvider((playerpatch) -> {
                     if(playerpatch instanceof PlayerPatch){
-                        if(playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD
+                        if(playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicAddonWeaponCategories.SINGLE_SWORD
                                 && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
                                 && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_dual_sword_skill")){
                             return EpicAddonStyles.SAO_DUAL_SWORD;
@@ -127,7 +127,7 @@ public class RegWeaponItemCap {
                 .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.KNEEL, EpicAddonAnimations.SAO_DUAL_SWORD_NORMAL)
                 .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.SNEAK, EpicAddonAnimations.SAO_DUAL_SWORD_HOLD)
                 .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.SWIM, EpicAddonAnimations.SAO_DUAL_SWORD_NORMAL)
-                .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.BLOCK, EpicAddonAnimations.SAO_SINGLE_SWORD_GUARD)
+                .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
                 .weaponCombinationPredicator((entitypatch) -> {
                     boolean tag = false;
                     if (entitypatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD){
@@ -306,7 +306,7 @@ public class RegWeaponItemCap {
 
 
     public enum EpicAddonWeaponCategories implements WeaponCategory {
-        SCYTHE,GREAT_SWORD,ES_WIND_SNEAKER,SAO_PALADIN;
+        SCYTHE,GREAT_SWORD,ES_WIND_SNEAKER,SAO_PALADIN,SINGLE_SWORD;
         final int id;
 
         private EpicAddonWeaponCategories() {

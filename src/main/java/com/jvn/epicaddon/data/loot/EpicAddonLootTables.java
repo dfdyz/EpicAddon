@@ -20,7 +20,7 @@ public class EpicAddonLootTables {
 					.build());
 
 			event.getTable().addPool(LootPool.lootPool().setRolls(UniformGenerator.between(1.0F, 1.0F))
-					.add(LootItem.lootTableItem(RegItems.SKILLBOOK.get()).setWeight(100).apply(setSkillFunction.builder(RegEpicAddonSkills.SAO_RAPIER.toString())))
+					.add(LootItem.lootTableItem(RegItems.SKILLBOOK.get()).setWeight(100).apply(setSkillFunction.builder(RegEpicAddonSkills.SAO_RAPIER_A.toString())))
 					.build());
     	}
     }
