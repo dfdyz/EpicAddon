@@ -49,7 +49,6 @@ public class EpicAddon
         EpicAddonSkillSlots.ENUM_MANAGER.loadPreemptive(EpicAddonSkillSlots.class);
         RegWeaponItemCap.EpicAddonWeaponCategories.ENUM_MANAGER.loadPreemptive(RegWeaponItemCap.EpicAddonWeaponCategories.class);
 
-
         //WeaponCategory.ENUM_MANAGER.load(CapabilityItem.WeaponCategories.class);
         RegItems.ITEMS.register(bus);
         RegParticle.PARTICLES.register(bus);

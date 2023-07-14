@@ -624,7 +624,6 @@ public class EpicAddonAnimations {
         return Lists.newArrayList(tfs);
     }
 
-
     public static TrailInfo newTF(float start, float end, Joint joint, InteractionHand hand){
         JsonObject je = new JsonObject();
         je.addProperty("joint", joint.getName());
