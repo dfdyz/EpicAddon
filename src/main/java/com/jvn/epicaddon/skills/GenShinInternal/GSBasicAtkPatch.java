@@ -15,10 +15,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
-import yesman.epicfight.skill.Skill;
-import yesman.epicfight.skill.SkillCategories;
-import yesman.epicfight.skill.SkillContainer;
-import yesman.epicfight.skill.SkillDataManager;
+import yesman.epicfight.skill.*;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -60,7 +57,7 @@ public class GSBasicAtkPatch extends Skill {
             CapabilityItem cap = executer.getHoldingItemCapability(InteractionHand.MAIN_HAND);
             StaticAnimation attackMotion = null;
             ServerPlayer player = executer.getOriginal();
-            SkillDataManager dataManager = executer.getSkill(this.category).getDataManager();
+            SkillDataManager dataManager = executer.getSkill(SkillSlots.BASIC_ATTACK).getDataManager();
             int comboCounter = dataManager.getDataValue(COMBO_COUNTER);
             if (player.isPassenger()) {
                 Entity entity = player.getVehicle();

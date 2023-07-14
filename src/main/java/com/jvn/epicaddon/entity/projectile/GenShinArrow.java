@@ -28,6 +28,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -123,7 +124,7 @@ public class GenShinArrow extends Arrow {
                 EntityPatch entityPatch = (EntityPatch) (entity1.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).orElse(null));
                 if(entityPatch instanceof ServerPlayerPatch){
                     ServerPlayerPatch playerPatch = (ServerPlayerPatch) entityPatch;
-                    SkillContainer skill = playerPatch.getSkill(SkillCategories.WEAPON_SPECIAL_ATTACK);
+                    SkillContainer skill = playerPatch.getSkill(SkillSlots.WEAPON_INNATE);
                     //System.out.println("233333");
                     if(skill != null){
                         //System.out.println(skill.getResource());

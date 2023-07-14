@@ -1,39 +1,36 @@
 package com.jvn.epicaddon.api.anim;
 
-import com.jvn.epicaddon.api.anim.fuckAPI.IPatchedState;
-import com.jvn.epicaddon.api.anim.fuckAPI.PatchedStateSpectrum;
 import com.jvn.epicaddon.events.RenderEvent;
 import com.jvn.epicaddon.mixin.PhaseAccessor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.AnimationPlayer;
+import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.JointTransform;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.collider.Collider;
-import yesman.epicfight.api.model.Model;
+import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
-import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 import javax.annotation.Nullable;
 
-public class ScanAttackAnimationEx extends ScanAttackAnimation implements IPatchedState {
-    protected final PatchedStateSpectrum.Blueprint patchedBlueprint = new PatchedStateSpectrum.Blueprint();
-    private final PatchedStateSpectrum patchedState = new PatchedStateSpectrum();
+public class ScanAttackAnimationEx extends ScanAttackAnimation {
     protected SpecialPhase invisiblePhase;
     protected SpecialPhase movablePhase;
 
-    public ScanAttackAnimationEx(float convertTime, float antic,float contact, float recovery, InteractionHand hand, int maxStrikes, @Nullable Collider collider, String scanner, String path, Model model) {
+    public ScanAttackAnimationEx(float convertTime, float antic, float contact, float recovery, InteractionHand hand, int maxStrikes, @Nullable Collider collider, Joint scanner, String path, Armature model) {
         super(convertTime, antic, contact, recovery, hand, maxStrikes, collider, scanner, path, model);
 
-        this.patchedBlueprint.clear();
+        this.stateSpectrumBlueprint.clear();
         for (Phase _phase : phases) {
             PhaseAccessor phase = (PhaseAccessor) _phase;
 
-            this.patchedBlueprint
+            this.stateSpectrumBlueprint
                     .newTimePair(phase.getStart(),antic)
                     .addState(EntityState.PHASE_LEVEL, 1)
                     .newTimePair(phase.getStart(), phase.getContact() + 0.01F)
@@ -65,11 +62,6 @@ public class ScanAttackAnimationEx extends ScanAttackAnimation implements IPatch
     }
 
     @Override
-    public EntityState getPatchedState(float t) {
-        return patchedState.bindStates(t);
-    }
-
-    @Override
     public void tick(LivingEntityPatch<?> entitypatch) {
         super.tick(entitypatch);
         if (entitypatch.isLogicalClient()){
@@ -86,16 +78,10 @@ public class ScanAttackAnimationEx extends ScanAttackAnimation implements IPatch
     }
 
     @Override
-    protected void onLoaded() {
-        super.onLoaded();
-        patchedState.readFrom(patchedBlueprint);
-    }
-
-    @Override
-    protected void modifyPose(Pose pose, LivingEntityPatch<?> entitypatch, float time) {
+    public void modifyPose(DynamicAnimation animation,Pose pose, LivingEntityPatch<?> entitypatch, float time) {
         JointTransform jt = pose.getOrDefaultTransform("Root");
         Vec3f jointPosition = jt.translation();
-        OpenMatrix4f toRootTransformApplied = entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
+        OpenMatrix4f toRootTransformApplied = entitypatch.getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
         OpenMatrix4f toOrigin = OpenMatrix4f.invert(toRootTransformApplied, (OpenMatrix4f)null);
         Vec3f worldPosition = OpenMatrix4f.transform3v(toRootTransformApplied, jointPosition, (Vec3f)null);
         if(movablePhase.isInPhase(time)){
@@ -110,15 +96,14 @@ public class ScanAttackAnimationEx extends ScanAttackAnimation implements IPatch
     }
 
     @Override
-    protected Vec3f getCoordVector(LivingEntityPatch<?> entitypatch, DynamicAnimation dynamicAnimation) {
+    protected Vec3 getCoordVector(LivingEntityPatch<?> entitypatch, DynamicAnimation dynamicAnimation) {
         entitypatch.getOriginal().setDeltaMovement(0,0,0);
         float t = entitypatch.getAnimator().getPlayerFor(this).getElapsedTime();
         if (!movablePhase.isInPhase(t)){
-            return new Vec3f();
+            return Vec3.ZERO;
         }
-        Vec3f vec3f = super.getCoordVector(entitypatch, dynamicAnimation);
-        vec3f.y=0;
-        return vec3f;
+        Vec3 vec3 = super.getCoordVector(entitypatch, dynamicAnimation);
+        return vec3.multiply(1,0,1);
     }
 
     public record SpecialPhase(float start, float end) {

@@ -9,6 +9,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.event.LootTableLoadEvent;
+import yesman.epicfight.world.item.EpicFightItems;
 
 public class EpicAddonLootTables {
 	public static void modifyVanillaLootPools(final LootTableLoadEvent event) {
@@ -16,11 +17,11 @@ public class EpicAddonLootTables {
 		
     	if (event.getName().equals(BuiltInLootTables.END_CITY_TREASURE)) {
     		event.getTable().addPool(LootPool.lootPool().setRolls(UniformGenerator.between(1.0F, 1.0F))
-					.add(LootItem.lootTableItem(RegItems.SKILLBOOK.get()).setWeight(100).apply(setSkillFunction.builder(RegEpicAddonSkills.SAO_DUALSWORD.toString())))
+					.add(LootItem.lootTableItem(EpicFightItems.SKILLBOOK.get()).setWeight(100).apply(setSkillFunction.builder("sao_dual_sword_skill")))
 					.build());
 
 			event.getTable().addPool(LootPool.lootPool().setRolls(UniformGenerator.between(1.0F, 1.0F))
-					.add(LootItem.lootTableItem(RegItems.SKILLBOOK.get()).setWeight(100).apply(setSkillFunction.builder(RegEpicAddonSkills.SAO_RAPIER_A.toString())))
+					.add(LootItem.lootTableItem(EpicFightItems.SKILLBOOK.get()).setWeight(100).apply(setSkillFunction.builder("sao_rapier_skill")))
 					.build());
     	}
     }

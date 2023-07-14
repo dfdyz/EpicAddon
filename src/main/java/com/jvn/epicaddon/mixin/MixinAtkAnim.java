@@ -12,15 +12,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
-import yesman.epicfight.api.client.model.ClientModels;
-import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
-@Mixin(value = StaticAnimation.class, remap = false)
-public abstract class MixinAtkAnim implements IAnimSTOverride {
+//@Mixin(value = StaticAnimation.class, remap = false)
+public abstract class MixinAtkAnim /* implements IAnimSTOverride*/ {
+    /*
     protected Trail trail;
     private boolean colorOverride = false;
     private boolean posOverride = false;
@@ -28,7 +27,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
     private boolean enable = true;
     //private boolean resetGravity = true;
     //private static final StaticAnimation anim = null;
-/*
+
     @Override
     public boolean ShouldResetGravity() {
         return resetGravity;
@@ -39,7 +38,6 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
         this.resetGravity = should;
     }
 
- */
 
     @Override
     public boolean isEnable() {
@@ -163,7 +161,7 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
                     double animid = Double.longBitsToDouble(animation.getId());
                     //System.out.println(String.format("Particle 2(mod=%d, anim=%d, joint=%s)",animation.getNamespaceId(),animation.getId(),jointID));
                     if(jointID == "Tool_R" || jointID == "Tool_L"){
-                        double jointId = Double.longBitsToDouble(entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature().searchPathIndex(jointID));
+                        double jointId = Double.longBitsToDouble(entitypatch.getArmature().searchPathIndex(jointID));
                         entitypatch.getOriginal().level.addParticle(RegParticle.BLADE_TRAIL.get(), eid, modid, animid, jointId, jointID == "Tool_R" ? -1:1, 0);
                     }
                     else {
@@ -177,4 +175,5 @@ public abstract class MixinAtkAnim implements IAnimSTOverride {
             }
         }
     }
+    */
 }

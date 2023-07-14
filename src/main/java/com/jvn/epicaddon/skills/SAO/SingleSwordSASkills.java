@@ -3,8 +3,10 @@ package com.jvn.epicaddon.skills.SAO;
 import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.jvn.epicaddon.resources.EpicAddonSkillSlots;
 import com.jvn.epicaddon.skills.IMutiSpecialSkill;
 import com.jvn.epicaddon.skills.SAOInternal.MutiSpecialSkill;
+import com.jvn.epicaddon.utils.SkillUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -12,6 +14,7 @@ import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.utils.AttackResult;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.skill.*;
+import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.entity.eventlistener.PlayerEventListener;
@@ -19,7 +22,7 @@ import yesman.epicfight.world.entity.eventlistener.PlayerEventListener;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class SingleSwordSASkills extends SpecialAttackSkill implements IMutiSpecialSkill {
+public class SingleSwordSASkills extends WeaponInnateSkill implements IMutiSpecialSkill {
     private final ArrayList<ResourceLocation> noPower = new ArrayList<>();
     private final ArrayList<ResourceLocation> morePower = new ArrayList<>();
     public static final SkillDataManager.SkillDataKey<Boolean> Invincible = SkillDataManager.SkillDataKey.createDataKey(SkillDataManager.ValueType.BOOLEAN);;
@@ -40,14 +43,14 @@ public class SingleSwordSASkills extends SpecialAttackSkill implements IMutiSpec
     }
 
     public static Skill.Builder<SingleSwordSASkills> createBuilder(ResourceLocation resourceLocation) {
-        return (new Skill.Builder<SingleSwordSASkills>(resourceLocation)).setCategory(SkillCategories.WEAPON_SPECIAL_ATTACK).setResource(Resource.SPECIAL_GAUAGE);
+        return (new Skill.Builder<SingleSwordSASkills>()).setRegistryName(resourceLocation).setResource(Resource.WEAPON_INNATE_ENERGY);
     }
 
     @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
         container.getExecuter().getSkillCapability()
-                .skillContainers[EpicAddonSkillCategories.MutiSpecialAttack.universalOrdinal()]
+                .skillContainers[EpicAddonSkillSlots.SKILL_SELECTOR.universalOrdinal()]
                 .setSkill(RegEpicAddonSkills.MUTI_SPECIAL_ATTACK);
 
         container.getDataManager().registerData(Invincible);
@@ -55,7 +58,7 @@ public class SingleSwordSASkills extends SpecialAttackSkill implements IMutiSpec
 
         container.getExecuter().getEventListener().addEventListener(PlayerEventListener.EventType.HURT_EVENT_PRE,EventUUID, (e)->{
             PlayerPatch playerPatch = e.getPlayerPatch();
-            SkillContainer sc = playerPatch.getSkill(SkillCategories.WEAPON_SPECIAL_ATTACK);
+            SkillContainer sc = playerPatch.getSkill(SkillSlots.WEAPON_INNATE);
             if(sc != null){
                 boolean inv = sc.getDataManager().getDataValue(Invincible);
                 if(inv){
@@ -77,29 +80,29 @@ public class SingleSwordSASkills extends SpecialAttackSkill implements IMutiSpec
     public boolean canExecute(PlayerPatch<?> executer) {
         if (executer.isLogicalClient()) {
             boolean ok = false;
-            SkillContainer skillContainer = executer.getSkill(this.category);
-            int selected = executer.getSkill(EpicAddonSkillCategories.MutiSpecialAttack).getDataManager().getDataValue(MutiSpecialSkill.CHILD_SKILL_INDEX);
+            SkillContainer skillContainer = executer.getSkill(SkillSlots.WEAPON_INNATE);
+            int selected = executer.getSkill(EpicAddonSkillSlots.SKILL_SELECTOR).getDataManager().getDataValue(MutiSpecialSkill.CHILD_SKILL_INDEX);
 
             ok = skillContainer.getStack() > (selected == 0 ? 0:1);
 
             return ok || (executer.getOriginal()).isCreative();
         } else {
-            return executer.getHoldingItemCapability(InteractionHand.MAIN_HAND).getSpecialAttack(executer) == this && (executer.getOriginal()).getVehicle() == null && (!executer.getSkill(this.category).isActivated() || this.activateType == ActivateType.TOGGLE);
+            return SkillUtils.getMainHandSkill(executer) == this && (executer.getOriginal()).getVehicle() == null && (!executer.getSkill(SkillSlots.WEAPON_INNATE).isActivated() || this.activateType == ActivateType.TOGGLE);
         }
     }
 
     @Override
     public void executeOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {
-        SkillContainer skill = executer.getSkill(this.category);
-        int selected = executer.getSkill(EpicAddonSkillCategories.MutiSpecialAttack).getDataManager().getDataValue(MutiSpecialSkill.CHILD_SKILL_INDEX);
+        SkillContainer skill = executer.getSkill(SkillSlots.WEAPON_INNATE);
+        int selected = executer.getSkill(EpicAddonSkillSlots.SKILL_SELECTOR).getDataManager().getDataValue(MutiSpecialSkill.CHILD_SKILL_INDEX);
 
         if(selected == 0){
             executer.playAnimationSynchronized(this.noPowerAnimation1, 0.0F);
-            this.setStackSynchronize(executer, executer.getSkill(this.category).getStack() - 1);
+            this.setStackSynchronize(executer, executer.getSkill(SkillSlots.WEAPON_INNATE).getStack() - 1);
         }
         else {
             executer.playAnimationSynchronized(this.morePowerAnimation1, 0.0F);
-            this.setStackSynchronize(executer, executer.getSkill(this.category).getStack() - 1);
+            this.setStackSynchronize(executer, executer.getSkill(SkillSlots.WEAPON_INNATE).getStack() - 1);
         }
 
         this.setDurationSynchronize(executer, this.maxDuration);
@@ -108,7 +111,7 @@ public class SingleSwordSASkills extends SpecialAttackSkill implements IMutiSpec
 
 
     @Override
-    public SpecialAttackSkill registerPropertiesToAnimation() {
+    public WeaponInnateSkill registerPropertiesToAnimation() {
         return this;
     }
 

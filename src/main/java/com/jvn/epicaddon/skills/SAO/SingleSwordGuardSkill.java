@@ -10,18 +10,17 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import yesman.epicfight.api.animation.types.StaticAnimation;
-import yesman.epicfight.api.utils.ExtendedDamageSource;
 import yesman.epicfight.gameasset.Animations;
-import yesman.epicfight.skill.GuardSkill;
 import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.guard.GuardSkill;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.entity.eventlistener.PlayerEventListener;
 
 import java.util.List;
 
-public class SingleSwordGuardSkill extends GuardSkill {
-
+public class SingleSwordGuardSkill /*extends GuardSkill*/ {
+/*
     public static GuardSkill.Builder createBuilder(ResourceLocation resourceLocation) {
         return GuardSkill.createBuilder(resourceLocation)
                 .addAdvancedGuardMotion(CapabilityItem.WeaponCategories.SWORD,
@@ -115,6 +114,6 @@ public class SingleSwordGuardSkill extends GuardSkill {
         list.add(String.format("%s ",CapabilityItem.WeaponCategories.SWORD).toLowerCase());
         return list;
     }
-
+*/
 
 }

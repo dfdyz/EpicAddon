@@ -22,8 +22,8 @@
       "armor_negation":30.0,
       "impact":2.0,
       "max_strikes":4,
-      "speed_bonus":-0.8,
-      "damage_bonus": 2.0
+      "speed_bonus":2.5,
+      "damage_bonus": 0
     },
     "sao_dual_sword_locked":
     {

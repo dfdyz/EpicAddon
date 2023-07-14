@@ -2,7 +2,7 @@ package com.jvn.epicaddon.skills.GenShin;
 
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import net.minecraft.resources.ResourceLocation;
-import yesman.epicfight.skill.PassiveSkill;
+import yesman.epicfight.skill.passive.PassiveSkill;
 import yesman.epicfight.skill.Skill;
 
 public class Yoimiya extends PassiveSkill {
@@ -13,7 +13,7 @@ public class Yoimiya extends PassiveSkill {
     }
 
     public static Skill.Builder<PassiveSkill> createBuilder(ResourceLocation resourceLocation) {
-        return (new Skill.Builder<PassiveSkill>(resourceLocation)).setCategory(EpicAddonSkillCategories.GEN_SHIN_IMPACT_BOW).setConsumption(0.0F).setMaxStack(0).setResource(Skill.Resource.NONE).setRequiredXp(0);
+        return (new Skill.Builder<PassiveSkill>()).setCategory(EpicAddonSkillCategories.GEN_SHIN_IMPACT_BOW).setResource(Skill.Resource.NONE);
     }
 
 }

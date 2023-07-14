@@ -11,13 +11,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import yesman.epicfight.gameasset.Skills;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.world.item.SkillBookItem;
 
 import java.util.List;
 
-public class CustomSkillBook extends SkillBookItem {
+public class CustomSkillBook /*extends SkillBookItem*/ {
+    /*
     public CustomSkillBook(Properties properties) {
         super(properties);
     }
@@ -46,4 +46,6 @@ public class CustomSkillBook extends SkillBookItem {
             }
         }
     }
+
+     */
 }

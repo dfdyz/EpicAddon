@@ -146,21 +146,6 @@ public class PostEffectEvent {
     }
 
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onEntityRender(RenderLivingEvent event){ //dmc animation invisible
-        LivingEntity le = event.getEntity();
-
-        LivingEntityPatch ep = (LivingEntityPatch) le.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY, null).orElse(null);
-
-        //if(ep)
-
-    }
-
-
-
-
-
-
 
 
 

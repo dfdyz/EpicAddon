@@ -1,8 +1,7 @@
 package com.jvn.epicaddon.skills.SAOInternal;
 
-import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
-import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.jvn.epicaddon.resources.EpicAddonSkillSlots;
 import com.jvn.epicaddon.skills.IMutiSpecialSkill;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -12,16 +11,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import yesman.epicfight.api.animation.types.StaticAnimation;
-import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.client.gui.BattleModeGui;
 import yesman.epicfight.client.gui.ModIngameGui;
 import yesman.epicfight.skill.*;
-import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.skill.passive.PassiveSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 import java.util.ArrayList;
-import java.util.function.Function;
 
 public class MutiSpecialSkill extends PassiveSkill {
     public static final SkillDataManager.SkillDataKey<Integer> CHILD_SKILL_INDEX = SkillDataManager.SkillDataKey.createDataKey(SkillDataManager.ValueType.INTEGER);;
@@ -31,7 +27,7 @@ public class MutiSpecialSkill extends PassiveSkill {
     }
 
     public void RollSelect(ServerPlayerPatch playerPatch, int dir){
-        SkillContainer container = playerPatch.getSkill(category);
+        SkillContainer container = playerPatch.getSkill(EpicAddonSkillSlots.SKILL_SELECTOR);
         SkillDataManager datas = container.getDataManager();
         if(!datas.hasData(CHILD_SKILL_INDEX)){
             datas.registerData(CHILD_SKILL_INDEX);
@@ -56,20 +52,20 @@ public class MutiSpecialSkill extends PassiveSkill {
 
     @OnlyIn(Dist.CLIENT)
     public boolean shouldDraw(SkillContainer container) {
-        SkillContainer sa = container.getExecuter().getSkill(SkillCategories.WEAPON_SPECIAL_ATTACK);
+        SkillContainer sa = container.getExecuter().getSkill(SkillSlots.WEAPON_INNATE);
         //System.out.println(sa != null && sa.getSkill() instanceof IMutiSpecialSkill);
         return sa != null && sa.getSkill() instanceof IMutiSpecialSkill;
     }
 
     protected IMutiSpecialSkill getSAInstance(SkillContainer container){
-        Skill sa = container.getExecuter().getSkill(SkillCategories.WEAPON_SPECIAL_ATTACK).getSkill();
+        Skill sa = container.getExecuter().getSkill(SkillSlots.WEAPON_INNATE).getSkill();
         if(sa != null && sa instanceof IMutiSpecialSkill) return (IMutiSpecialSkill) sa;
         else return null;
     }
 
     @OnlyIn(Dist.CLIENT)
     public void drawOnGui(BattleModeGui gui, SkillContainer container, PoseStack matStackIn, float _x, float _y, float _scale, int width, int height) {
-        Skill sa = container.getExecuter().getSkill(SkillCategories.WEAPON_SPECIAL_ATTACK).getSkill();
+        Skill sa = container.getExecuter().getSkill(SkillSlots.WEAPON_INNATE).getSkill();
         //EpicAddon.LOGGER.info("?????");
         if(sa == null) return;
         //EpicAddon.LOGGER.info("11111");

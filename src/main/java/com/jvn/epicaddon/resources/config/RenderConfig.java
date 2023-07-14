@@ -14,11 +14,12 @@ import java.util.function.Function;
 
 
 public class RenderConfig {
-    public static Map<String, Trail> TrailItem = Maps.newHashMap();
-    public static final Map<String, Function<ItemStack,Trail>> SpecialTrailItem = Maps.newHashMap();
+    //public static Map<String, Trail> TrailItem = Maps.newHashMap();
+    //public static final Map<String, Function<ItemStack,Trail>> SpecialTrailItem = Maps.newHashMap();
     public static Map<String, HealthBarStyle> HealthBarEntity = Maps.newHashMap();
 
     static {
+        /*
         TrailItem.put("minecraft:diamond_sword",new  Trail(0,0,-0.1f,0,0,-1.0f,0,249,255,140));
         TrailItem.put("minecraft:golden_sword",new  Trail(0,0,-0.1f,0,0,-1.0f,255,255,51,140));
 
@@ -32,12 +33,16 @@ public class RenderConfig {
         TrailItem.put("epicfight:netherite_greatsword",new Trail(0,0,-0.17f,0,-0f,-2.15f,138,4,226,180));
         TrailItem.put("epicaddon:destiny",new Trail(0,0,-0.23f,0,0,-2.25f,255,255,51,180));
 
+         */
+        /*
         AddSpecial("epicaddon:destiny",(stack)->{
             if(DestinyWeaponItem.getType(stack) == DestinyWeaponItem.types[1]){
                 return null;
             }
             else return getItemTrailRaw("epicaddon:destiny");
         });
+
+         */
     }
 
     public static void AddDeathParticleConfig(EntityType type, DeathParticleHandler.ParticleTransform transform){
@@ -62,13 +67,16 @@ public class RenderConfig {
     }
 
     public static void AddSpecial(String id,Function<ItemStack,Trail> func){
-        SpecialTrailItem.put(id,func);
+        //SpecialTrailItem.put(id,func);
     }
 
+    /*
     public static Trail getItemTrailRaw(String n){
         return TrailItem.get(n);
     }
+    */
 
+    /*
     public static Trail getItemTrail(ItemStack itemStack){
         if(itemStack.isEmpty()) return null;
         String n = itemStack.getItem().getRegistryName().toString();
@@ -76,6 +84,8 @@ public class RenderConfig {
         if(getter != null) return getter.apply(itemStack);
         else return getItemTrailRaw(n);
     }
+
+     */
 
     public static void AddHealthBarStyle(EntityType entity,HealthBarStyle healthBarStyle){
         HealthBarEntity.put(entity.getRegistryName().toString(),healthBarStyle);
@@ -109,8 +119,5 @@ public class RenderConfig {
         AddHealthBarStyle(EntityType.TURTLE, new HealthBarStyle(1.08f,1,0.7f,110f));
         AddHealthBarStyle(EntityType.WITHER, new HealthBarStyle(1.0f,1,0.5f,110f));
         AddHealthBarStyle(EntityType.CHICKEN, new HealthBarStyle(0.78f,1,0.48f,100f));
-
-
-
     }
 }

@@ -55,6 +55,7 @@ public class RegModels {
                 return p_174632_ != null && p_174632_.isUsingItem() && p_174632_.getUseItem() == p_174630_ ? 1.0F : 0.0F;
             });
 
+            /*
             ItemProperties.register(RegItems.SKILLBOOK.get(), new ResourceLocation(EpicAddon.MODID,"skill"), (p_174630_, p_174631_, p_174632_, p_174633_) -> {
                 Skill skill = SkillBookItem.getContainSkill(p_174630_);
 
@@ -68,6 +69,7 @@ public class RegModels {
 
                 return 0;
             });
+             */
         });
     }
 

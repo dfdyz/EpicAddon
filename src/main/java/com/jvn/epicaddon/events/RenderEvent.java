@@ -19,6 +19,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -123,8 +124,10 @@ public class RenderEvent {
     public static void renderLivingEntity(RenderLivingEvent.Pre event) {
         LivingEntity entity = event.getEntity();
 
+
         if(SkipToRender.contains(entity)){
             event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
         }
     }
 }

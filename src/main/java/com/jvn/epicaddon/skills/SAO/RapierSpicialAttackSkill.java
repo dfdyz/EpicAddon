@@ -2,19 +2,22 @@ package com.jvn.epicaddon.skills.SAO;
 
 import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.jvn.epicaddon.resources.EpicAddonSkillSlots;
 import com.jvn.epicaddon.skills.IMutiSpecialSkill;
 import com.jvn.epicaddon.skills.SAOInternal.MutiSpecialSkill;
+import com.jvn.epicaddon.utils.SkillUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.skill.*;
+import yesman.epicfight.skill.weaponinnate.WeaponInnateSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 import java.util.ArrayList;
 
-public class RapierSpicialAttackSkill extends SpecialAttackSkill implements IMutiSpecialSkill {
+public class RapierSpicialAttackSkill extends WeaponInnateSkill implements IMutiSpecialSkill {
     private final ArrayList<ResourceLocation> childSkills = new ArrayList<>();
     private final ArrayList<ResourceLocation> childSkills2 = new ArrayList<>();
     private final StaticAnimation Normal;
@@ -32,28 +35,23 @@ public class RapierSpicialAttackSkill extends SpecialAttackSkill implements IMut
     }
 
     public static Builder createBuilder(ResourceLocation resourceLocation) {
-        return (new Builder(resourceLocation)).setCategory(SkillCategories.WEAPON_SPECIAL_ATTACK).setResource(Resource.SPECIAL_GAUAGE);
+        return (new Builder(resourceLocation)).setCategory(SkillSlots.WEAPON_INNATE.category()).setResource(Skill.Resource.STAMINA);
     }
 
     @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
         container.getExecuter().getSkillCapability()
-                .skillContainers[EpicAddonSkillCategories.MutiSpecialAttack.universalOrdinal()]
+                .skillContainers[EpicAddonSkillSlots.SKILL_SELECTOR.universalOrdinal()]
                 .setSkill(RegEpicAddonSkills.MUTI_SPECIAL_ATTACK);
-    }
-
-    @Override
-    public SpecialAttackSkill registerPropertiesToAnimation() {
-        return null;
     }
 
     @Override
     public boolean canExecute(PlayerPatch<?> executer) {
         if (executer.isLogicalClient()) {
             boolean ok = false;
-            SkillContainer skillContainer = executer.getSkill(this.category);
-            int selected = executer.getSkill(EpicAddonSkillCategories.MutiSpecialAttack).getDataManager().getDataValue(MutiSpecialSkill.CHILD_SKILL_INDEX);
+            SkillContainer skillContainer = executer.getSkill(SkillSlots.WEAPON_INNATE);
+            int selected = executer.getSkill(EpicAddonSkillSlots.SKILL_SELECTOR).getDataManager().getDataValue(MutiSpecialSkill.CHILD_SKILL_INDEX);
 
             if(!executer.getOriginal().isSprinting()){
                 ok = skillContainer.getStack() > (selected == 0 ? 1:0);
@@ -64,28 +62,34 @@ public class RapierSpicialAttackSkill extends SpecialAttackSkill implements IMut
 
             return ok || (executer.getOriginal()).isCreative();
         } else {
-            return executer.getHoldingItemCapability(InteractionHand.MAIN_HAND).getSpecialAttack(executer) == this && (executer.getOriginal()).getVehicle() == null && (!executer.getSkill(this.category).isActivated() || this.activateType == ActivateType.TOGGLE);
+            return SkillUtils.getMainHandSkill(executer) == this && (executer.getOriginal()).getVehicle() == null && (!executer.getSkill(SkillSlots.WEAPON_INNATE).isActivated() || this.activateType == ActivateType.TOGGLE);
         }
     }
 
     @Override
+    public WeaponInnateSkill registerPropertiesToAnimation() {
+        return this;
+    }
+
+
+    @Override
     public void executeOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {
-        SkillContainer skill = executer.getSkill(this.category);
-        int selected = executer.getSkill(EpicAddonSkillCategories.MutiSpecialAttack).getDataManager().getDataValue(MutiSpecialSkill.CHILD_SKILL_INDEX);
+        SkillContainer skill = executer.getSkill(SkillSlots.WEAPON_INNATE);
+        int selected = executer.getSkill(EpicAddonSkillSlots.SKILL_SELECTOR).getDataManager().getDataValue(MutiSpecialSkill.CHILD_SKILL_INDEX);
 
 
         if (executer.getOriginal().isSprinting()){
             executer.playAnimationSynchronized(this.OnRun, 0.0F);
-            this.setStackSynchronize(executer, executer.getSkill(this.category).getStack() - 1);
+            this.setStackSynchronize(executer, executer.getSkill(SkillSlots.WEAPON_INNATE).getStack() - 1);
         }
         else {
             if(selected == 0){
                 executer.playAnimationSynchronized(this.Normal, 0.0F);
-                this.setStackSynchronize(executer, executer.getSkill(this.category).getStack() - 2);
+                this.setStackSynchronize(executer, executer.getSkill(SkillSlots.WEAPON_INNATE).getStack() - 2);
             }
             else {
                 executer.playAnimationSynchronized(this.OnRun, 0.0F);
-                this.setStackSynchronize(executer, executer.getSkill(this.category).getStack() - 1);
+                this.setStackSynchronize(executer, executer.getSkill(SkillSlots.WEAPON_INNATE).getStack() - 1);
             }
         }
         this.setDurationSynchronize(executer, this.maxDuration);
@@ -105,12 +109,12 @@ public class RapierSpicialAttackSkill extends SpecialAttackSkill implements IMut
         boolean c = executer.getOriginal().isCreative();
         if(!executer.getOriginal().isSprinting()){
             if(idx == 0){
-                return (executer.getSkill(this.category).getStack() > 1 || c);
+                return (executer.getSkill(SkillSlots.WEAPON_INNATE).getStack() > 1 || c);
             }
-            return (executer.getSkill(this.category).getStack() > 0 || c);
+            return (executer.getSkill(SkillSlots.WEAPON_INNATE).getStack() > 0 || c);
         }
         else{
-            return (executer.getSkill(this.category).getStack() > 0 || c);
+            return (executer.getSkill(SkillSlots.WEAPON_INNATE).getStack() > 0 || c);
         }
     }
 
@@ -120,8 +124,9 @@ public class RapierSpicialAttackSkill extends SpecialAttackSkill implements IMut
         protected StaticAnimation attackAnimation2;
 
         public Builder(ResourceLocation resourceLocation) {
-            super(resourceLocation);
-            this.maxStack = 3;
+            super();
+            this.registryName = resourceLocation;
+            //this.maxStack = 3;
         }
 
         public Builder setCategory(SkillCategory category) {
@@ -129,23 +134,8 @@ public class RapierSpicialAttackSkill extends SpecialAttackSkill implements IMut
             return this;
         }
 
-        public Builder setConsumption(float consumption) {
-            this.consumption = consumption;
-            return this;
-        }
-
         public Builder setMaxDuration(int maxDuration) {
-            this.maxDuration = maxDuration;
-            return this;
-        }
-
-        public Builder setMaxStack(int maxStack) {
-            this.maxStack = maxStack;
-            return this;
-        }
-
-        public Builder setRequiredXp(int requiredXp) {
-            this.requiredXp = requiredXp;
+            //this.maxDuration = maxDuration;
             return this;
         }
 

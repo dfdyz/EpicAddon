@@ -5,31 +5,31 @@ import yesman.epicfight.skill.SkillCategory;
 public enum EpicAddonSkillCategories implements SkillCategory {
     SAO_SINGLE_SWORD(true,true,true),
     GEN_SHIN_IMPACT_BOW(true,true,true),
-    MutiSpecialAttack(false, true, true);
+    MutiSpecialAttack(true, true, false);
 
     boolean shouldSaved;
     boolean shouldSyncronized;
-    boolean modifiable;
+    boolean learnable;
     int id;
 
-    EpicAddonSkillCategories(boolean shouldSave, boolean shouldSyncronized, boolean modifiable) {
+    EpicAddonSkillCategories(boolean shouldSave, boolean shouldSyncronized, boolean learnable) {
         this.shouldSaved = shouldSave;
         this.shouldSyncronized = shouldSyncronized;
-        this.modifiable = modifiable;
+        this.learnable = learnable;
         this.id = this.ENUM_MANAGER.assign(this);
     }
 
     @Override
-    public boolean shouldSaved() {
+    public boolean shouldSave() {
         return this.shouldSaved;
     }
     @Override
-    public boolean shouldSynchronized() {
+    public boolean shouldSynchronize() {
         return this.shouldSyncronized;
     }
     @Override
     public boolean learnable() {
-        return this.modifiable;
+        return this.learnable;
     }
     @Override
     public int universalOrdinal() {

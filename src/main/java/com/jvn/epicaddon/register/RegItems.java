@@ -1,7 +1,6 @@
 package com.jvn.epicaddon.register;
 
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.item.CustomSkillBook;
 import com.jvn.epicaddon.item.Destiny.DestinyWeaponItem;
 import com.jvn.epicaddon.item.GenShinImpact.BowWeaponItem;
 import com.jvn.epicaddon.item.SAO.DarkRepulsorItem;
@@ -15,8 +14,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import yesman.epicfight.world.item.EpicFightItemGroup;
-import yesman.epicfight.world.item.SkillBookItem;
 
 public class RegItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, EpicAddon.MODID);
@@ -37,7 +34,7 @@ public class RegItems {
     public static final RegistryObject<Item> BattleScythe = ITEMS.register("battle_scythe", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
     public static final RegistryObject<Item> Destiny = ITEMS.register("destiny", () -> new DestinyWeaponItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS)));
     //public static final RegistryObject<Item> SR_BaseBallBat = ITEMS.register("sr_baseball_bat", () -> new SingelSwordItem(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), EpicAddonTier.SAO_IRON,8));
-    public static final RegistryObject<Item> SKILLBOOK = ITEMS.register("custom_skillbook", () -> new CustomSkillBook(new Item.Properties().tab(EpicAddonItemGroup.ITEMS).rarity(Rarity.RARE).stacksTo(1)));
+    //public static final RegistryObject<Item> SKILLBOOK = ITEMS.register("custom_skillbook", () -> new CustomSkillBook(new Item.Properties().tab(EpicAddonItemGroup.ITEMS).rarity(Rarity.RARE).stacksTo(1)));
     //mtllib battle_scythe.mtl
 
     //public static final RegistryObject<Item> SteelSword = ITEMS.register("steel_sword", () -> new SteelSword(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), Tiers.NETHERITE));

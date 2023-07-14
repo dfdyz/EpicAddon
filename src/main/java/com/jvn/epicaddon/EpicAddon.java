@@ -4,10 +4,7 @@ import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.events.ControllerEvent;
 import com.jvn.epicaddon.network.EpicaddonNetMgr;
 import com.jvn.epicaddon.register.*;
-import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
-import com.jvn.epicaddon.resources.EpicAddonAnimations;
-import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
-import com.jvn.epicaddon.resources.EpicAddonStyles;
+import com.jvn.epicaddon.resources.*;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.api.distmarker.Dist;
@@ -41,13 +38,18 @@ public class EpicAddon
         bus.addListener(this::setupCommon);
         bus.addListener(this::initPostEffect);
         bus.addListener(EpicAddonAnimations::registerAnimations);
-        bus.addListener(RegEpicAddonSkills::registerSkills);
         bus.addListener(RegWeaponItemCap::register);
+
+
         //bus.addListener(RegModels::RegItemModelOverride);
         //bus.addListener(RegModels::RegItemEFMRenderer);
 
         EpicAddonSkillCategories.ENUM_MANAGER.loadPreemptive(EpicAddonSkillCategories.class);
         EpicAddonStyles.ENUM_MANAGER.loadPreemptive(EpicAddonStyles.class);
+        EpicAddonSkillSlots.ENUM_MANAGER.loadPreemptive(EpicAddonSkillSlots.class);
+        RegWeaponItemCap.EpicAddonWeaponCategories.ENUM_MANAGER.loadPreemptive(RegWeaponItemCap.EpicAddonWeaponCategories.class);
+
+
         //WeaponCategory.ENUM_MANAGER.load(CapabilityItem.WeaponCategories.class);
         RegItems.ITEMS.register(bus);
         RegParticle.PARTICLES.register(bus);

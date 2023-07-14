@@ -29,6 +29,9 @@
 
   "skill.epicfight.sao_single_sword.category": "SINGLE SWORD",
 
+  "epicfight.skill_slot.sao_single_sword": "SINGLE SWORD SYSTEM",
+
+
   "key.epicaddon.gui": "EFM ACG AddonPack",
   "key.epicaddon.switch_skill": "SkillSwitching(Hold and Rolling the mid button)"
 }

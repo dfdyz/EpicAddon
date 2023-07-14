@@ -32,8 +32,9 @@ import java.nio.Buffer;
 import static com.jvn.epicaddon.renderer.EpicAddonRenderType.BladeTrailDefaultTexture;
 import static net.minecraft.client.gui.components.AbstractWidget.WIDGETS_LOCATION;
 
-@Mixin(value = Gui.class)
+//@Mixin(value = Gui.class)
 public abstract class MixinGUI extends GuiComponent{
+   /*
     @Shadow
     int screenWidth;
     @Shadow
@@ -50,7 +51,7 @@ public abstract class MixinGUI extends GuiComponent{
         //todo
 
         //if(!ClientConfig.cfg.EnableOptFineMode) return;
-/*
+
         Player player = this.getCameraPlayer();
         if (player != null) {
 
@@ -58,10 +59,6 @@ public abstract class MixinGUI extends GuiComponent{
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, BladeTrailDefaultTexture);
 
-
-             */
-
-            /*
             int i = this.screenWidth / 2;
             int j = this.getBlitOffset();
             int k = 182;
@@ -117,11 +114,10 @@ public abstract class MixinGUI extends GuiComponent{
 
             RenderSystem.disableBlend();
         }
-*/
+
         //cbi.cancel();
     }
-
-
+*/
 
 
 

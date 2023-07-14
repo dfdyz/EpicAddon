@@ -1,11 +1,9 @@
 package com.jvn.epicaddon.skills.SAO;
 
-import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import net.minecraft.resources.ResourceLocation;
-import yesman.epicfight.skill.PassiveSkill;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillCategory;
-import yesman.epicfight.world.capabilities.item.WeaponCategory;
+import yesman.epicfight.skill.passive.PassiveSkill;
 
 public class TagSkill extends PassiveSkill {
     //private static float OrgStunShield = 0.0f;
@@ -15,7 +13,6 @@ public class TagSkill extends PassiveSkill {
     }
 
     public static Skill.Builder<TagSkill> createBuilder(ResourceLocation resourceLocation, SkillCategory category) {
-        return (new Skill.Builder<TagSkill>(resourceLocation)).setCategory(category).setConsumption(0.0F).setMaxStack(0).setResource(Resource.NONE).setRequiredXp(0).setActivateType(ActivateType.PASSIVE);
+        return (new Skill.Builder<TagSkill>()).setCategory(category).setResource(Resource.NONE).setActivateType(ActivateType.PASSIVE);
     }
-
 }

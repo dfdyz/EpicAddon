@@ -1,6 +1,5 @@
 package com.jvn.epicaddon.mixin;
 
-import com.jvn.epicaddon.api.anim.fuckAPI.IPatchedState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -8,8 +7,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 
-@Mixin(value = StaticAnimation.class, remap = false, priority = 0)
+//@Mixin(value = StaticAnimation.class, remap = false, priority = 0)
 public abstract class MixinAtkAnimCommon {
+    /*
     @Inject(
             method = {"getState"},
             at = @At("HEAD"),
@@ -20,5 +20,5 @@ public abstract class MixinAtkAnimCommon {
             cir.setReturnValue(((IPatchedState)this).getPatchedState(time));
             cir.cancel();
         }
-    }
+    }*/
 }

@@ -47,6 +47,7 @@ public class CmdMgr {
                             MSGClient("[EpicAddon]Reload All Config.");
                             return Command.SINGLE_SUCCESS;
                         }))
+                /*
                 .then(Commands.literal("SwordTrail")
                         .executes(context -> {
                             MSGClient("[EpicAddon]SwordTrail Render: " + ClientConfig.cfg.EnableSwordTrail);
@@ -66,9 +67,10 @@ public class CmdMgr {
                                     MSGClient("[EpicAddon]Disabled Sword Trail Render.");
                                     return Command.SINGLE_SUCCESS;
                                 })))
+                 */
                 .then(Commands.literal("DeathParticle")
                         .executes(context -> {
-                            MSGClient("[EpicAddon]DeathParticle: " + ClientConfig.cfg.EnableSwordTrail);
+                            MSGClient("[EpicAddon]DeathParticle: " + ClientConfig.cfg.EnableDeathParticle);
                             return Command.SINGLE_SUCCESS;
                         })
                         .then(Commands.literal("true")
@@ -144,6 +146,7 @@ public class CmdMgr {
                                 )
                         )
                 )
+                /*
                 .then(Commands.literal("OptFineMode")
                         .executes(context -> {
                             MSGClient("[EpicAddon]OptFineMode: " + ClientConfig.cfg.EnableOptFineMode);
@@ -163,6 +166,8 @@ public class CmdMgr {
                                     MSGClient("[EpicAddon]Disabled OptFineMode.");
                                     return Command.SINGLE_SUCCESS;
                                 })))
+
+                 */
         ;
 
 

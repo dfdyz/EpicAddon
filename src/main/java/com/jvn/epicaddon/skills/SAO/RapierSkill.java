@@ -3,7 +3,7 @@ package com.jvn.epicaddon.skills.SAO;
 import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import net.minecraft.resources.ResourceLocation;
-import yesman.epicfight.skill.PassiveSkill;
+import yesman.epicfight.skill.passive.PassiveSkill;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -16,7 +16,7 @@ public class RapierSkill extends PassiveSkill {
     }
 
     public static Builder<PassiveSkill> createBuilder(ResourceLocation resourceLocation) {
-        return (new Builder<PassiveSkill>(resourceLocation)).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setConsumption(0.0F).setMaxStack(0).setResource(Resource.NONE).setRequiredXp(0).setActivateType(ActivateType.PASSIVE);
+        return (new Builder<PassiveSkill>()).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setRegistryName(resourceLocation).setResource(Resource.NONE).setActivateType(ActivateType.PASSIVE);
     }
 
 

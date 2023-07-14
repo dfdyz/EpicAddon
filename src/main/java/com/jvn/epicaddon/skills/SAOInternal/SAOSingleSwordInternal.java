@@ -2,8 +2,9 @@ package com.jvn.epicaddon.skills.SAOInternal;
 
 import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.jvn.epicaddon.resources.EpicAddonSkillSlots;
 import net.minecraft.network.FriendlyByteBuf;
-import yesman.epicfight.gameasset.Skills;
+import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.*;
 import yesman.epicfight.skill.SkillDataManager.SkillDataKey;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
@@ -23,7 +24,7 @@ public class SAOSingleSwordInternal extends Skill {
     @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
-        container.getExecuter().getSkillCapability().skillContainers[SkillCategories.BASIC_ATTACK.universalOrdinal()].setSkill(RegEpicAddonSkills.SAOBasicAtkPatched);
+        container.getExecuter().getSkillCapability().skillContainers[SkillSlots.BASIC_ATTACK.universalOrdinal()].setSkill(RegEpicAddonSkills.SAOBasicAtkPatched);
 
         container.getDataManager().registerData(LOCKED);
         container.getExecuter().getEventListener().addEventListener(PlayerEventListener.EventType.BASIC_ATTACK_EVENT, EVENT_UUID,
@@ -33,7 +34,7 @@ public class SAOSingleSwordInternal extends Skill {
                     ServerPlayerPatch playerPatch = event.getPlayerPatch();
                     float staminaRate = playerPatch.getStamina()/playerPatch.getMaxStamina();
 
-                    if(playerPatch.getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() == RegEpicAddonSkills.SAO_DUALSWORD){
+                    if(playerPatch.getSkill(EpicAddonSkillSlots.SAO_SINGLE_SWORD).getSkill() == RegEpicAddonSkills.SAO_DUALSWORD){
                         container.getDataManager().setData(LOCKED, staminaRate < 0.5f);
                     }
                 });
@@ -43,7 +44,7 @@ public class SAOSingleSwordInternal extends Skill {
     public void onRemoved(SkillContainer container) {
         super.onRemoved(container);
         container.getExecuter().getEventListener().removeListener(PlayerEventListener.EventType.ACTION_EVENT_SERVER, EVENT_UUID);
-        container.getExecuter().getSkillCapability().skillContainers[SkillCategories.BASIC_ATTACK.universalOrdinal()].setSkill(Skills.BASIC_ATTACK);
+        container.getExecuter().getSkillCapability().skillContainers[SkillSlots.BASIC_ATTACK.universalOrdinal()].setSkill(EpicFightSkills.BASIC_ATTACK);
     }
 
     @Override

@@ -8,22 +8,25 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import yesman.epicfight.api.animation.JointTransform;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
-import yesman.epicfight.api.animation.types.*;
-import yesman.epicfight.api.client.animation.ClientAnimationProperties;
+import yesman.epicfight.api.animation.types.ActionAnimation;
+import yesman.epicfight.api.animation.types.DynamicAnimation;
+import yesman.epicfight.api.animation.types.LinkAnimation;
+import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.Layer;
-import yesman.epicfight.api.model.Model;
+import yesman.epicfight.api.client.animation.property.ClientAnimationProperties;
+import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
 import yesman.epicfight.client.ClientEngine;
-import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 public class FallAtkStartAnim extends ActionAnimation {
     public StaticAnimation Loop;
-    public FallAtkStartAnim(float convertTime, String path, Model model, StaticAnimation Loop){
+    public FallAtkStartAnim(float convertTime, String path, Armature model, StaticAnimation Loop){
         super(convertTime, path, model);
         this.Loop = Loop;
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, false);
@@ -41,7 +44,7 @@ public class FallAtkStartAnim extends ActionAnimation {
         if (!entitypatch.isLogicalClient()){
             if(entitypatch instanceof ServerPlayerPatch){
                 ServerPlayerPatch spp = (ServerPlayerPatch) entitypatch;
-                SkillContainer container = spp.getSkill(SkillCategories.AIR_ATTACK);
+                SkillContainer container = spp.getSkill(SkillSlots.AIR_ATTACK);
                 if(container.getSkill() == RegEpicAddonSkills.GS_Bow_FallAttackPatch){
                     if(!container.getDataManager().hasData(GSFallAttack.FALL_STATE)){
                         container.getDataManager().registerData(GSFallAttack.FALL_STATE);
@@ -53,15 +56,6 @@ public class FallAtkStartAnim extends ActionAnimation {
         }
     }
 
-    @Override
-    public void linkTick(LivingEntityPatch<?> entitypatch, LinkAnimation linkAnimation) {
-        super.linkTick(entitypatch, linkAnimation);
-        if(entitypatch.isLogicalClient()){
-            if(entitypatch.getOriginal() == Minecraft.getInstance().player){
-                ClientEngine.instance.renderEngine.unlockRotation(Minecraft.getInstance().cameraEntity);
-            }
-        }
-    }
 
     @Override
     public void tick(LivingEntityPatch<?> entitypatch) {
@@ -70,16 +64,16 @@ public class FallAtkStartAnim extends ActionAnimation {
         entitypatch.getOriginal().setNoGravity(true);
         if(entitypatch.isLogicalClient()){
             if(entitypatch.getOriginal() == Minecraft.getInstance().player){
-                ClientEngine.instance.renderEngine.unlockRotation(Minecraft.getInstance().cameraEntity);
+                ClientEngine.getInstance().renderEngine.unlockRotation(Minecraft.getInstance().cameraEntity);
             }
         }
     }
 
     @Override
-    protected void modifyPose(Pose pose, LivingEntityPatch<?> entitypatch, float time) {
+    public void modifyPose(DynamicAnimation animation, Pose pose, LivingEntityPatch<?> entitypatch, float time) {
         JointTransform jt = pose.getOrDefaultTransform("Root");
         Vec3f jointPosition = jt.translation();
-        OpenMatrix4f toRootTransformApplied = entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
+        OpenMatrix4f toRootTransformApplied = entitypatch.getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
         OpenMatrix4f toOrigin = OpenMatrix4f.invert(toRootTransformApplied, (OpenMatrix4f)null);
         Vec3f worldPosition = OpenMatrix4f.transform3v(toRootTransformApplied, jointPosition, (Vec3f)null);
         worldPosition.x = 0.0F;
@@ -98,7 +92,7 @@ public class FallAtkStartAnim extends ActionAnimation {
         if (!entitypatch.isLogicalClient()){
             if(entitypatch instanceof ServerPlayerPatch){
                 ServerPlayerPatch spp = (ServerPlayerPatch) entitypatch;
-                SkillContainer container = spp.getSkill(SkillCategories.AIR_ATTACK);
+                SkillContainer container = spp.getSkill(SkillSlots.AIR_ATTACK);
                 if(container.getSkill() == RegEpicAddonSkills.GS_Bow_FallAttackPatch){
                     if(!container.getDataManager().hasData(GSFallAttack.FALL_STATE)){
                         container.getDataManager().registerData(GSFallAttack.FALL_STATE);
@@ -120,5 +114,15 @@ public class FallAtkStartAnim extends ActionAnimation {
     @Override
     public boolean isBasicAttackAnimation() {
         return true;
+    }
+
+    @Override
+    public void linkTick(LivingEntityPatch<?> entitypatch, DynamicAnimation linkAnimation) {
+        super.linkTick(entitypatch, linkAnimation);
+        if(entitypatch.isLogicalClient()){
+            if(entitypatch.getOriginal() == Minecraft.getInstance().player){
+                ClientEngine.getInstance().renderEngine.unlockRotation(Minecraft.getInstance().cameraEntity);
+            }
+        }
     }
 }
