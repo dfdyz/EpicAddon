@@ -29,7 +29,7 @@ import yesman.epicfight.particle.HitParticleType;
 //@Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegParticle {
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, EpicAddon.MODID);
-    public static final RegistryObject<SimpleParticleType> BLADE_TRAIL = PARTICLES.register("blade_trail", () -> new SimpleParticleType(true));
+    //public static final RegistryObject<SimpleParticleType> BLADE_TRAIL = PARTICLES.register("blade_trail", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SPARKS_SPLASH = PARTICLES.register("sparks_splash",() -> new SimpleParticleType(true));
     public static final RegistryObject<HitParticleType> SPARKS_SPLASH_HIT = PARTICLES.register("sparks_splash_hit",() -> new HitParticleType(true, HitParticleType.RANDOM_WITHIN_BOUNDING_BOX, EpicAddonHitParticalType.Atker2Tar));
     public static final RegistryObject<SimpleParticleType> GENSHIN_BOW = PARTICLES.register("genshin_bow", () -> new SimpleParticleType(true));
@@ -57,7 +57,7 @@ public class RegParticle {
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public static void registryParticles(ParticleFactoryRegisterEvent event){
             ParticleEngine PE = Minecraft.getInstance().particleEngine;
-            PE.register(BLADE_TRAIL.get(), BladeTrailParticle.Provider::new);
+            //PE.register(BLADE_TRAIL.get(), BladeTrailParticle.Provider::new);
             PE.register(SPARKS_SPLASH.get(), SparksSplashParticle.Provider::new);
             PE.register(SPARKS_SPLASH_HIT.get(), SparksSplashHitParticle.Provider::new);
             PE.register(GENSHIN_BOW.get(), GenShinBowShootParticle.Provider::new);

@@ -2,13 +2,10 @@ package com.jvn.epicaddon.skills.GenShin;
 
 import com.jvn.epicaddon.entity.projectile.GenShinArrow;
 import com.jvn.epicaddon.entity.projectile.YoimiyaSAArrow;
-import com.jvn.epicaddon.events.PostEffectEvent;
 import com.jvn.epicaddon.register.RegParticle;
-import com.jvn.epicaddon.register.RegPostEffect;
 import com.jvn.epicaddon.resources.EpicAddonSounds;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.jvn.epicaddon.utils.GlobalVal;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -21,16 +18,16 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.Animator;
+import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.Pose;
-import yesman.epicfight.api.animation.ServerAnimator;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
-import yesman.epicfight.gameasset.Models;
+import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class YoimiyaSkillFunction {
-    public static void BowShoot(LivingEntityPatch<?> entitypatch, String joint){
+    public static void BowShoot(LivingEntityPatch<?> entitypatch, Joint joint){
         Level worldIn = entitypatch.getOriginal().getLevel();
 
         if(entitypatch.isLogicalClient()){
@@ -40,9 +37,9 @@ public class YoimiyaSkillFunction {
             //PostEffectEvent.PushPostEffectHighest(RegPostEffect.WhiteFlush, 0.3f);
         }
         else {
-            if(entitypatch.currentlyAttackedEntity.size() > 0){
+            if(entitypatch.getCurrenltyAttackedEntities().size() > 0){
                 Vec3 position = entitypatch.getOriginal().position();
-                Entity target = entitypatch.currentlyAttackedEntity.get(0);
+                Entity target = entitypatch.getCurrenltyAttackedEntities().get(0);
 
                 float dmgboost = (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND)))*0.2f;
 
@@ -164,7 +161,7 @@ public class YoimiyaSkillFunction {
 
     public static void YoimiyaSA(LivingEntityPatch<?> entitypatch){
         Level worldIn = entitypatch.getOriginal().getLevel();
-        Vec3 handPos = getJointWorldPos(entitypatch,"Tool_L");
+        Vec3 handPos = getJointWorldPos(entitypatch, Armatures.BIPED.toolL);
 
         float ang = (float) ((entitypatch.getOriginal().getViewYRot(1)+90)/180 * Math.PI);
         Vec3 shootVec = new Vec3(Math.cos(ang), -1.2, Math.sin(ang));
@@ -179,18 +176,18 @@ public class YoimiyaSkillFunction {
         worldIn.addFreshEntity(projectile);
     }
 
-    public static Vec3 getJointWorldPos(LivingEntityPatch entitypatch, String joint){
+    public static Vec3 getJointWorldPos(LivingEntityPatch entitypatch, Joint joint){
         Animator animator = entitypatch.getAnimator();
-        Armature armature = entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature();
+        Armature armature = entitypatch.getArmature();
 
-        Pose pose = animator.getPose(1);;
+        Pose pose = armature.getPose(0.5f);
 
         Vec3 pos = entitypatch.getOriginal().position();//entitypatch.getModelMatrix(1.0F);
         OpenMatrix4f modelTf = OpenMatrix4f.createTranslation((float)pos.x, (float)pos.y, (float)pos.z)
                 .mulBack(OpenMatrix4f.createRotatorDeg(180.0F, Vec3f.Y_AXIS)
                         .mulBack(entitypatch.getModelMatrix(1)));
 
-        OpenMatrix4f JointTf = Animator.getBindedJointTransformByName(pose, armature, joint).mulFront(modelTf);
+        OpenMatrix4f JointTf = new OpenMatrix4f(armature.getBindedTransformFor(pose, joint)).mulFront(modelTf);
 
         return OpenMatrix4f.transform(JointTf,Vec3.ZERO);
     }

@@ -2,8 +2,6 @@ package com.jvn.epicaddon.renderer.particle;
 
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
-import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
 import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
@@ -24,7 +22,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 import yesman.epicfight.api.animation.AnimationPlayer;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.Pose;
@@ -34,19 +31,16 @@ import yesman.epicfight.api.client.animation.ClientAnimator;
 import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
-import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
 
 @OnlyIn(Dist.CLIENT) // copy from yesman
-public class BladeTrailParticle extends TextureSheetParticle {
+public class BladeTrailParticle /*extends TextureSheetParticle*/ {
+    /*
     //private final Joint joint;
     private final int jointid;
     private final Trail trail;
@@ -73,7 +67,7 @@ public class BladeTrailParticle extends TextureSheetParticle {
         this.setSpriteFromAge(spriteSet);
 
         ClientAnimator animator = this.entitypatch.getClientAnimator();
-        Armature armature = this.entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature();
+        Armature armature = this.entitypatch.getArmature();
         Vec3 start = new Vec3(trail.x,trail.y,trail.z);
         Vec3 end = new Vec3(trail.ex,trail.ey,trail.ez);
 
@@ -109,12 +103,12 @@ public class BladeTrailParticle extends TextureSheetParticle {
     }
 
     public Vec3 getPosByTick(ClientAnimator animator, Armature armature, Vec3 org, float partialTicks){
-        Pose pose = animator.getPose(partialTicks);
+        Pose pose = animator.getComposedLayerPose(partialTicks);
         Vec3 pos = this.entitypatch.getOriginal().getPosition(partialTicks);
         OpenMatrix4f modelTf = OpenMatrix4f.createTranslation((float)pos.x, (float)pos.y, (float)pos.z)
                 .mulBack(OpenMatrix4f.createRotatorDeg(180.0F, Vec3f.Y_AXIS)
                         .mulBack(this.entitypatch.getModelMatrix(partialTicks)));
-        OpenMatrix4f JointTf = Animator.getBindedJointTransformByIndex(pose, armature,jointid).mulFront(modelTf);
+        OpenMatrix4f JointTf = armature.getBindedTransformByJointIndex(pose, jointid).mulFront(modelTf);
         return OpenMatrix4f.transform(JointTf,org);
     }
 
@@ -159,7 +153,7 @@ public class BladeTrailParticle extends TextureSheetParticle {
 
 
         ClientAnimator animator = this.entitypatch.getClientAnimator();
-        Armature armature = this.entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature();
+        Armature armature = this.entitypatch.getArmature();
         Vec3 start = new Vec3(trail.x,trail.y,trail.z);
         Vec3 end = new Vec3(trail.ex,trail.ey,trail.ez);
 
@@ -266,13 +260,12 @@ public class BladeTrailParticle extends TextureSheetParticle {
         poseStack.mulPose(rotation);
     }
 
-    /*
+
     private void makeTrailEdges(List<Vec3> startPositions, List<Vec3> endPositions, List<TrailEdge> dest) {
         for (int i = 0; i < startPositions.size(); i++) {
             dest.add(new TrailEdge(startPositions.get(i), endPositions.get(i), this.trail.lifetime));
         }
     }
-     */
 
     @Override
     public ParticleRenderType getRenderType() {
@@ -358,4 +351,5 @@ public class BladeTrailParticle extends TextureSheetParticle {
             return null;
         }
     }
+    */
 }

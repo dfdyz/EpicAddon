@@ -3,16 +3,9 @@ package com.jvn.epicaddon.register;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.item.Destiny.DestinyWeaponItem;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,11 +15,7 @@ import org.slf4j.Logger;
 import yesman.epicfight.api.client.forgeevent.PatchedRenderersEvent;
 import yesman.epicfight.client.renderer.patched.item.RenderBow;
 import yesman.epicfight.skill.Skill;
-import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.world.item.SkillBookItem;
-
-import java.util.Map;
-import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = EpicAddon.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegModels {
@@ -66,19 +55,21 @@ public class RegModels {
                 return p_174632_ != null && p_174632_.isUsingItem() && p_174632_.getUseItem() == p_174630_ ? 1.0F : 0.0F;
             });
 
+            /*
             ItemProperties.register(RegItems.SKILLBOOK.get(), new ResourceLocation(EpicAddon.MODID,"skill"), (p_174630_, p_174631_, p_174632_, p_174633_) -> {
                 Skill skill = SkillBookItem.getContainSkill(p_174630_);
 
                 if (skill != null) {
                     if (skill.getRegistryName().equals(RegEpicAddonSkills.SAO_DUALSWORD.getRegistryName())) {
                         return 1;
-                    } else if (skill.getRegistryName().equals(RegEpicAddonSkills.SAO_RAPIER.getRegistryName())) {
+                    } else if (skill.getRegistryName().equals(RegEpicAddonSkills.SAO_RAPIER_A.getRegistryName())) {
                         return 2;
                     }
                 }
 
                 return 0;
             });
+             */
         });
     }
 

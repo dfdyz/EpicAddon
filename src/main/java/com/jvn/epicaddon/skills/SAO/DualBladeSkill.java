@@ -6,11 +6,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import yesman.epicfight.api.utils.AttackResult;
-import yesman.epicfight.gameasset.Skills;
-import yesman.epicfight.skill.PassiveSkill;
 import yesman.epicfight.skill.Skill;
-import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.passive.PassiveSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -27,7 +25,7 @@ public class DualBladeSkill extends PassiveSkill {
     }
 
     public static Skill.Builder<PassiveSkill> createBuilder(ResourceLocation resourceLocation) {
-        return (new Skill.Builder<PassiveSkill>(resourceLocation)).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setConsumption(0.0F).setMaxStack(0).setResource(Resource.NONE).setRequiredXp(0).setActivateType(ActivateType.PASSIVE);
+        return (new Skill.Builder<PassiveSkill>()).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setRegistryName(resourceLocation).setResource(Resource.NONE).setActivateType(ActivateType.PASSIVE);
     }
 
     @Override

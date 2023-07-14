@@ -14,7 +14,4 @@ public abstract class MixinLivingEntity {
     private void MixinPoof(CallbackInfo callbackInfo){
         callbackInfo.cancel();
     }
-
-
-
 }

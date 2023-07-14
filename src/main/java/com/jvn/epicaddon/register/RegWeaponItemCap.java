@@ -4,6 +4,7 @@ import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.cap.GenShinBowCap;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.jvn.epicaddon.resources.EpicAddonSkillSlots;
 import com.jvn.epicaddon.resources.EpicAddonStyles;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
@@ -15,9 +16,8 @@ import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
+import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.gameasset.EpicFightSounds;
-import yesman.epicfight.gameasset.Skills;
-import yesman.epicfight.skill.KatanaPassive;
 import yesman.epicfight.skill.SkillCategories;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
@@ -37,16 +37,16 @@ public class RegWeaponItemCap {
     //private static final Map<String, Function<Item, CapabilityItem.Builder>> PRESETS = Maps.newHashMap();
     public static final Function<Item, CapabilityItem.Builder> SAO_SINGLE_SWORD = (item) -> {
         WeaponCapability.Builder builder = WeaponCapability.builder()
-                .category(CapabilityItem.WeaponCategories.SWORD)
+                .category(EpicAddonWeaponCategories.SINGLE_SWORD)
                 .styleProvider((playerpatch) -> {
                     if(playerpatch instanceof PlayerPatch){
-                        if(playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD
-                                && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
-                                && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_dual_sword_skill")){
+                        if(playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicAddonWeaponCategories.SINGLE_SWORD
+                                && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillSlots.SAO_SINGLE_SWORD).getSkill() != null
+                                && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillSlots.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_dual_sword_skill")){
                             return EpicAddonStyles.SAO_DUAL_SWORD;
                         }
-                        if(((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
-                                && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_rapier_skill")){
+                        if(((PlayerPatch)playerpatch).getSkill(EpicAddonSkillSlots.SAO_SINGLE_SWORD).getSkill() != null
+                                && ((PlayerPatch)playerpatch).getSkill(EpicAddonSkillSlots.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_rapier_skill")){
                             return EpicAddonStyles.SAO_RAPIER;
                         }
                     }
@@ -108,9 +108,9 @@ public class RegWeaponItemCap {
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO16,
                         EpicAddonAnimations.SAO_DOUBLE_CHOPPER, Animations.SPEAR_DASH,
                         Animations.GREATSWORD_AIR_SLASH)
-                .specialAttack(EpicAddonStyles.SAO_SINGLE_SWORD, RegEpicAddonSkills.SAO_SINGLESWORD_SA)
-                .specialAttack(EpicAddonStyles.SAO_DUAL_SWORD, Skills.DANCING_EDGE)
-                .specialAttack(EpicAddonStyles.SAO_RAPIER, RegEpicAddonSkills.WEAPON_SKILL_RAPIER)
+                .innateSkill(EpicAddonStyles.SAO_SINGLE_SWORD,(itemstack) ->  RegEpicAddonSkills.SAO_SINGLESWORD_SA)
+                .innateSkill(EpicAddonStyles.SAO_DUAL_SWORD,(itemstack) ->  EpicFightSkills.DANCING_EDGE)
+                .innateSkill(EpicAddonStyles.SAO_RAPIER,(itemstack) ->  RegEpicAddonSkills.WEAPON_SKILL_RAPIER)
                 .livingMotionModifier(EpicAddonStyles.SAO_SINGLE_SWORD, LivingMotions.IDLE, Animations.BIPED_IDLE)
                 .livingMotionModifier(EpicAddonStyles.SAO_SINGLE_SWORD, LivingMotions.BLOCK, EpicAddonAnimations.SAO_SINGLE_SWORD_GUARD)
                 .livingMotionModifier(EpicAddonStyles.SAO_RAPIER, LivingMotions.BLOCK, EpicAddonAnimations.SAO_SINGLE_SWORD_GUARD)
@@ -127,13 +127,13 @@ public class RegWeaponItemCap {
                 .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.KNEEL, EpicAddonAnimations.SAO_DUAL_SWORD_NORMAL)
                 .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.SNEAK, EpicAddonAnimations.SAO_DUAL_SWORD_HOLD)
                 .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.SWIM, EpicAddonAnimations.SAO_DUAL_SWORD_NORMAL)
-                .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.BLOCK, EpicAddonAnimations.SAO_SINGLE_SWORD_GUARD)
+                .livingMotionModifier(EpicAddonStyles.SAO_DUAL_SWORD, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
                 .weaponCombinationPredicator((entitypatch) -> {
                     boolean tag = false;
-                    if (entitypatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD){
+                    if (entitypatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicAddonWeaponCategories.SINGLE_SWORD){
                         if(entitypatch instanceof PlayerPatch){
-                            if (((PlayerPatch)entitypatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill() != null
-                                    && ((PlayerPatch)entitypatch).getSkill(EpicAddonSkillCategories.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_dual_sword_skill")){
+                            if (((PlayerPatch)entitypatch).getSkill(EpicAddonSkillSlots.SAO_SINGLE_SWORD).getSkill() != null
+                                    && ((PlayerPatch)entitypatch).getSkill(EpicAddonSkillSlots.SAO_SINGLE_SWORD).getSkill().getRegistryName().getPath().equals("sao_dual_sword_skill")){
                                 tag = true;
                             }
                         }
@@ -178,7 +178,7 @@ public class RegWeaponItemCap {
                         EpicAddonAnimations.GS_Yoimiya_Auto4,
                         EpicAddonAnimations.GS_Yoimiya_Auto5,
                         EpicAddonAnimations.GS_Yoimiya_Auto2, EpicAddonAnimations.GS_Yoimiya_FallAtk_Start)
-                .specialAttack(CapabilityItem.Styles.ONE_HAND, RegEpicAddonSkills.GS_YOIMIYA_SPECIALATK)
+                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemStack) -> RegEpicAddonSkills.GS_YOIMIYA_SPECIALATK)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, Animations.BIPED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, Animations.BIPED_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, Animations.BIPED_RUN)
@@ -205,7 +205,7 @@ public class RegWeaponItemCap {
                         EpicAddonAnimations.SR_BBB_Auto2,
                         Animations.SWORD_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK)
-                .specialAttack(CapabilityItem.Styles.ONE_HAND, Skills.SWEEPING_EDGE)
+                .innateSkill(CapabilityItem.Styles.ONE_HAND, (itemStack) ->  EpicFightSkills.SWEEPING_EDGE)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, EpicAddonAnimations.SR_BBB_IDLE)
                 .weaponCombinationPredicator((entitypatch) -> EpicFightCapabilities.getItemStackCapability(entitypatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD);
@@ -226,7 +226,7 @@ public class RegWeaponItemCap {
                         EpicAddonAnimations.SAO_SCYTHE_AUTO4,
                         EpicAddonAnimations.SAO_SCYTHE_AUTO5,
                         EpicAddonAnimations.SAO_SCYTHE_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
-                .specialAttack(CapabilityItem.Styles.TWO_HAND, Skills.SLAUGHTER_STANCE)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND,(itemStack) -> EpicFightSkills.GIANT_WHIRLWIND)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, EpicAddonAnimations.SAO_SCYTHE_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, EpicAddonAnimations.SAO_SCYTHE_WALK)
@@ -236,9 +236,77 @@ public class RegWeaponItemCap {
         return builder;
     };
 
+    public static final Function<Item, CapabilityItem.Builder> SAO_GREATSWORD = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(EpicAddonWeaponCategories.GREAT_SWORD)
+                .styleProvider((playerpatch) -> CapabilityItem.Styles.TWO_HAND)
+                .collider(ColliderPreset.LONGSWORD)
+                .hitSound(EpicFightSounds.BLADE_HIT)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO1,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO2,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO3,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO4,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO5,
+                        EpicAddonAnimations.SAO_SCYTHE_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemStack) -> EpicFightSkills.GIANT_WHIRLWIND)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, EpicAddonAnimations.SAO_SCYTHE_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, EpicAddonAnimations.SAO_SCYTHE_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, EpicAddonAnimations.SAO_SCYTHE_RUN)
+                .weaponCombinationPredicator((entitypatch) -> false);
+
+        return builder;
+    };
+
+    public static final Function<Item, CapabilityItem.Builder> SAO_PALADIN = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(EpicAddonWeaponCategories.SAO_PALADIN)
+                .styleProvider((playerpatch) -> CapabilityItem.Styles.TWO_HAND)
+                .collider(ColliderPreset.LONGSWORD)
+                .hitSound(EpicFightSounds.BLADE_HIT)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO1,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO2,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO3,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO4,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO5,
+                        EpicAddonAnimations.SAO_SCYTHE_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemStack) -> EpicFightSkills.GIANT_WHIRLWIND)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, EpicAddonAnimations.SAO_SCYTHE_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, EpicAddonAnimations.SAO_SCYTHE_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, EpicAddonAnimations.SAO_SCYTHE_RUN)
+                .weaponCombinationPredicator((entitypatch) -> false);
+
+        return builder;
+    };
+
+    public static final Function<Item, CapabilityItem.Builder> ES_WIND_SNEAKER = (item) -> {
+        WeaponCapability.Builder builder = WeaponCapability.builder()
+                .category(EpicAddonWeaponCategories.ES_WIND_SNEAKER)
+                .styleProvider((playerpatch) -> CapabilityItem.Styles.TWO_HAND)
+                .collider(ColliderPreset.LONGSWORD)
+                .hitSound(EpicFightSounds.BLADE_HIT)
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO1,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO2,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO3,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO4,
+                        EpicAddonAnimations.SAO_SCYTHE_AUTO5,
+                        EpicAddonAnimations.SAO_SCYTHE_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
+                .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemStack) -> EpicFightSkills.GIANT_WHIRLWIND)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, EpicAddonAnimations.SAO_SCYTHE_IDLE)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, EpicAddonAnimations.SAO_SCYTHE_WALK)
+                .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, EpicAddonAnimations.SAO_SCYTHE_RUN)
+                .weaponCombinationPredicator((entitypatch) -> false);
+        return builder;
+    };
+
 
     public enum EpicAddonWeaponCategories implements WeaponCategory {
-        SCYTHE;
+        SCYTHE,GREAT_SWORD,ES_WIND_SNEAKER,SAO_PALADIN,SINGLE_SWORD;
         final int id;
 
         private EpicAddonWeaponCategories() {
@@ -261,6 +329,12 @@ public class RegWeaponItemCap {
         event.getTypeEntry().put("genshin_bow", GenShin_Bow);
         event.getTypeEntry().put("sr_baseball_bat", SR_BaseBallBat);
         event.getTypeEntry().put("sao_scythe", SAO_SCYTHE);
+
+        event.getTypeEntry().put("sao_greatsword", SAO_GREATSWORD);
+        event.getTypeEntry().put("es_wind_sneaker", ES_WIND_SNEAKER);
+        event.getTypeEntry().put("sao_paladin", SAO_PALADIN);
+
+
 
         LOGGER.info("WeaponCapability Loaded");
     }

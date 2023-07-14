@@ -48,8 +48,10 @@ public class ClientConfig {
 
     public static void Load(){
         LOGGER.info("EpicAddon:Loading Sword Trail Item");
-        String cfgpath = FMLPaths.CONFIGDIR.get().resolve("EpicAddonTrailItem.json").toString();
-        String json = ReadString(cfgpath);
+        String cfgpath,json;
+        /*
+        cfgpath = FMLPaths.CONFIGDIR.get().resolve("EpicAddonTrailItem.json").toString();
+        json = ReadString(cfgpath);
 
         //LOGGER.info(json);
         if(json != ""){
@@ -61,6 +63,8 @@ public class ClientConfig {
         }
 
         LOGGER.info("EpicAddon:Loading Health Bar Modifier");
+
+         */
         cfgpath = FMLPaths.CONFIGDIR.get().resolve("EpicAddonHealthBar.json").toString();
         json = ReadString(cfgpath);
         //LOGGER.info(json);

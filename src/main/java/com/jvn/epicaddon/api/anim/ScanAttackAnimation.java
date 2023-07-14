@@ -1,15 +1,14 @@
 package com.jvn.epicaddon.api.anim;
 
-import com.jvn.epicaddon.api.anim.fuckAPI.IPatchedState;
-import com.jvn.epicaddon.api.anim.fuckAPI.PatchedStateSpectrum;
 import com.jvn.epicaddon.mixin.PhaseAccessor;
-import nameless.yamatomoveset.api.animation.types.StateSpectrumUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
 import yesman.epicfight.api.animation.AnimationPlayer;
+import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.JointTransform;
 import yesman.epicfight.api.animation.Pose;
 import yesman.epicfight.api.animation.property.AnimationProperty;
@@ -18,11 +17,10 @@ import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.LinkAnimation;
 import yesman.epicfight.api.collider.Collider;
-import yesman.epicfight.api.model.Model;
+import yesman.epicfight.api.model.Armature;
 import yesman.epicfight.api.utils.HitEntityList;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.Vec3f;
-import yesman.epicfight.gameasset.Models;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.MobPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -30,24 +28,20 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Consumer;
 
-public class ScanAttackAnimation extends AttackAnimation {
+public class ScanAttackAnimation extends AttackAnimation{
     //private final int Aid;
     //public final String Hjoint;
-    protected final PatchedStateSpectrum.Blueprint patchedStateBlueprint = new PatchedStateSpectrum.Blueprint();
-    private final PatchedStateSpectrum patchedState = new PatchedStateSpectrum();
     protected final int maxStrikes;
     protected final boolean moveRootY;
 
     protected final boolean shouldMove;
 
-    public ScanAttackAnimation(float convertTime, float antic, float contact, float recovery, InteractionHand hand, @Nullable Collider collider, String scanner, String path, Model model) {
+    public ScanAttackAnimation(float convertTime, float antic, float contact, float recovery, InteractionHand hand, @Nullable Collider collider, Joint scanner, String path, Armature model) {
         super(convertTime, path, model,
                 new Phase(0.0F, antic, contact, recovery, Float.MAX_VALUE, hand, scanner, collider));
 
         //Hjoint = shoot;
-        this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true);
         maxStrikes = 1;
         moveRootY = false;
@@ -55,25 +49,24 @@ public class ScanAttackAnimation extends AttackAnimation {
         //this.Aid = aid;
     }
 
-    public ScanAttackAnimation(float convertTime, float antic, float contact, float recovery, InteractionHand hand, boolean MoveCancel, int maxStrikes, @Nullable Collider collider, String scanner, String path, Model model) {
+    public ScanAttackAnimation(float convertTime, float antic, float contact, float recovery, InteractionHand hand, boolean MoveCancel, int maxStrikes, @Nullable Collider collider, Joint scanner, String path, Armature model) {
         super(convertTime, path, model,
                 new Phase(0.0F, antic, contact, recovery, Float.MAX_VALUE, hand, scanner, collider));
 
         //Hjoint = shoot;
-        this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, MoveCancel);
         this.maxStrikes = maxStrikes;
         moveRootY = true;
         shouldMove = true;
+
         //this.Aid = aid;
     }
 
-    public ScanAttackAnimation(float convertTime, float antic,float contact, float recovery, InteractionHand hand, int maxStrikes, @Nullable Collider collider, String scanner, String path, Model model) {
+    public ScanAttackAnimation(float convertTime, float antic,float contact, float recovery, InteractionHand hand, int maxStrikes, @Nullable Collider collider, Joint scanner, String path, Armature model) {
         super(convertTime, path, model,
                 new Phase(0.0F, antic, contact, recovery, Float.MAX_VALUE, hand, scanner, collider));
 
         //Hjoint = shoot;
-        this.addProperty(AnimationProperty.AttackAnimationProperty.LOCK_ROTATION, true);
         this.addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true);
         this.maxStrikes = maxStrikes;
         this.shouldMove = false;
@@ -97,10 +90,10 @@ public class ScanAttackAnimation extends AttackAnimation {
     }
 
     @Override
-    protected void modifyPose(Pose pose, LivingEntityPatch<?> entitypatch, float time) {
+    public void modifyPose(DynamicAnimation animation, Pose pose, LivingEntityPatch<?> entitypatch, float time) {
         JointTransform jt = pose.getOrDefaultTransform("Root");
         Vec3f jointPosition = jt.translation();
-        OpenMatrix4f toRootTransformApplied = entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
+        OpenMatrix4f toRootTransformApplied = entitypatch.getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
         OpenMatrix4f toOrigin = OpenMatrix4f.invert(toRootTransformApplied, (OpenMatrix4f)null);
         Vec3f worldPosition = OpenMatrix4f.transform3v(toRootTransformApplied, jointPosition, (Vec3f)null);
         if(shouldMove){
@@ -126,14 +119,13 @@ public class ScanAttackAnimation extends AttackAnimation {
     }
 
     @Override
-    protected Vec3f getCoordVector(LivingEntityPatch<?> entitypatch, DynamicAnimation dynamicAnimation) {
+    protected Vec3 getCoordVector(LivingEntityPatch<?> entitypatch, DynamicAnimation dynamicAnimation) {
         entitypatch.getOriginal().setDeltaMovement(0,0,0);
         if (!shouldMove){
-            return new Vec3f();
+            return Vec3.ZERO;
         }
-        Vec3f vec3f = super.getCoordVector(entitypatch, dynamicAnimation);
-        vec3f.y=0;
-        return vec3f;
+        Vec3 vec3 = super.getCoordVector(entitypatch, dynamicAnimation);
+        return vec3.multiply(1,0,1);
     }
 
     @Override
@@ -144,8 +136,8 @@ public class ScanAttackAnimation extends AttackAnimation {
             AnimationPlayer player = entitypatch.getAnimator().getPlayerFor(this);
             float elapsedTime = player.getElapsedTime();
             float prevElapsedTime = player.getPrevElapsedTime();
-            EntityState state = this.getState(elapsedTime);
-            EntityState prevState = this.getState(prevElapsedTime);
+            EntityState state = this.getState(entitypatch,elapsedTime);
+            EntityState prevState = this.getState(entitypatch,prevElapsedTime);
             Phase phase = this.getPhaseByTime(elapsedTime);
 
             if (state.getLevel() == 1 && !state.turningLocked()) {
@@ -161,7 +153,7 @@ public class ScanAttackAnimation extends AttackAnimation {
             } else if (prevState.attacking() || state.attacking() || (prevState.getLevel() < 2 && state.getLevel() > 2)) {
                 if (!prevState.attacking()) {
                     //entitypatch.playSound(this.getSwingSound(entitypatch, phase), 0.0F, 0.0F);
-                    entitypatch.currentlyAttackedEntity.clear();
+                    entitypatch.getCurrenltyAttackedEntities().clear();
                 }
 
                 //EpicAddon.LOGGER.info(String.valueOf(prevElapsedTime));
@@ -174,16 +166,16 @@ public class ScanAttackAnimation extends AttackAnimation {
         PhaseAccessor phaseAccessor = (PhaseAccessor)phase;
         Collider collider = this.getCollider(entitypatch, elapsedTime);
         LivingEntity entity = entitypatch.getOriginal();
-        entitypatch.getEntityModel(Models.LOGICAL_SERVER).getArmature().initializeTransform();
+        entitypatch.getArmature().initializeTransform();
         float poseTime = state.attacking() ? elapsedTime : phaseAccessor.getContact();
-        List<Entity> list = collider.updateAndSelectCollideEntity(entitypatch, this, poseTime, poseTime, phase.getColliderJointName(), this.getPlaySpeed(entitypatch));
+        List<Entity> list = collider.updateAndSelectCollideEntity(entitypatch, this, poseTime, poseTime, phase.getColliderJoint(), this.getPlaySpeed(entitypatch));
 
         if (list.size() > 0) {
             HitEntityList hitEntities = new HitEntityList(entitypatch, list, HitEntityList.Priority.DISTANCE);
             //int maxStrikes = 1;
             entitypatch.getOriginal().setLastHurtMob(list.get(0));
 
-            while (entitypatch.currentlyAttackedEntity.size() < maxStrikes && hitEntities.next()) {
+            while (entitypatch.getCurrenltyAttackedEntities().size() < maxStrikes && hitEntities.next()) {
                 Entity e = hitEntities.getEntity();
                 if(!e.isAlive()) continue;
 
@@ -191,14 +183,14 @@ public class ScanAttackAnimation extends AttackAnimation {
                 if (!entitypatch.isTeammate(e) && trueEntity != null) {
                     if (e instanceof LivingEntity || e instanceof PartEntity) {
                         if (entity.hasLineOfSight(e)) {
-                            entitypatch.currentlyAttackedEntity.add(trueEntity);
+                            entitypatch.getCurrenltyAttackedEntities().add(trueEntity);
                         }
                     }
                 }
             }
         }
-        if(!entitypatch.currentlyAttackedEntity.contains(entitypatch.getOriginal())){
-            entitypatch.currentlyAttackedEntity.add(entitypatch.getOriginal());
+        if(!entitypatch.getCurrenltyAttackedEntities().contains(entitypatch.getOriginal())){
+            entitypatch.getCurrenltyAttackedEntities().add(entitypatch.getOriginal());
         }
     }
 
@@ -253,4 +245,5 @@ public class ScanAttackAnimation extends AttackAnimation {
     public boolean isBasicAttackAnimation() {
         return true;
     }
+
 }

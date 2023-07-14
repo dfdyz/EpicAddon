@@ -4,6 +4,7 @@ import net.minecraft.world.InteractionHand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
+import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.collider.Collider;
@@ -24,8 +25,8 @@ public interface PhaseAccessor {
     public float getRecovery();
     @Accessor("end")
     public float getEnd();
-    @Accessor("jointName")
-    public String getJointName();
+    @Accessor("joint")
+    public Joint getJoint();
     @Accessor("hand")
     public InteractionHand getHand();
     @Accessor("collider")

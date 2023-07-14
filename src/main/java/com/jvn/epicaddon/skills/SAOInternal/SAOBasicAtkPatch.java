@@ -55,7 +55,7 @@ public class SAOBasicAtkPatch extends BasicAttack {
             CapabilityItem cap = executer.getHoldingItemCapability(InteractionHand.MAIN_HAND);
             StaticAnimation attackMotion = null;
             ServerPlayer player = executer.getOriginal();
-            SkillDataManager dataManager = executer.getSkill(this.category).getDataManager();
+            SkillDataManager dataManager = executer.getSkill(SkillSlots.BASIC_ATTACK).getDataManager();
             int comboCounter = dataManager.getDataValue(COMBO_COUNTER);
             if (player.isPassenger()) {
                 Entity entity = player.getVehicle();
@@ -69,7 +69,7 @@ public class SAOBasicAtkPatch extends BasicAttack {
                 int comboSize = combo.size();
                 boolean dashAttack = player.isSprinting();
 
-                SkillContainer wp = executer.getSkill(SkillCategories.WEAPON_PASSIVE);
+                SkillContainer wp = executer.getSkill(SkillSlots.WEAPON_INNATE);
 
 
                 if (dashAttack) {

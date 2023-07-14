@@ -166,20 +166,23 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    flatDir {
+      dir 'libs'
+    }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.80'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.2.2'
 
-    implementation fg.deobf("curse.maven:epicfightmod-405076:4018756")
+    //implementation fg.deobf("curse.maven:epicfightmod-405076:4018756")
 
-    implementation fg.deobf("curse.maven:Yamato-833891:4490893")
+    //implementation fg.deobf("curse.maven:Yamato-833891:4490893")
 
     //implementation fg.deobf("curse.maven:DualGreatSword-654098:3972299")
 
     //implementation fg.deobf("curse.maven:ESSENTIAL-546670:3918566")
 
-
+    implementation fg.deobf("blank:epicfight-1.18.2:18.5.0.1")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     // Examples using mod jars from ./libs

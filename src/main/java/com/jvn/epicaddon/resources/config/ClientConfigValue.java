@@ -1,9 +1,9 @@
 package com.jvn.epicaddon.resources.config;
 
 public class ClientConfigValue {
-    public boolean EnableSwordTrail = true;
+    //public boolean EnableSwordTrail = true;
     public boolean EnableHealthBar = true;
-    public boolean EnableOptFineMode = false;
+    //public boolean EnableOptFineMode = false;
 
     public boolean EnableGenShinVoice = true;
 

@@ -1,6 +1,7 @@
 package com.jvn.epicaddon.network.ClientPack;
 
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.jvn.epicaddon.resources.EpicAddonSkillSlots;
 import com.jvn.epicaddon.skills.SAOInternal.MutiSpecialSkill;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -35,7 +36,7 @@ public class C_RollSkillSelect {
 			ServerPlayer serverPlayer = ctx.get().getSender();
 			ServerPlayerPatch playerpatch = (ServerPlayerPatch) serverPlayer.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY, null).orElse(null);
 			if (playerpatch != null) {
-				Skill _skill = playerpatch.getSkill(EpicAddonSkillCategories.MutiSpecialAttack).getSkill();
+				Skill _skill = playerpatch.getSkill(EpicAddonSkillSlots.SKILL_SELECTOR).getSkill();
 				if(_skill != null && _skill instanceof MutiSpecialSkill){
 					MutiSpecialSkill skill = (MutiSpecialSkill) _skill;
 					skill.RollSelect(playerpatch,msg.getDir());
