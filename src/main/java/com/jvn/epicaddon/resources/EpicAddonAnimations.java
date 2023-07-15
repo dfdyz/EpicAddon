@@ -132,7 +132,7 @@ public class EpicAddonAnimations {
         SAO_SCYTHE_RUN = new MovementAnimation(true, "biped/sao_scythe/living/sao_scythe_run", biped);
         SAO_SCYTHE_WALK = new MovementAnimation(true, "biped/sao_scythe/living/sao_scythe_walk", biped);
 
-        SAO_SCYTHE_AUTO1 = new BasicAttackAnimationEx(0.06F, 0.2F, 0.4F, 0.5F, WeaponCollider.SAO_SWORD, biped.toolR, "biped/sao_scythe/sao_scythe_auto1", biped)
+        SAO_SCYTHE_AUTO1 = new BasicAttackAnimationEx(0.08F, 0.2F, 0.4F, 0.5F, WeaponCollider.SAO_SWORD, biped.toolR, "biped/sao_scythe/sao_scythe_auto1", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.2f)
@@ -142,7 +142,7 @@ public class EpicAddonAnimations {
                         )
                 );
 
-        SAO_SCYTHE_AUTO2 = new BasicAttackAnimationEx(0.04F, 0.2F, 0.3F, 0.4F, WeaponCollider.SAO_SWORD, biped.toolR, "biped/sao_scythe/sao_scythe_auto2", biped)
+        SAO_SCYTHE_AUTO2 = new BasicAttackAnimationEx(0.08F, 0.2F, 0.3F, 0.4F, WeaponCollider.SAO_SWORD, biped.toolR, "biped/sao_scythe/sao_scythe_auto2", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.2f)
@@ -195,10 +195,10 @@ public class EpicAddonAnimations {
                 );
 
         SAO_SCYTHE_DASH = new MultiPhaseBasicAttackAnimation(0.1F,  "biped/sao_scythe/sao_scythe_dash", biped,
-                new AttackAnimation.Phase(0.0F, 0.1F, 0.2F, 0.2F, 0.2F, InteractionHand.MAIN_HAND, biped.toolR, WeaponCollider.SAO_SWORD_HUGE_R)
+                new AttackAnimation.Phase(0.0F, 0.1F, 0.15F, 0.2F, 0.2F, InteractionHand.MAIN_HAND, biped.toolR, WeaponCollider.SAO_SWORD_HUGE_R)
                         .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.5F))
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT),
-                new AttackAnimation.Phase(0.2F, 0.3F, 0.4F, 0.4F, 0.4F, InteractionHand.MAIN_HAND, biped.toolR, WeaponCollider.SAO_SWORD_HUGE_R)
+                new AttackAnimation.Phase(0.2F, 0.3F, 0.35F, 0.4F, 0.4F, InteractionHand.MAIN_HAND, biped.toolR, WeaponCollider.SAO_SWORD_HUGE_R)
                         .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.5F))
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.BLACK_KNIGHT),
                 new AttackAnimation.Phase(0.4F, 0.5F, 0.6F, 0.85F, Float.MAX_VALUE, InteractionHand.MAIN_HAND, biped.toolR, WeaponCollider.SAO_SWORD_HUGE_R)
@@ -352,17 +352,29 @@ public class EpicAddonAnimations {
         SAO_RAPIER_AUTO1 = new BasicAttackAnimation(0.05F, 0.1F, 0.2F, 0.3F, null, biped.toolR, "biped/sao_rapier_auto1", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F)
+                .addProperty(ClientAnimationProperties.TRAIL_EFFECT, newTFL(
+                                newTF(0f,1.1f, biped.toolR, InteractionHand.MAIN_HAND)
+                        )
+                );
 
         SAO_RAPIER_AUTO2 = new BasicAttackAnimation(0.05F, 0.1F, 0.2F, 0.3F, null, biped.toolR, "biped/sao_rapier_auto2", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F)
+                .addProperty(ClientAnimationProperties.TRAIL_EFFECT, newTFL(
+                                newTF(0f,1.3f, biped.toolR, InteractionHand.MAIN_HAND)
+                        )
+                );
 
         SAO_RAPIER_AUTO3 = new BasicAttackAnimation(0.02F, 0.1F, 0.2F, 0.4F, null, biped.toolR, "biped/sao_rapier_auto3", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F)
+                .addProperty(ClientAnimationProperties.TRAIL_EFFECT, newTFL(
+                                newTF(0f,1.2f, biped.toolR, InteractionHand.MAIN_HAND)
+                        )
+                );
 
         SAO_RAPIER_AUTO4 = new MultiPhaseBasicAttackAnimation(0.05F,"biped/sao_rapier_auto4", biped,
                 new AttackAnimation.Phase(0.0F,0.1F,0.15F,0.2F,0.2F,InteractionHand.MAIN_HAND,biped.toolR,null)
@@ -372,12 +384,20 @@ public class EpicAddonAnimations {
                         .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.8F))
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT))
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F)
+                .addProperty(ClientAnimationProperties.TRAIL_EFFECT, newTFL(
+                                newTF(0f,1.1f, biped.toolR, InteractionHand.MAIN_HAND)
+                        )
+                );
 
         SAO_RAPIER_AUTO5 = new BasicAttackAnimation(0.02F, 0.2F, 0.3F, 0.65F, null, biped.toolR, "biped/sao_rapier_auto5", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
-                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F);
+                .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.5F)
+                .addProperty(ClientAnimationProperties.TRAIL_EFFECT, newTFL(
+                                newTF(0f,1.3f, biped.toolR, InteractionHand.MAIN_HAND)
+                        )
+                );
 
         SAO_RAPIER_DASH  = new DashAttackAnimation(0F, 0.2F, 0.1F, 0.3F, 0.4F, WeaponCollider.SAO_RAPIER_DASH_SHORT, biped.rootJoint, "biped/sao_rapier_dash", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.IMPACT_MODIFIER, ValueModifier.adder(14.7F))
