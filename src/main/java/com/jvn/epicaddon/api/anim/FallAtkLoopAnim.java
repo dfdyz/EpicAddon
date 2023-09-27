@@ -36,7 +36,7 @@ public class FallAtkLoopAnim extends ActionAnimation {
             this.addProperty(ClientAnimationProperties.PRIORITY, Layer.Priority.HIGHEST);
             //this.addProperty(ClientAnimationProperties.LAYER_TYPE, Layer.LayerType.COMPOSITE_LAYER);
             this.addProperty(ClientAnimationProperties.JOINT_MASK,
-                    JointMaskEntry.builder().defaultMask(JointMaskEntry.NONE).create());
+                    JointMaskEntry.builder().defaultMask(JointMaskEntry.ALL).create());
         }
     }
 
@@ -63,14 +63,14 @@ public class FallAtkLoopAnim extends ActionAnimation {
     }
 
     @Override
-    public void end(LivingEntityPatch<?> entitypatch, boolean isEnd) {
-        super.end(entitypatch, isEnd);
+    public void end(LivingEntityPatch<?> entitypatch,  DynamicAnimation nextAnimation, boolean isEnd) {
+        super.end(entitypatch, nextAnimation, isEnd);
         entitypatch.getOriginal().setDeltaMovement(0,-2,0);
     }
 
     @Override
-    public void modifyPose(DynamicAnimation animation, Pose pose, LivingEntityPatch<?> entitypatch, float time) {
-
+    public void modifyPose(DynamicAnimation animation, Pose pose, LivingEntityPatch<?> entitypatch, float time, float partialTicks) {
+        //super.modifyPose(animation, pose, entitypatch, time, partialTicks);
     }
 
     private boolean shouldAtk(LivingEntityPatch<?> entitypatch){

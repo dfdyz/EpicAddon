@@ -30,8 +30,6 @@ import java.util.Map;
 
 import static yesman.epicfight.skill.Skill.Resource.WEAPON_INNATE_ENERGY;
 
-
-@Mod.EventBusSubscriber(modid = EpicAddon.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegEpicAddonSkills {
 
     public static Skill WEAPON_SKILL_RAPIER;
@@ -82,7 +80,8 @@ public class RegEpicAddonSkills {
 
         SkillManager.register(MutiSpecialSkill::new,
                 Skill.createBuilder().setRegistryName(new ResourceLocation(EpicAddon.MODID,"muti_sa"))
-                        .setCategory(EpicAddonSkillCategories.MutiSpecialAttack).setActivateType(Skill.ActivateType.PASSIVE)
+                        .setCategory(EpicAddonSkillCategories.MutiSpecialAttack)
+                        //.setActivateType(Skill.ActivateType.PASSIVE)
                 , EpicAddon.MODID, "muti_sa");
 
 
@@ -102,7 +101,7 @@ public class RegEpicAddonSkills {
                 SAOSingleSwordInternal.createBuilder()
                         .setCategory(SkillCategories.WEAPON_PASSIVE)
                         .setRegistryName(new ResourceLocation(EpicAddon.MODID, "sao_single_sword_internal"))
-                        .setActivateType(Skill.ActivateType.PASSIVE)
+                        //.setActivateType(Skill.ActivateType.PASSIVE)
                         .setResource(Skill.Resource.NONE)
                 , EpicAddon.MODID, "sao_single_sword_internal");
 
@@ -132,7 +131,7 @@ public class RegEpicAddonSkills {
         SkillManager.register(GSBowInternal::new,
                 GSBowInternal.GetBuilder("gs_bow_internal")
                         .setCategory(SkillCategories.WEAPON_PASSIVE)
-                        .setActivateType(Skill.ActivateType.PASSIVE)
+                        //.setActivateType(Skill.)
                         .setResource(Skill.Resource.NONE)
                 , EpicAddon.MODID, "gs_bow_internal");
         Logger LOGGER = LogUtils.getLogger();
@@ -181,10 +180,7 @@ public class RegEpicAddonSkills {
          */
     }
 
-    @SubscribeEvent
     public static void BuildSkills(SkillBuildEvent event){
-        registerSkills();
-
         Logger LOGGER = LogUtils.getLogger();
         LOGGER.info("Build EpicAddon Skill");
 

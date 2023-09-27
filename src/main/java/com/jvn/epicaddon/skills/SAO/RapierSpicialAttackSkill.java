@@ -1,6 +1,7 @@
 package com.jvn.epicaddon.skills.SAO;
 
 import com.jvn.epicaddon.register.RegEpicAddonSkills;
+import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
 import com.jvn.epicaddon.resources.EpicAddonSkillSlots;
 import com.jvn.epicaddon.skills.IMutiSpecialSkill;
@@ -25,8 +26,8 @@ public class RapierSpicialAttackSkill extends WeaponInnateSkill implements IMuti
 
     public RapierSpicialAttackSkill(Builder builder) {
         super(builder);
-        this.Normal = builder.attackAnimation;
-        this.OnRun = builder.attackAnimation2;
+        this.Normal = EpicAddonAnimations.SAO_RAPIER_SA2;
+        this.OnRun = EpicAddonAnimations.SAO_RAPIER_SPECIAL_DASH;
         ResourceLocation name = this.getRegistryName();
         //ResourceLocation tex = new ResourceLocation(name.getNamespace(), "textures/gui/skills/" + name.getPath() + ".png");
         childSkills.add(new ResourceLocation(name.getNamespace(), "textures/gui/skills/sao_rapier_skill.png"));

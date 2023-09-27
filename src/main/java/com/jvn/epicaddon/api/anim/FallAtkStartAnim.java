@@ -70,7 +70,7 @@ public class FallAtkStartAnim extends ActionAnimation {
     }
 
     @Override
-    public void modifyPose(DynamicAnimation animation, Pose pose, LivingEntityPatch<?> entitypatch, float time) {
+    public void modifyPose(DynamicAnimation animation, Pose pose, LivingEntityPatch<?> entitypatch, float time, float partialTicks) {
         JointTransform jt = pose.getOrDefaultTransform("Root");
         Vec3f jointPosition = jt.translation();
         OpenMatrix4f toRootTransformApplied = entitypatch.getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
@@ -86,8 +86,8 @@ public class FallAtkStartAnim extends ActionAnimation {
     }
 
     @Override
-    public void end(LivingEntityPatch<?> entitypatch, boolean isEnd) {
-        super.end(entitypatch, isEnd);
+    public void end(LivingEntityPatch<?> entitypatch, DynamicAnimation nextAnimation, boolean isEnd) {
+        super.end(entitypatch, nextAnimation, isEnd);
         entitypatch.getOriginal().setNoGravity(false);
         if (!entitypatch.isLogicalClient()){
             if(entitypatch instanceof ServerPlayerPatch){

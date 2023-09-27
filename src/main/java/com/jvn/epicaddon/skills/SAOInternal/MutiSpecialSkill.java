@@ -3,16 +3,17 @@ package com.jvn.epicaddon.skills.SAOInternal;
 import com.jvn.epicaddon.renderer.EpicAddonRenderType;
 import com.jvn.epicaddon.resources.EpicAddonSkillSlots;
 import com.jvn.epicaddon.skills.IMutiSpecialSkill;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import yesman.epicfight.client.gui.BattleModeGui;
-import yesman.epicfight.client.gui.ModIngameGui;
 import yesman.epicfight.skill.*;
 import yesman.epicfight.skill.passive.PassiveSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
@@ -64,7 +65,7 @@ public class MutiSpecialSkill extends PassiveSkill {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void drawOnGui(BattleModeGui gui, SkillContainer container, PoseStack matStackIn, float _x, float _y, float _scale, int width, int height) {
+    public void drawOnGui(BattleModeGui gui, SkillContainer container, PoseStack matStackIn, float _x, float _y) {
         Skill sa = container.getExecuter().getSkill(SkillSlots.WEAPON_INNATE).getSkill();
         //EpicAddon.LOGGER.info("?????");
         if(sa == null) return;
@@ -76,10 +77,11 @@ public class MutiSpecialSkill extends PassiveSkill {
         float x = 42F;
         float y = 48F;
 
+        Window sr = Minecraft.getInstance().getWindow();
+        int width = sr.getGuiScaledWidth();
+        int height = sr.getGuiScaledHeight();
 
         IMutiSpecialSkill saInstance = (IMutiSpecialSkill) sa;
-
-
 
         ArrayList<ResourceLocation> textures = saInstance.getSkillTextures(container.getExecuter());
 
@@ -124,7 +126,7 @@ public class MutiSpecialSkill extends PassiveSkill {
         //gui.font.drawShadow(matStackIn, String.format("x%.1f", container.getDataManager().getDataValue(PENALTY)), (float)width - x, (float)height - y + 6.0F, 16777215);
     }
 
-    public void drawTexturedModalRectFixCoord(ModIngameGui ingameGui, Matrix4f matrix, float xCoord, float yCoord, int minU, int minV, int maxU, int maxV, int col) {
+    public void drawTexturedModalRectFixCoord(BattleModeGui ingameGui, Matrix4f matrix, float xCoord, float yCoord, int minU, int minV, int maxU, int maxV, int col) {
         drawTexturedModalRectFixCoord(matrix, xCoord, yCoord, (float)maxU, (float)maxV, (float)ingameGui.getBlitOffset(), (float)minU, (float)minV, (float)maxU, (float)maxV, col);
     }
 

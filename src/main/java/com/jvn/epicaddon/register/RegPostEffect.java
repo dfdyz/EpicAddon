@@ -1,28 +1,27 @@
 package com.jvn.epicaddon.register;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.jvn.epicaddon.EpicAddon;
-import com.jvn.epicaddon.api.PostRenderer.BrokenMask;
-import com.jvn.epicaddon.api.PostRenderer.PostEffectBase;
-import com.jvn.epicaddon.api.PostRenderer.SpaceBroken;
-import com.jvn.epicaddon.api.PostRenderer.WhiteFlush;
+import com.jvn.epicaddon.api.PostEffect.BrokenMask;
+import com.jvn.epicaddon.api.PostEffect.PostEffectBase;
+import com.jvn.epicaddon.api.PostEffect.SpaceBroken;
+import com.jvn.epicaddon.api.PostEffect.WhiteFlush;
 import com.jvn.epicaddon.events.PostEffectEvent;
 import com.jvn.epicaddon.utils.PostEffectUtils;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.event.IModBusEvent;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.HashSet;
 
 public class RegPostEffect {
-    public static final LinkedList<PostEffectEvent.AbstractPostEffectObj> Registries = Lists.newLinkedList();
+    public static final HashSet<PostEffectEvent.AbstractPostEffectObj> Registries = Sets.newHashSet();
     public static PostEffectEvent.AbstractPostEffectObj WhiteFlush;
     public static PostEffectEvent.AbstractPostEffectObj SpaceBroken;
+
+    public static RenderTarget depthBuffer;
 
     public static void Reg(){
         WhiteFlush = register(new PostEffectEvent.AbstractPostEffectObj() {
@@ -58,7 +57,7 @@ public class RegPostEffect {
         SpaceBroken = register(new PostEffectEvent.AbstractPostEffectObj() {
             PostEffectBase blit;
             BrokenMask brokenMask;
-            com.jvn.epicaddon.api.PostRenderer.SpaceBroken spaceBroken;
+            com.jvn.epicaddon.api.PostEffect.SpaceBroken spaceBroken;
 
             PostEffectUtils.OBJ_JSON obj;
 
@@ -89,11 +88,11 @@ public class RegPostEffect {
                 float t = Math.min(remainTime/0.06f, 1f);
 
                 this.blit.process(org,temp,0);
-                this.brokenMask.process(temp,mask,0,obj,0, 60);
+                this.brokenMask.process(depthBuffer,mask,0,obj,0, 60, datas);
                 this.spaceBroken.process(temp,mask,temp2,0.03f*t, 0);
-                this.brokenMask.process(temp,mask,0,obj,1, 90);
+                this.brokenMask.process(depthBuffer,mask,0,obj,1, 90, datas);
                 this.spaceBroken.process(temp2,mask,temp,0.02f*t, 120);
-                this.brokenMask.process(temp,mask,0,obj,2, 110);
+                this.brokenMask.process(depthBuffer,mask,0,obj,2, 110, datas);
                 this.spaceBroken.process(temp,mask,org,0.03f*t, 240);
 
                 temp.destroyBuffers();

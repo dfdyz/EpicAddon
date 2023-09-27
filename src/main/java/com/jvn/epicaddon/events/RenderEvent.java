@@ -9,10 +9,14 @@ import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.jvn.epicaddon.resources.config.RenderConfig;
 import com.jvn.epicaddon.utils.GlobalVal;
 import com.jvn.epicaddon.utils.HealthBarStyle;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,6 +27,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.lwjgl.opengl.GL11;
 import org.slf4j.Logger;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.client.forgeevent.RenderEnderDragonEvent;
@@ -116,6 +121,26 @@ public class RenderEvent {
             }
             SkipToRender.removeIf(Entity::isRemoved);
         }
+
+        if(event.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES){
+            Minecraft mc = Minecraft.getInstance();
+            final BufferBuilder bufferBuilder = new BufferBuilder(256);
+
+// step 3: prepare block faces
+            var matrixStack = event.getPoseStack();
+            var dispatcher = mc.getBlockEntityRenderDispatcher();
+            var view = mc.gameRenderer.getProjectionMatrix(mc.options.fov);
+            bufferBuilder.begin(VertexFormat.Mode.QUADS,  DefaultVertexFormat.POSITION);
+
+            bufferBuilder.end();
+
+
+
+
+
+
+        }
+
     }
 
     public static HashSet<LivingEntity> SkipToRender = Sets.newHashSet();
@@ -124,10 +149,14 @@ public class RenderEvent {
     public static void renderLivingEntity(RenderLivingEvent.Pre event) {
         LivingEntity entity = event.getEntity();
 
-
         if(SkipToRender.contains(entity)){
             event.setCanceled(true);
             event.setResult(Event.Result.DENY);
         }
     }
+
+
+
+
+
 }

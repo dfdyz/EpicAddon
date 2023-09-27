@@ -1,8 +1,11 @@
 package com.jvn.epicaddon.skills.SAO;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
+import yesman.epicfight.client.gui.BattleModeGui;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillCategory;
+import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.passive.PassiveSkill;
 
 public class TagSkill extends PassiveSkill {
@@ -13,6 +16,11 @@ public class TagSkill extends PassiveSkill {
     }
 
     public static Skill.Builder<TagSkill> createBuilder(ResourceLocation resourceLocation, SkillCategory category) {
-        return (new Skill.Builder<TagSkill>()).setCategory(category).setResource(Resource.NONE).setActivateType(ActivateType.PASSIVE);
+        return (new Skill.Builder<TagSkill>()).setCategory(category).setResource(Resource.NONE).setActivateType(ActivateType.TOGGLE);
+    }
+
+    @Override
+    public void drawOnGui(BattleModeGui gui, SkillContainer container, PoseStack poseStack, float x, float y) {
+
     }
 }

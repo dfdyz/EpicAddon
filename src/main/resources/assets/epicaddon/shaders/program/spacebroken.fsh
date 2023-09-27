@@ -23,4 +23,5 @@ void main(){
     }
 
     fragColor = vec4(col.rgb,1);
+    //fragColor = vec4(cut.x > 0.1 ? vec3(1,1,1) : col.rgb,1);
 }

@@ -1,5 +1,6 @@
 package com.jvn.epicaddon;
 
+import com.jvn.epicaddon.api.PostEffect.ShaderProgram;
 import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.events.ControllerEvent;
 import com.jvn.epicaddon.network.EpicaddonNetMgr;
@@ -17,6 +18,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
+import static com.jvn.epicaddon.register.RegEpicAddonSkills.registerSkills;
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("epicaddon")
 public class EpicAddon
@@ -33,10 +36,12 @@ public class EpicAddon
         instance = this;
         //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_CONFIG);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus fg_bus = MinecraftForge.EVENT_BUS;
 
         //bus.addListener(CmdMgr::registerClientCommand);
         bus.addListener(this::setupCommon);
         bus.addListener(this::initPostEffect);
+        bus.addListener(this::InitShaders);
         bus.addListener(EpicAddonAnimations::registerAnimations);
         bus.addListener(RegWeaponItemCap::register);
 
@@ -57,11 +62,12 @@ public class EpicAddon
         //EpicFightMod.getInstance().animationManager.registerAnimations();
 
         //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CfgMgr.CLIENT_CONFIG);
-        MinecraftForge.EVENT_BUS.register(this);
+        fg_bus.register(this);
+        fg_bus.addListener(RegEpicAddonSkills::BuildSkills);
     }
     public void setupCommon(final FMLCommonSetupEvent event){
         event.enqueueWork(EpicaddonNetMgr::register);
-
+        event.enqueueWork(RegEpicAddonSkills::registerSkills);
         if(FMLEnvironment.dist == Dist.CLIENT){
             BladeTrailTextureLoader.Load();
             ClientConfig.Load();
@@ -84,6 +90,11 @@ public class EpicAddon
             obj.Init();
             EpicAddon.LOGGER.info("Init PostEffect: "+obj.hashCode());
         });
+    }
+
+    public void InitShaders(final RegisterShadersEvent event){
+        EpicAddon.LOGGER.info("Register Effect Shader");
+        ShaderProgram.LoadAll();
     }
 
 /*

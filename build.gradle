@@ -19,7 +19,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '18.0.6.74-hotfix'
+version = '18.5.7.001-alpha'
 group = 'com.dfdyz.epicaddon' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'epicaddon'
 
@@ -182,7 +182,7 @@ dependencies {
 
     //implementation fg.deobf("curse.maven:ESSENTIAL-546670:3918566")
 
-    implementation fg.deobf("blank:epicfight-1.18.2:18.5.0.1")
+    implementation fg.deobf("blank:EpicFight-1.18.2:18.5.7")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     // Examples using mod jars from ./libs

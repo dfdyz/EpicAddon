@@ -14,11 +14,6 @@ public class SpecailDashAtkAnimation extends DashAttackAnimation {
     public SpecailDashAtkAnimation(float convertTime, float antic, float preDelay, float contact, float recovery, @Nullable Collider collider, Joint index, String path, Armature model) {
         super(convertTime, antic, preDelay, contact, recovery, collider, index, path, model);
     }
-
-    public SpecailDashAtkAnimation(float convertTime, float antic, float preDelay, float contact, float recovery, @Nullable Collider collider, Joint index, String path, boolean noDirectionAttack, Armature model) {
-        super(convertTime, antic, preDelay, contact, recovery, collider, index, path, noDirectionAttack, model);
-    }
-
     @Override
     protected Vec3 getCoordVector(LivingEntityPatch<?> entitypatch, DynamicAnimation dynamicAnimation) {
         return super.getCoordVector(entitypatch, dynamicAnimation).add(0f,(float) LivingEntity.DEFAULT_BASE_GRAVITY,0f);

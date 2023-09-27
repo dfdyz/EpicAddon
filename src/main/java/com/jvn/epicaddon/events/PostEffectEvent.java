@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.register.RegPostEffect;
-import com.jvn.epicaddon.renderer.PostRenderer.PostEffect;
 import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import net.minecraft.client.Minecraft;
@@ -140,6 +139,15 @@ public class PostEffectEvent {
             timer = time;
             position = pos;
         }
+
+        public PostEffectTimePair(AbstractPostEffectObj obj, float time, Function<Float,float[]> dataGetter, Vec3 pos){
+            this.obj = obj;
+            timer = time;
+            position = pos;
+            getDatas = dataGetter;
+        }
+
+
         public boolean isVisible(Vec3 pos){
             return pos.distanceTo(position) <= distance;
         }

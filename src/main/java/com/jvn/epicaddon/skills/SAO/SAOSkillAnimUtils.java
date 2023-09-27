@@ -96,8 +96,18 @@ public class SAOSkillAnimUtils {
                 Level worldIn = entityPatch.getOriginal().getLevel();
                 Vec3 pos = entityPatch.getOriginal().position();
                 worldIn.addParticle(RegParticle.JudgementCut.get() ,pos.x,pos.y,pos.z,0,0,0);
-                PostEffectEvent.PushPostEffectHighest(RegPostEffect.SpaceBroken, 1.58f, entityPatch.getOriginal().position());
-                PostEffectEvent.PushPostEffectMiddle(RegPostEffect.WhiteFlush, 0.25f, entityPatch.getOriginal().position());
+
+
+                PostEffectEvent.PushPostEffectHighest(
+                        new PostEffectEvent.PostEffectTimePair(
+                                RegPostEffect.SpaceBroken,
+                                1.58f,//1.58f,
+                                (time) -> {
+                                    return new float[]{(float) pos.x, (float) pos.y, (float) pos.z};
+                                },
+                                pos)
+                );
+                PostEffectEvent.PushPostEffectMiddle(RegPostEffect.WhiteFlush, 0.25f, pos);
             }
         }
 

@@ -1,6 +1,5 @@
 package com.jvn.epicaddon.api.anim;
 
-import com.jvn.epicaddon.mixin.PhaseAccessor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -40,20 +39,19 @@ public class YoimiyaSAAnimation extends AttackAnimation {
 
     @Override
     public void setLinkAnimation(Pose pose1, float timeModifier, LivingEntityPatch<?> entitypatch, LinkAnimation dest) {
-        float extTime = Math.max(this.convertTime + timeModifier, 0);
-
-        if (entitypatch instanceof PlayerPatch<?>) {
-            PlayerPatch<?> playerpatch = (PlayerPatch<?>)entitypatch;
-            PhaseAccessor phase =  (PhaseAccessor)this.getPhaseByTime(playerpatch.getAnimator().getPlayerFor(this).getElapsedTime());
-            extTime *= (this.totalTime * playerpatch.getAttackSpeed(phase.getHand()));
+        float extTime = Math.max(this.convertTime + timeModifier, 0.0F);
+        if (entitypatch instanceof PlayerPatch<?> playerpatch) {
+            AttackAnimation.Phase phase = this.getPhaseByTime(playerpatch.getAnimator().getPlayerFor(this).getElapsedTime());
+            //PhaseAccessor phaseAccessor = (PhaseAccessor)phase;
+            extTime *= this.totalTime * playerpatch.getAttackSpeed(phase.getHand());
         }
 
-        extTime = Math.max(extTime - this.convertTime, 0);
+        extTime = Math.max(extTime - this.convertTime, 0.0F);
         super.setLinkAnimation(pose1, extTime, entitypatch, dest);
     }
 
     @Override
-    public void modifyPose(DynamicAnimation animation ,Pose pose, LivingEntityPatch<?> entitypatch, float time) {
+    public void modifyPose(DynamicAnimation animation, Pose pose, LivingEntityPatch<?> entitypatch, float time, float partialTicks) {
         JointTransform jt = pose.getOrDefaultTransform("Root");
         Vec3f jointPosition = jt.translation();
         OpenMatrix4f toRootTransformApplied = entitypatch.getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();

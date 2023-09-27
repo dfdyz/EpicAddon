@@ -2,7 +2,9 @@ package com.jvn.epicaddon.skills.SAO;
 
 import com.jvn.epicaddon.register.RegEpicAddonSkills;
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
+import yesman.epicfight.client.gui.BattleModeGui;
 import yesman.epicfight.skill.passive.PassiveSkill;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillContainer;
@@ -16,7 +18,7 @@ public class RapierSkill extends PassiveSkill {
     }
 
     public static Builder<PassiveSkill> createBuilder(ResourceLocation resourceLocation) {
-        return (new Builder<PassiveSkill>()).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setRegistryName(resourceLocation).setResource(Resource.NONE).setActivateType(ActivateType.PASSIVE);
+        return (new Builder<PassiveSkill>()).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setRegistryName(resourceLocation).setResource(Resource.NONE).setActivateType(ActivateType.TOGGLE);
     }
 
 
@@ -26,4 +28,10 @@ public class RapierSkill extends PassiveSkill {
         PlayerPatch pp = container.getExecuter();
         pp.getSkillCapability().addLearnedSkill(RegEpicAddonSkills.SAO_SINGLESWORD);
     }
+
+    @Override
+    public void drawOnGui(BattleModeGui gui, SkillContainer container, PoseStack poseStack, float x, float y) {
+
+    }
+
 }

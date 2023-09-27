@@ -1,6 +1,5 @@
 package com.jvn.epicaddon.api.anim;
 
-import com.jvn.epicaddon.mixin.PhaseAccessor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -77,20 +76,19 @@ public class ScanAttackAnimation extends AttackAnimation{
 
     @Override
     public void setLinkAnimation(Pose pose1, float timeModifier, LivingEntityPatch<?> entitypatch, LinkAnimation dest) {
-        float extTime = Math.max(this.convertTime + timeModifier, 0);
-
-        if (entitypatch instanceof PlayerPatch<?>) {
-            PlayerPatch<?> playerpatch = (PlayerPatch<?>)entitypatch;
-            PhaseAccessor phase =  (PhaseAccessor)this.getPhaseByTime(playerpatch.getAnimator().getPlayerFor(this).getElapsedTime());
-            extTime *= (float)(this.totalTime * playerpatch.getAttackSpeed(phase.getHand()));
+        float extTime = Math.max(this.convertTime + timeModifier, 0.0F);
+        if (entitypatch instanceof PlayerPatch<?> playerpatch) {
+            AttackAnimation.Phase phase = this.getPhaseByTime(playerpatch.getAnimator().getPlayerFor(this).getElapsedTime());
+            //PhaseAccessor phase = (PhaseAccessor)phase;
+            extTime *= this.totalTime * playerpatch.getAttackSpeed(phase.getHand());
         }
 
-        extTime = Math.max(extTime - this.convertTime, 0);
+        extTime = Math.max(extTime - this.convertTime, 0.0F);
         super.setLinkAnimation(pose1, extTime, entitypatch, dest);
     }
 
     @Override
-    public void modifyPose(DynamicAnimation animation, Pose pose, LivingEntityPatch<?> entitypatch, float time) {
+    public void modifyPose(DynamicAnimation animation, Pose pose, LivingEntityPatch<?> entitypatch, float time, float pt) {
         JointTransform jt = pose.getOrDefaultTransform("Root");
         Vec3f jointPosition = jt.translation();
         OpenMatrix4f toRootTransformApplied = entitypatch.getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();
@@ -129,46 +127,43 @@ public class ScanAttackAnimation extends AttackAnimation{
     }
 
     @Override
-    public void tick(LivingEntityPatch<?> entitypatch) {
-        super.tick(entitypatch);
+    public void attackTick(LivingEntityPatch<?> entitypatch) {
+        AnimationPlayer player = entitypatch.getAnimator().getPlayerFor(this);
+        float elapsedTime = player.getElapsedTime();
+        float prevElapsedTime = player.getPrevElapsedTime();
+        EntityState state = this.getState(entitypatch,elapsedTime);
+        EntityState prevState = this.getState(entitypatch,prevElapsedTime);
+        Phase phase = this.getPhaseByTime(elapsedTime);
 
-        if (!entitypatch.isLogicalClient()) {
-            AnimationPlayer player = entitypatch.getAnimator().getPlayerFor(this);
-            float elapsedTime = player.getElapsedTime();
-            float prevElapsedTime = player.getPrevElapsedTime();
-            EntityState state = this.getState(entitypatch,elapsedTime);
-            EntityState prevState = this.getState(entitypatch,prevElapsedTime);
-            Phase phase = this.getPhaseByTime(elapsedTime);
+        if (state.getLevel() == 1 && !state.turningLocked()) {
+            if (entitypatch instanceof MobPatch) {
+                ((Mob)entitypatch.getOriginal()).getNavigation().stop();
+                entitypatch.getOriginal().attackAnim = 2;
+                LivingEntity target = entitypatch.getTarget();
 
-            if (state.getLevel() == 1 && !state.turningLocked()) {
-                if (entitypatch instanceof MobPatch) {
-                    ((Mob)entitypatch.getOriginal()).getNavigation().stop();
-                    entitypatch.getOriginal().attackAnim = 2;
-                    LivingEntity target = entitypatch.getTarget();
-
-                    if (target != null) {
-                        entitypatch.rotateTo(target, entitypatch.getYRotLimit(), false);
-                    }
+                if (target != null) {
+                    entitypatch.rotateTo(target, entitypatch.getYRotLimit(), false);
                 }
-            } else if (prevState.attacking() || state.attacking() || (prevState.getLevel() < 2 && state.getLevel() > 2)) {
-                if (!prevState.attacking()) {
-                    //entitypatch.playSound(this.getSwingSound(entitypatch, phase), 0.0F, 0.0F);
-                    entitypatch.getCurrenltyAttackedEntities().clear();
-                }
-
-                //EpicAddon.LOGGER.info(String.valueOf(prevElapsedTime));
-                this.ScanTarget(entitypatch, prevElapsedTime, elapsedTime, prevState, state, phase);
             }
+        } else if (prevState.attacking() || state.attacking() || (prevState.getLevel() < 2 && state.getLevel() > 2)) {
+            if (!prevState.attacking()) {
+                //entitypatch.playSound(this.getSwingSound(entitypatch, phase), 0.0F, 0.0F);
+                entitypatch.getCurrenltyAttackedEntities().clear();
+            }
+
+            //EpicAddon.LOGGER.info(String.valueOf(prevElapsedTime));
+            this.ScanTarget(entitypatch, prevElapsedTime, elapsedTime, prevState, state, phase);
         }
     }
 
     public void ScanTarget(LivingEntityPatch<?> entitypatch, float prevElapsedTime, float elapsedTime, EntityState prevState, EntityState state, Phase phase){
-        PhaseAccessor phaseAccessor = (PhaseAccessor)phase;
-        Collider collider = this.getCollider(entitypatch, elapsedTime);
+        //PhaseAccessor phase = (PhaseAccessor)phase;
+
+        //Collider collider = phase.getCollidingEntities(entitypatch, elapsedTime);
         LivingEntity entity = entitypatch.getOriginal();
         entitypatch.getArmature().initializeTransform();
-        float poseTime = state.attacking() ? elapsedTime : phaseAccessor.getContact();
-        List<Entity> list = collider.updateAndSelectCollideEntity(entitypatch, this, poseTime, poseTime, phase.getColliderJoint(), this.getPlaySpeed(entitypatch));
+        float poseTime = state.attacking() ? elapsedTime : phase.contact;
+        List<Entity> list = phase.getCollidingEntities(entitypatch, this, prevElapsedTime, poseTime, this.getPlaySpeed(entitypatch));
 
         if (list.size() > 0) {
             HitEntityList hitEntities = new HitEntityList(entitypatch, list, HitEntityList.Priority.DISTANCE);

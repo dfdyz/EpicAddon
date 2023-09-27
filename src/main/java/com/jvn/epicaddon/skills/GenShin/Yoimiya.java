@@ -1,7 +1,10 @@
 package com.jvn.epicaddon.skills.GenShin;
 
 import com.jvn.epicaddon.resources.EpicAddonSkillCategories;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
+import yesman.epicfight.client.gui.BattleModeGui;
+import yesman.epicfight.skill.SkillContainer;
 import yesman.epicfight.skill.passive.PassiveSkill;
 import yesman.epicfight.skill.Skill;
 
@@ -16,4 +19,8 @@ public class Yoimiya extends PassiveSkill {
         return (new Skill.Builder<PassiveSkill>()).setCategory(EpicAddonSkillCategories.GEN_SHIN_IMPACT_BOW).setResource(Skill.Resource.NONE);
     }
 
+    @Override
+    public void drawOnGui(BattleModeGui gui, SkillContainer container, PoseStack poseStack, float x, float y) {
+
+    }
 }

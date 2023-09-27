@@ -1,6 +1,5 @@
 package com.jvn.epicaddon.api.anim;
 
-import com.jvn.epicaddon.mixin.PhaseAccessor;
 import net.minecraft.world.phys.Vec3;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.Pose;
@@ -27,25 +26,24 @@ public class BasicAttackAnimationEx extends AttackAnimation {
 
         this.stateSpectrumBlueprint.clear();
 
-        for (Phase _phase : phases) {
-            PhaseAccessor phase = (PhaseAccessor) _phase;
+        for (Phase phase : phases) {
 
             this.stateSpectrumBlueprint
-                    .newTimePair(phase.getStart(),preDelay)
+                    .newTimePair(phase.start,preDelay)
                     .addState(EntityState.PHASE_LEVEL, 1)
-                    .newTimePair(phase.getStart(), phase.getContact() + 0.01F)
+                    .newTimePair(phase.start, phase.contact + 0.01F)
                     .addState(EntityState.CAN_SKILL_EXECUTION, false)
-                    .newTimePair(phase.getStart(), phase.getRecovery())
+                    .newTimePair(phase.start, phase.recovery)
                     .addState(EntityState.MOVEMENT_LOCKED, true)
                     .addState(EntityState.CAN_BASIC_ATTACK, false)
-                    .newTimePair(phase.getStart(), phase.getEnd())
+                    .newTimePair(phase.start, phase.end)
                     .addState(EntityState.INACTION, true)
-                    .newTimePair(phase.getAntic(), phase.getRecovery())
+                    .newTimePair(phase.antic, phase.recovery)
                     .addState(EntityState.TURNING_LOCKED, true)
-                    .newTimePair(preDelay, phase.getContact() + 0.01F)
+                    .newTimePair(preDelay, phase.contact + 0.01F)
                     .addState(EntityState.ATTACKING, true)
                     .addState(EntityState.PHASE_LEVEL, 2)
-                    .newTimePair(phase.getContact()+0.01F, phase.getEnd())
+                    .newTimePair(phase.contact+0.01F, phase.end)
                     .addState(EntityState.PHASE_LEVEL, 3);
         }
     }

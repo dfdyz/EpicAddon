@@ -9,8 +9,7 @@
 	],
 	"mixins": [
 		"MixinNBTCapabilities",
-		"MixinLivingEntity",
-		"PhaseAccessor"
+		"MixinLivingEntity"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -1,7 +1,6 @@
 package com.jvn.epicaddon.api.anim;
 
 import com.jvn.epicaddon.events.RenderEvent;
-import com.jvn.epicaddon.mixin.PhaseAccessor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -28,23 +27,23 @@ public class ScanAttackAnimationEx extends ScanAttackAnimation {
 
         this.stateSpectrumBlueprint.clear();
         for (Phase _phase : phases) {
-            PhaseAccessor phase = (PhaseAccessor) _phase;
+            //PhaseAccessor phase = (PhaseAccessor) _phase;
 
             this.stateSpectrumBlueprint
-                    .newTimePair(phase.getStart(),antic)
+                    .newTimePair(_phase.start,antic)
                     .addState(EntityState.PHASE_LEVEL, 1)
-                    .newTimePair(phase.getStart(), phase.getContact() + 0.01F)
+                    .newTimePair(_phase.start, _phase.contact + 0.01F)
                     .addState(EntityState.CAN_SKILL_EXECUTION, false)
-                    .newTimePair(phase.getStart(), phase.getRecovery())
+                    .newTimePair(_phase.start, _phase.recovery)
                     .addState(EntityState.MOVEMENT_LOCKED, true)
                     .addState(EntityState.CAN_BASIC_ATTACK, false)
-                    .newTimePair(phase.getStart(), phase.getEnd())
+                    .newTimePair(_phase.start, _phase.end)
                     .addState(EntityState.INACTION, true)
                     .addState(EntityState.TURNING_LOCKED, true)
-                    .newTimePair(antic, phase.getContact() + 0.01F)
+                    .newTimePair(antic, _phase.contact + 0.01F)
                     .addState(EntityState.ATTACKING, true)
                     .addState(EntityState.PHASE_LEVEL, 2)
-                    .newTimePair(phase.getContact()+0.01F, phase.getEnd())
+                    .newTimePair(_phase.contact+0.01F, _phase.end)
                     .addState(EntityState.PHASE_LEVEL, 3);
         }
 
@@ -78,7 +77,7 @@ public class ScanAttackAnimationEx extends ScanAttackAnimation {
     }
 
     @Override
-    public void modifyPose(DynamicAnimation animation,Pose pose, LivingEntityPatch<?> entitypatch, float time) {
+    public void modifyPose(DynamicAnimation animation,Pose pose, LivingEntityPatch<?> entitypatch, float time, float pt) {
         JointTransform jt = pose.getOrDefaultTransform("Root");
         Vec3f jointPosition = jt.translation();
         OpenMatrix4f toRootTransformApplied = entitypatch.getArmature().searchJointByName("Root").getLocalTrasnform().removeTranslation();

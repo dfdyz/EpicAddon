@@ -25,7 +25,7 @@ public class DualBladeSkill extends PassiveSkill {
     }
 
     public static Skill.Builder<PassiveSkill> createBuilder(ResourceLocation resourceLocation) {
-        return (new Skill.Builder<PassiveSkill>()).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setRegistryName(resourceLocation).setResource(Resource.NONE).setActivateType(ActivateType.PASSIVE);
+        return (new Skill.Builder<PassiveSkill>()).setCategory(EpicAddonSkillCategories.SAO_SINGLE_SWORD).setRegistryName(resourceLocation).setResource(Resource.NONE).setActivateType(ActivateType.TOGGLE);
     }
 
     @Override
