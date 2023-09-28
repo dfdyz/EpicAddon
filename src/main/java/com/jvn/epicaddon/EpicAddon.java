@@ -2,6 +2,7 @@ package com.jvn.epicaddon;
 
 import com.jvn.epicaddon.api.PostEffect.ShaderProgram;
 import com.jvn.epicaddon.api.camera.CamAnim;
+import com.jvn.epicaddon.capability.EpicAddonCapabilities;
 import com.jvn.epicaddon.events.ControllerEvent;
 import com.jvn.epicaddon.network.EpicaddonNetMgr;
 import com.jvn.epicaddon.register.*;
@@ -48,6 +49,8 @@ public class EpicAddon
 
         //bus.addListener(RegModels::RegItemModelOverride);
         //bus.addListener(RegModels::RegItemEFMRenderer);
+        bus.addListener(EpicAddonCapabilities::registerCapabilities);
+
 
         EpicAddonSkillCategories.ENUM_MANAGER.loadPreemptive(EpicAddonSkillCategories.class);
         EpicAddonStyles.ENUM_MANAGER.loadPreemptive(EpicAddonStyles.class);

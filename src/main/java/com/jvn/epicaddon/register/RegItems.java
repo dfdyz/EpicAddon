@@ -1,5 +1,6 @@
 package com.jvn.epicaddon.register;
 
+import com.google.common.collect.Maps;
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.item.Destiny.DestinyWeaponItem;
 import com.jvn.epicaddon.item.GenShinImpact.BowWeaponItem;
@@ -9,11 +10,23 @@ import com.jvn.epicaddon.item.SAO.LambentLightItem;
 import com.jvn.epicaddon.item.SAO.SingelSwordItem;
 import com.jvn.epicaddon.resources.EpicAddonItemGroup;
 import com.jvn.epicaddon.resources.EpicAddonTier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import yesman.epicfight.api.animation.Animator;
+import yesman.epicfight.api.client.model.AnimatedMesh;
+import yesman.epicfight.api.client.model.Meshes;
+import yesman.epicfight.api.model.Armature;
+import yesman.epicfight.api.model.JsonModelLoader;
+
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class RegItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, EpicAddon.MODID);
@@ -38,4 +51,38 @@ public class RegItems {
     //mtllib battle_scythe.mtl
 
     //public static final RegistryObject<Item> SteelSword = ITEMS.register("steel_sword", () -> new SteelSword(new Item.Properties().tab(EpicAddonItemGroup.ITEMS), Tiers.NETHERITE));
+
+
+
+    public static class AnimatedItems{
+        public static class AnimatedItemModel{
+            private Armature armature;
+            private AnimatedMesh mesh;
+
+            public AnimatedItemModel(ResourceManager rm, ResourceLocation rl){
+                JsonModelLoader jsonModelLoader = new JsonModelLoader(rm, rl);
+                armature = jsonModelLoader.loadArmature(Armature::new);
+                mesh = jsonModelLoader.loadAnimatedMesh(AnimatedMesh::new);
+            }
+            public Armature getArmature(){ return armature; }
+            public AnimatedMesh getMesh(){ return mesh; }
+        }
+
+        public static Supplier<Animator> AnimatedItem_AnimatorGetter;
+        public static HashMap<Item, AnimatedItemModel> ModelRegistry = Maps.newHashMap();
+
+
+        public static void registerAnimatedItem(Item item, AnimatedItemModel m){
+            ModelRegistry.put(item, m);
+        }
+
+        public static Animator getAnimator(ItemStack itemStack){
+            return AnimatedItem_AnimatorGetter.get();
+        }
+
+        public static void registerAnimatedItems(){
+
+        }
+    }
+
 }
