@@ -33,27 +33,13 @@ public class ItemLinkAnimation extends ItemAnimation {
         if (!isEnd) {
             this.nextAnimation.end(entitypatch, nextAnimation, isEnd);
         } else if (this.startsAt > 0.0F) {
-            EpicAddonCapabilities.getAnimatedItem(entitypatch).getAnimator().animationPlayer.setElapsedTime(this.startsAt);
-            EpicAddonCapabilities.getAnimatedItem(entitypatch).getAnimator().animationPlayer.markToDoNotReset();
             this.startsAt = 0.0F;
         }
     }
 
-    public TypeFlexibleHashMap<EntityState.StateFactor<?>> getStatesMap(LivingEntityPatch<?> entitypatch, float time) {
-        return this.nextAnimation.getStatesMap(entitypatch, time);
-    }
-
-    public EntityState getState(LivingEntityPatch<?> entitypatch, float time) {
-        return this.nextAnimation.getState(entitypatch, 0.0F);
-    }
-
-    public <T> T getState(EntityState.StateFactor<T> stateFactor, LivingEntityPatch<?> entitypatch, float time) {
-        return this.nextAnimation.getState(stateFactor, entitypatch, 0.0F);
-    }
-
     @Override
-    public Pose getPoseByTime(ItemStack itemStack, float time, float partialTicks) {
-        Pose nextStartingPose = this.nextAnimation.getPoseByTime(itemStack, this.startsAt, 1.0F);
+    public Pose getPoseByTime(float time, float partialTicks) {
+        Pose nextStartingPose = this.nextAnimation.getPoseByTime(this.startsAt, 1.0F);
         Iterator var5 = nextStartingPose.getJointTransformData().entrySet().iterator();
         while(var5.hasNext()) {
             Map.Entry<String, JointTransform> entry = (Map.Entry)var5.next();
@@ -65,8 +51,7 @@ public class ItemLinkAnimation extends ItemAnimation {
                 jt.copyFrom(newJt);
             }
         }
-
-        return super.getPoseByTime(itemStack, time, partialTicks);
+        return super.getPoseByTime(time, partialTicks);
     }
 
     public float getPlaySpeed(LivingEntityPatch<?> entitypatch) {

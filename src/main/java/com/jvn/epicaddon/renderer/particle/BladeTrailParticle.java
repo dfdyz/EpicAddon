@@ -1,42 +1,8 @@
 package com.jvn.epicaddon.renderer.particle;
 
 
-import com.google.common.collect.Lists;
-import com.jvn.epicaddon.renderer.EpicAddonRenderType;
-import com.jvn.epicaddon.renderer.SwordTrail.IAnimSTOverride;
-import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
-import com.jvn.epicaddon.resources.config.RenderConfig;
-import com.jvn.epicaddon.utils.Trail;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector4f;
-import net.minecraft.client.Camera;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import yesman.epicfight.api.animation.AnimationPlayer;
-import yesman.epicfight.api.animation.Animator;
-import yesman.epicfight.api.animation.Pose;
-import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.animation.types.StaticAnimation;
-import yesman.epicfight.api.client.animation.ClientAnimator;
-import yesman.epicfight.api.model.Armature;
-import yesman.epicfight.api.utils.math.OpenMatrix4f;
-import yesman.epicfight.api.utils.math.Vec3f;
-import yesman.epicfight.main.EpicFightMod;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
-import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
-import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
-
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT) // copy from yesman
 public class BladeTrailParticle /*extends TextureSheetParticle*/ {

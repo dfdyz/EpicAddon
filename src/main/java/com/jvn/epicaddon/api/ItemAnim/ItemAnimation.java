@@ -46,17 +46,16 @@ public class ItemAnimation {
     }
     public final Pose getRawPose(float time) {
         Pose pose = new Pose();
-        Iterator var3 = this.jointTransforms.keySet().iterator();
+        Iterator iterator = this.jointTransforms.keySet().iterator();
 
-        while(var3.hasNext()) {
-            String jointName = (String)var3.next();
-            pose.putJointData(jointName, ((TransformSheet)this.jointTransforms.get(jointName)).getInterpolatedTransform(time));
+        while(iterator.hasNext()) {
+            String jointName = (String)iterator.next();
+            pose.putJointData(jointName, this.jointTransforms.get(jointName).getInterpolatedTransform(time));
         }
-
         return pose;
     }
 
-    public Pose getPoseByTime(ItemStack itemStack, float time, float partialTicks) {
+    public Pose getPoseByTime(float time, float partialTicks) {
         Pose pose = new Pose();
         Iterator iterator = this.jointTransforms.keySet().iterator();
 
@@ -68,9 +67,9 @@ public class ItemAnimation {
     }
 
 
-    public void setLinkAnimation(Pose pose1, float convertTimeModifier, LivingEntityPatch<?> entitypatch, ItemLinkAnimation dest) {
+    public void setLinkAnimation(Pose lastPose, float convertTimeModifier, LivingEntityPatch<?> entitypatch, ItemLinkAnimation dest) {
         if (!entitypatch.isLogicalClient()) {
-            pose1 = Animations.DUMMY_ANIMATION.getPoseByTime(entitypatch, 0.0F, 1.0F);
+            lastPose = DUMMY_ANIMATION.getPoseByTime(0.0F, 1.0F);
         }
 
         float totalTime = convertTimeModifier >= 0.0F ? convertTimeModifier + this.convertTime : this.convertTime;
@@ -83,8 +82,8 @@ public class ItemAnimation {
         dest.getTransfroms().clear();
         dest.setTotalTime(totalTime);
         dest.setNextAnimation(this);
-        Map<String, JointTransform> data1 = pose1.getJointTransformData();
-        Map<String, JointTransform> data2 = this.getPoseByTime(entitypatch.getValidItemInHand(InteractionHand.MAIN_HAND), nextStart, 1.0F).getJointTransformData();
+        Map<String, JointTransform> data1 = lastPose.getJointTransformData();
+        Map<String, JointTransform> data2 = this.getPoseByTime(nextStart, 1.0F).getJointTransformData();
         Iterator var10 = data1.keySet().iterator();
 
         while(var10.hasNext()) {

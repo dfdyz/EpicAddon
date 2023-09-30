@@ -25,8 +25,11 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class BladeTrailTextureLoader {
+    /*
     public static final Map<String, EpicAddonRenderType.BladeTrailRenderType> RenderType = Maps.newHashMap();
     private static final Logger LOGGER = LogUtils.getLogger();
+
+
 
     public static void ReleaseAll(){
         RenderType.forEach((key,val) -> {val.Release();});
@@ -74,4 +77,6 @@ public class BladeTrailTextureLoader {
 
 
     }
+
+     */
 }

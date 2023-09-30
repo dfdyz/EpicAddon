@@ -38,6 +38,10 @@ public class ItemAnimator {
         }
     }
 
+
+
+
+
     public void update(LivingEntityPatch<?> entitypatch, DynamicAnimation entityAnim) {
         if (this.paused) {
             this.animationPlayer.setElapsedTime(this.animationPlayer.getElapsedTime());
@@ -90,7 +94,6 @@ public class ItemAnimator {
     public Pose getPose(ItemStack itemStack, float partialTick) {
         Pose pose = this.animationPlayer.getCurrentPose(itemStack, partialTick);
         return pose;
-
     }
 
     public void pause() {

@@ -48,7 +48,7 @@ public class EpicAddon
 
 
         //bus.addListener(RegModels::RegItemModelOverride);
-        //bus.addListener(RegModels::RegItemEFMRenderer);
+        bus.addListener(RegModels::RegItemEFMRenderer);
         bus.addListener(EpicAddonCapabilities::registerCapabilities);
 
 
@@ -72,7 +72,7 @@ public class EpicAddon
         event.enqueueWork(EpicaddonNetMgr::register);
         event.enqueueWork(RegEpicAddonSkills::registerSkills);
         if(FMLEnvironment.dist == Dist.CLIENT){
-            BladeTrailTextureLoader.Load();
+            //BladeTrailTextureLoader.Load();
             ClientConfig.Load();
             EpicAddonAnimations.RegCamAnims();
 

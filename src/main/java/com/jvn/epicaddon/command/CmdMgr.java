@@ -2,7 +2,6 @@ package com.jvn.epicaddon.command;
 
 import com.jvn.epicaddon.EpicAddon;
 import com.jvn.epicaddon.api.camera.CamAnim;
-import com.jvn.epicaddon.resources.BladeTrailTextureLoader;
 import com.jvn.epicaddon.resources.EpicAddonAnimations;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.mojang.brigadier.Command;
@@ -39,8 +38,8 @@ public class CmdMgr {
                 .then(Commands.literal("Reload")
                         .executes(context -> {
                             ClientConfig.Load();
-                            BladeTrailTextureLoader.ReleaseAll();
-                            BladeTrailTextureLoader.Load();
+                            //BladeTrailTextureLoader.ReleaseAll();
+                            //BladeTrailTextureLoader.Load();
                             for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
                                 camAnim.load();
                             }

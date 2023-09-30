@@ -15,6 +15,9 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -57,14 +60,20 @@ public class RegItems {
     public static class AnimatedItems{
         public static class AnimatedItemModel{
             private Armature armature;
-            private AnimatedMesh mesh;
 
+            @OnlyIn(Dist.CLIENT)
+            private AnimatedMesh mesh;
             public AnimatedItemModel(ResourceManager rm, ResourceLocation rl){
                 JsonModelLoader jsonModelLoader = new JsonModelLoader(rm, rl);
                 armature = jsonModelLoader.loadArmature(Armature::new);
-                mesh = jsonModelLoader.loadAnimatedMesh(AnimatedMesh::new);
+
+                if(FMLEnvironment.dist == Dist.CLIENT) {
+                    mesh = jsonModelLoader.loadAnimatedMesh(AnimatedMesh::new);
+                }
             }
             public Armature getArmature(){ return armature; }
+
+            @OnlyIn(Dist.CLIENT)
             public AnimatedMesh getMesh(){ return mesh; }
         }
 

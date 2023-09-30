@@ -76,7 +76,12 @@ public class RegModels {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void RegItemEFMRenderer(PatchedRenderersEvent.Add event){
-        LOGGER.info("RegItemEFMRendererOverride");
+        LOGGER.info("Reg Item EFM Renderer Override");
         event.addItemRenderer(RegItems.TrainingBow.get(), new RenderBow());
+
+
+
+
+
     }
 }

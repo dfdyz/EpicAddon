@@ -30,11 +30,8 @@ public class ItemConcurrentLinkAnimation extends ItemAnimation{
         if (!isEnd) {
             this.nextAnimation.end(entitypatch, nextAnimation, isEnd);
         } else if (this.startsAt > 0.0F) {
-            EpicAddonCapabilities.getAnimatedItem(entitypatch).getAnimator().animationPlayer.setElapsedTime(this.startsAt);
-            EpicAddonCapabilities.getAnimatedItem(entitypatch).getAnimator().animationPlayer.markToDoNotReset();
             this.startsAt = 0.0F;
         }
-
     }
 
     public EntityState getState(LivingEntityPatch<?> entitypatch, float time) {
@@ -47,12 +44,12 @@ public class ItemConcurrentLinkAnimation extends ItemAnimation{
 
 
     @Override
-    public Pose getPoseByTime(ItemStack itemStack, float time, float partialTicks) {
+    public Pose getPoseByTime(float time, float partialTicks) {
         float elapsed = time + this.startsAt;
         float currentElapsed = elapsed % this.currentAnimation.getTotalTime();
         float nextElapsed = elapsed % this.nextAnimation.getTotalTime();
-        Pose currentAnimPose = this.currentAnimation.getPoseByTime(itemStack, currentElapsed, 1.0F);
-        Pose nextAnimPose = this.nextAnimation.getPoseByTime(itemStack, nextElapsed, 1.0F);
+        Pose currentAnimPose = this.currentAnimation.getPoseByTime(currentElapsed, 1.0F);
+        Pose nextAnimPose = this.nextAnimation.getPoseByTime(nextElapsed, 1.0F);
         float interpolate = time / this.getTotalTime();
         return Pose.interpolatePose(currentAnimPose, nextAnimPose, interpolate);
     }
