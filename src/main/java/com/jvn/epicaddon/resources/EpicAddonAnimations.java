@@ -220,66 +220,72 @@ public class EpicAddonAnimations {
         SAO_DUAL_SWORD_RUN = new MovementAnimation(true, "biped/living/sao_dual_sword_hold_run", biped);
         //SAO_DUAL_SWORD_WALK = new MovementAnimation(true, "biped/living/sao_dual_sword_walk", biped);
 
-        SAO_DUAL_SWORD_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.6F, 0.65F, null, biped.toolR, "biped/sao_dual_sword_auto1", biped)
+        SAO_DUAL_SWORD_AUTO1 = new BasicAttackAnimation(0.05F, 0.2F, 0.3F, 0.5F, null, biped.toolR, "biped/sao_dual_sword_auto1", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
 
-        SAO_DUAL_SWORD_AUTO2 = new BasicAttackAnimation(0.2F, 0.002F, 0.6F, 0.28F, InteractionHand.OFF_HAND ,null, biped.toolL, "biped/sao_dual_sword_auto2", biped)
+        SAO_DUAL_SWORD_AUTO2 = new BasicAttackAnimation(0.05F, 0.01F, 0.2F, 0.2F, InteractionHand.OFF_HAND ,null, biped.toolL, "biped/sao_dual_sword_auto2", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
 
-        SAO_DUAL_SWORD_AUTO3 = new BasicAttackAnimation(0.13F, 0.05F, 0.45F, 0.28F, InteractionHand.OFF_HAND ,null, biped.toolL, "biped/sao_dual_sword_auto3", biped)
+        SAO_DUAL_SWORD_AUTO3 = new BasicAttackAnimation(0.05F, 0.01F, 0.2F, 0.2F, InteractionHand.OFF_HAND ,null, biped.toolL, "biped/sao_dual_sword_auto3", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
 
-        SAO_DUAL_SWORD_AUTO4 = new BasicAttackAnimation(0.13F, 0.05F, 0.5F, 0.4F, null, biped.toolR, "biped/sao_dual_sword_auto4", biped)
+        SAO_DUAL_SWORD_AUTO4 = new BasicAttackAnimation(0.05F, 0.01F, 0.2F, 0.5F, null, biped.toolR, "biped/sao_dual_sword_auto4", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
-
-        SAO_DUAL_SWORD_AUTO5 = new BasicAttackAnimation(0.02F, 0.02F, 1.45F, 1.4F,InteractionHand.OFF_HAND , null, biped.toolL, "biped/sao_dual_sword_auto5", biped)
+        //auto4:右手，antic:0.05F,contact:0.15F
+        //auto4:左手，antic:0.15F,contact:0.3F
+        SAO_DUAL_SWORD_AUTO5 = new BasicAttackAnimation(0.05F, 0.01F, 0.2F, 0.4F,InteractionHand.OFF_HAND , null, biped.toolL, "biped/sao_dual_sword_auto5", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
-
-        SAO_DUAL_SWORD_AUTO6 = new BasicAttackAnimation(0.12F, 0.0F, 0.62F, 0.615F, null, biped.toolR, "biped/sao_dual_sword_auto6", biped)
+        //auto5:右手，antic:0.15F,contact:0.2F
+        //auto5:左手，antic:0.2F,contact:0.3F
+        SAO_DUAL_SWORD_AUTO6 = new BasicAttackAnimation(0.05F, 0.1F, 0.2F, 0.3F, null, biped.toolR, "biped/sao_dual_sword_auto6", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
-
-        SAO_DUAL_SWORD_AUTO7 = new BasicAttackAnimation(0.11F, 0.85F, 2.5F, 1.7F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto7", biped)
+        //auto6:右手，antic:0.1F,contact:0.2F
+        //auto6:左手，antic:0.1F,contact:0.2F
+        SAO_DUAL_SWORD_AUTO7 = new BasicAttackAnimation(0.05F, 0.01F, 0.1F, 0.2F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto7", biped)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.31F)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(2.15F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.LONG)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
-
-        SAO_DUAL_SWORD_AUTO8 = new BasicAttackAnimation(0.05F, 0.4F, 1.8F, 1.2F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto8", biped)
+        //auto7:右手，antic:0.01F,contact:0.1F
+        //autO7:左手，antic:0.01F,contact:0.1F
+        SAO_DUAL_SWORD_AUTO8 = new BasicAttackAnimation(0.05F, 0.01F, 0.1F, 0.2F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto8", biped)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.4F)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(1.9F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.LONG)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
-
-        SAO_DUAL_SWORD_AUTO9 = new BasicAttackAnimation(0.113F, 0.20F, 1.3F, 0.9F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto9", biped)
+        //auto8:右手，antic:0.05F,contact:0.1F\antic:0.15F,contact:0.2F(单手两段攻击)
+        //autO8:左手，antic:0.05F,contact:0.1F\antic:0.15F,contact:0.2F(单手两段攻击)
+        SAO_DUAL_SWORD_AUTO9 = new BasicAttackAnimation(0.05F, 0.01F, 0.1F, 0.2F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto9", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(2.05F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.LONG)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
-
-        SAO_DUAL_SWORD_AUTO10 = new BasicAttackAnimation(0.115F, 0.05F, 1.125F, 0.965F, WeaponCollider.SAO_SWORD_DUAL_AUTO10, biped.rootJoint, "biped/sao_dual_sword_auto10", biped)
+        //auto9:右手，antic:0.01F,contact:0.1F
+        //autO9:左手，antic:0.01F,contact:0.1F
+        SAO_DUAL_SWORD_AUTO10 = new BasicAttackAnimation(0.05F, 0.01F, 0.1F, 0.2F, WeaponCollider.SAO_SWORD_DUAL_AUTO10, biped.rootJoint, "biped/sao_dual_sword_auto10", biped)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.45F)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(2.05F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.LONG)
@@ -287,20 +293,20 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
 
-        SAO_DUAL_SWORD_AUTO11 = new BasicAttackAnimation(0.0F, 0.02F,0.41F, 0.3F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto11", biped)
+        SAO_DUAL_SWORD_AUTO11 = new BasicAttackAnimation(0.05F, 0.01F,0.1F, 0.3F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto11", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(2.08F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
 
-        SAO_DUAL_SWORD_AUTO12 = new BasicAttackAnimation(0.09F, 0.02F, 0.45F, 0.3F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto12", biped)
+        SAO_DUAL_SWORD_AUTO12 = new BasicAttackAnimation(0.05F, 0.01F, 0.1F, 0.5F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword_auto12", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(2.1F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
-
+//1~12，13~16的连击没做。
         SAO_DUAL_SWORD_AUTO13 = new BasicAttackAnimation(0.16F, 0.002F, 0.35F, 0.28F, null, biped.toolR, "biped/sao_dual_sword_auto13", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
