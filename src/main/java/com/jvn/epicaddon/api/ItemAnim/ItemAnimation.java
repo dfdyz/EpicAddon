@@ -97,10 +97,6 @@ public class ItemAnimation {
 
     }
 
-    public void putOnPlayer(ItemAnimationPlayer player) {
-        player.setPlayAnimation(this);
-    }
-
     public void begin(LivingEntityPatch<?> entitypatch) {
     }
 
