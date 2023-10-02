@@ -102,10 +102,12 @@ public class RegWeaponItemCap {
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO10,
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO11,
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO12,
+                        /*
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO13,
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO14,
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO15,
                         EpicAddonAnimations.SAO_DUAL_SWORD_AUTO16,
+                         */
                         EpicAddonAnimations.SAO_DOUBLE_CHOPPER, Animations.SPEAR_DASH,
                         Animations.GREATSWORD_AIR_SLASH)
                 .innateSkill(EpicAddonStyles.SAO_SINGLE_SWORD,(itemstack) ->  RegEpicAddonSkills.SAO_SINGLESWORD_SA)
