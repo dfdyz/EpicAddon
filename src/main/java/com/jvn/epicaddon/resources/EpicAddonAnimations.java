@@ -223,20 +223,20 @@ public class EpicAddonAnimations {
         SAO_DUAL_SWORD_RUN = new MovementAnimation(true, "biped/living/sao_dual_sword_hold_run", biped);
         //SAO_DUAL_SWORD_WALK = new MovementAnimation(true, "biped/living/sao_dual_sword_walk", biped);
 
-        SAO_DUAL_SWORD_AUTO1 = new BasicAttackAnimation(0.05F, 0.2F, 0.3F, 0.5F, null, biped.toolR, "biped/sao_dual_sword/sao_dual_sword_auto1", biped)
+        SAO_DUAL_SWORD_AUTO1 = new BasicAttackAnimation(0.05F, 0.1F, 0.2F, 0.3F, null, biped.toolR, "biped/sao_dual_sword/sao_dual_sword_auto1", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
 
 
-        SAO_DUAL_SWORD_AUTO2 = new BasicAttackAnimation(0.05F, 0.01F, 0.2F, 0.2F, InteractionHand.OFF_HAND ,null, biped.toolL, "biped/sao_dual_sword/sao_dual_sword_auto2", biped)
+        SAO_DUAL_SWORD_AUTO2 = new BasicAttackAnimation(0.05F, 0.01F, 0.2F, 0.3F, InteractionHand.OFF_HAND ,null, biped.toolL, "biped/sao_dual_sword/sao_dual_sword_auto2", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
 
-        SAO_DUAL_SWORD_AUTO3 = new BasicAttackAnimation(0.05F, 0.01F, 0.2F, 0.2F, InteractionHand.OFF_HAND ,null, biped.toolL, "biped/sao_dual_sword/sao_dual_sword_auto3", biped)
+        SAO_DUAL_SWORD_AUTO3 = new BasicAttackAnimation(0.05F, 0.01F, 0.2F, 0.3F, InteractionHand.OFF_HAND ,null, biped.toolL, "biped/sao_dual_sword/sao_dual_sword_auto3", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
@@ -246,7 +246,7 @@ public class EpicAddonAnimations {
                 new AttackAnimation.Phase(0.0F, 0.05F, 0.15F, 0.15F, 0.15F, InteractionHand.MAIN_HAND, biped.toolR, null)
                         .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.9F))
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT),
-                new AttackAnimation.Phase(0.15F, 0.15F, 0.3F, 0.5F, Float.MAX_VALUE, InteractionHand.MAIN_HAND, biped.toolL, null)
+                new AttackAnimation.Phase(0.15F, 0.15F, 0.3F, 0.4F, Float.MAX_VALUE, InteractionHand.MAIN_HAND, biped.toolL, null)
                         .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.9F))
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
@@ -260,7 +260,7 @@ public class EpicAddonAnimations {
                 new AttackAnimation.Phase(0.0F, 0.15F, 0.2F, 0.2F, 0.2F, InteractionHand.MAIN_HAND, biped.toolR, null)
                         .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.9F))
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT),
-                new AttackAnimation.Phase(0.2F, 0.2F, 0.3F, 0.4F, Float.MAX_VALUE, InteractionHand.MAIN_HAND, biped.toolL, null)
+                new AttackAnimation.Phase(0.2F, 0.2F, 0.25F, 0.3F, Float.MAX_VALUE, InteractionHand.MAIN_HAND, biped.toolL, null)
                         .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(0.9F))
                         .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
@@ -347,7 +347,7 @@ public class EpicAddonAnimations {
                 .addProperty(AnimationProperty.AttackAnimationProperty.BASIS_ATTACK_SPEED, 1.6f)
                 .addProperty(AnimationProperty.AttackAnimationProperty.ATTACK_SPEED_FACTOR, 0.6F);
 
-        SAO_DUAL_SWORD_AUTO12 = new BasicAttackAnimation(0.05F, 0.01F, 0.1F, 0.5F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword/sao_dual_sword_auto12", biped)
+        SAO_DUAL_SWORD_AUTO12 = new BasicAttackAnimation(0.05F, 0.01F, 0.1F, 0.6F, WeaponCollider.SAO_SWORD_AIR, biped.rootJoint, "biped/sao_dual_sword/sao_dual_sword_auto12", biped)
                 .addProperty(AnimationProperty.AttackPhaseProperty.DAMAGE_MODIFIER, ValueModifier.multiplier(2.1F))
                 .addProperty(AnimationProperty.AttackPhaseProperty.STUN_TYPE, StunType.SHORT)
                 .addProperty(AnimationProperty.AttackPhaseProperty.PARTICLE, RegParticle.SPARKS_SPLASH_HIT)
