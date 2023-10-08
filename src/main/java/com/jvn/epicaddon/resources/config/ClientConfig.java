@@ -1,12 +1,16 @@
 package com.jvn.epicaddon.resources.config;
 
+
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonSyntaxException;
 import com.jvn.epicaddon.events.DeathParticleHandler;
+import com.jvn.epicaddon.events.reloader.Config2SkinReloader;
 import com.jvn.epicaddon.utils.GlobalVal;
 import com.jvn.epicaddon.utils.HealthBarStyle;
 import com.jvn.epicaddon.utils.Trail;
 import com.mojang.logging.LogUtils;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.jline.utils.InputStreamReader;
 import org.slf4j.Logger;
@@ -14,6 +18,8 @@ import org.slf4j.Logger;
 import java.io.*;
 import java.util.Map;
 
+
+@OnlyIn(Dist.CLIENT)
 public class ClientConfig {
     public static ClientConfigValue cfg = new ClientConfigValue();
 
@@ -46,10 +52,12 @@ public class ClientConfig {
         return str;
     }
 
-    public static void Load(){
-        LOGGER.info("EpicAddon:Loading Sword Trail Item");
+    public static void Load(boolean isReload){
         String cfgpath,json;
-        /*
+
+        //load trail
+        LOGGER.info("EpicAddon:Loading Sword Trail Item");
+
         cfgpath = FMLPaths.CONFIGDIR.get().resolve("EpicAddonTrailItem.json").toString();
         json = ReadString(cfgpath);
 
@@ -61,10 +69,9 @@ public class ClientConfig {
         else{
             WriteString(cfgpath, CommonConfig.GSON.toJson(RenderConfig.TrailItem));
         }
+        if(isReload && ClientConfig.cfg.EnableAutoMerge) Config2SkinReloader.Merge();
 
         LOGGER.info("EpicAddon:Loading Health Bar Modifier");
-
-         */
         cfgpath = FMLPaths.CONFIGDIR.get().resolve("EpicAddonHealthBar.json").toString();
         json = ReadString(cfgpath);
         //LOGGER.info(json);

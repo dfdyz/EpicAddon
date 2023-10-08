@@ -14,12 +14,12 @@ import java.util.function.Function;
 
 
 public class RenderConfig {
-    //public static Map<String, Trail> TrailItem = Maps.newHashMap();
+    public static Map<String, Trail> TrailItem = Maps.newHashMap();
     //public static final Map<String, Function<ItemStack,Trail>> SpecialTrailItem = Maps.newHashMap();
     public static Map<String, HealthBarStyle> HealthBarEntity = Maps.newHashMap();
 
     static {
-        /*
+
         TrailItem.put("minecraft:diamond_sword",new  Trail(0,0,-0.1f,0,0,-1.0f,0,249,255,140));
         TrailItem.put("minecraft:golden_sword",new  Trail(0,0,-0.1f,0,0,-1.0f,255,255,51,140));
 
@@ -33,7 +33,6 @@ public class RenderConfig {
         TrailItem.put("epicfight:netherite_greatsword",new Trail(0,0,-0.17f,0,-0f,-2.15f,138,4,226,180));
         TrailItem.put("epicaddon:destiny",new Trail(0,0,-0.23f,0,0,-2.25f,255,255,51,180));
 
-         */
         /*
         AddSpecial("epicaddon:destiny",(stack)->{
             if(DestinyWeaponItem.getType(stack) == DestinyWeaponItem.types[1]){

@@ -4,12 +4,15 @@ import com.jvn.epicaddon.api.PostEffect.ShaderProgram;
 import com.jvn.epicaddon.api.camera.CamAnim;
 import com.jvn.epicaddon.capability.EpicAddonCapabilities;
 import com.jvn.epicaddon.events.ControllerEvent;
+import com.jvn.epicaddon.events.reloader.Config2SkinReloader;
 import com.jvn.epicaddon.network.EpicaddonNetMgr;
 import com.jvn.epicaddon.register.*;
 import com.jvn.epicaddon.resources.*;
 import com.jvn.epicaddon.resources.config.ClientConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,8 +21,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
-
-import static com.jvn.epicaddon.register.RegEpicAddonSkills.registerSkills;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("epicaddon")
@@ -41,8 +42,13 @@ public class EpicAddon
 
         //bus.addListener(CmdMgr::registerClientCommand);
         bus.addListener(this::setupCommon);
-        bus.addListener(this::initPostEffect);
-        bus.addListener(this::InitShaders);
+
+        if(FMLEnvironment.dist == Dist.CLIENT){
+            bus.addListener(this::initPostEffect);
+            bus.addListener(this::regClientReloader);
+            bus.addListener(this::InitShaders);
+        }
+
         bus.addListener(EpicAddonAnimations::registerAnimations);
         bus.addListener(RegWeaponItemCap::register);
 
@@ -73,7 +79,7 @@ public class EpicAddon
         event.enqueueWork(RegEpicAddonSkills::registerSkills);
         if(FMLEnvironment.dist == Dist.CLIENT){
             //BladeTrailTextureLoader.Load();
-            ClientConfig.Load();
+            ClientConfig.Load(false);
             EpicAddonAnimations.RegCamAnims();
 
             for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {
@@ -85,8 +91,12 @@ public class EpicAddon
         //event.enqueueWork(EpicAddonNetworkManager::registerPackets);
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public void regClientReloader(final RegisterClientReloadListenersEvent event){
+        event.registerReloadListener(new Config2SkinReloader());
+    }
 
-
+    @OnlyIn(Dist.CLIENT)
     public void initPostEffect(final RegisterShadersEvent event){
         EpicAddon.LOGGER.info("Register PostEffect");
         RegPostEffect.Registries.forEach(obj -> {
@@ -95,6 +105,7 @@ public class EpicAddon
         });
     }
 
+    @OnlyIn(Dist.CLIENT)
     public void InitShaders(final RegisterShadersEvent event){
         EpicAddon.LOGGER.info("Register Effect Shader");
         ShaderProgram.LoadAll();

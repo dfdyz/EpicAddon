@@ -31,13 +31,13 @@ public class CmdMgr {
         command = Commands.literal(EpicAddon.MODID).executes(context -> {
                     LocalPlayer player = Minecraft.getInstance().player;
                     if (player != null) {
-                        player.displayClientMessage(Component.nullToEmpty("Reload\nSwordTrail <boolean>\nHealthBar <boolean>\nOptFineMode <boolean> --W.I.P."),false);
+                        player.displayClientMessage(Component.nullToEmpty("Function:\nReload\nOption:\nHealthBar <boolean>\nGenShinVoice <boolean>\nDeathParticle <boolean>"),false);
                     }
                     return Command.SINGLE_SUCCESS;
                 })
                 .then(Commands.literal("Reload")
                         .executes(context -> {
-                            ClientConfig.Load();
+                            ClientConfig.Load(true);
                             //BladeTrailTextureLoader.ReleaseAll();
                             //BladeTrailTextureLoader.Load();
                             for (CamAnim camAnim: EpicAddonAnimations.CamAnimRegistry) {

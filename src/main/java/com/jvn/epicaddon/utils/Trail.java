@@ -1,8 +1,17 @@
 package com.jvn.epicaddon.utils;
 
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
+import yesman.epicfight.api.client.animation.property.TrailInfo;
+import yesman.epicfight.api.client.model.ItemSkin;
+
 public class Trail {
     public float x,y,z,ex,ey,ez;
     public int r,g,b,a, lifetime;
+    public int interpolations = 8;
+
     public String textureRegisterId = "";
     public Trail(float x, float y, float z, float ex, float ey, float ez,int r,int g,int b,int a){
         this.x = x;
@@ -76,6 +85,7 @@ public class Trail {
         this.b = org.b;
         this.a = org.a;
         this.lifetime = org.lifetime;
+        this.interpolations = org.interpolations;
         this.textureRegisterId = org.textureRegisterId;
         return this;
     }
@@ -106,8 +116,25 @@ public class Trail {
         this.b = 0;
         this.a = 0;
         this.lifetime = 0;
+        this.interpolations = 8;
         this.textureRegisterId = "";
     }
 
+    public ItemSkin toItemSkin(){
+        TrailInfo.Builder trailInfo = TrailInfo.builder();
+        trailInfo.startPos(new Vec3(x, y, z));
+        trailInfo.endPos(new Vec3(ex, ey, ez));
+        trailInfo.r(r / 255f);
+        trailInfo.g(g / 255f);
+        trailInfo.b(b / 255f);
+        trailInfo.lifetime(lifetime);
+        trailInfo.interpolations(interpolations);
+        trailInfo.texture(textureRegisterId);
 
+        SimpleParticleType particleType = (SimpleParticleType) ForgeRegistries.PARTICLE_TYPES.getValue(new ResourceLocation("epicfight:swing_trail"));
+        trailInfo.type(particleType);
+
+        ItemSkin itemSkin = new ItemSkin(trailInfo.create());
+        return itemSkin;
+    }
 }
